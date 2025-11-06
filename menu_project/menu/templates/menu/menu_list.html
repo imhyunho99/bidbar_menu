@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>메뉴판</title>
+    <style>
+        body { font-family: Arial; margin: 20px; }
+        .category { margin: 20px 0; }
+        .menu-item { border: 1px solid #ddd; padding: 15px; margin: 10px 0; }
+        .price { color: #e74c3c; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <h1>메뉴판</h1>
+    
+    {% for category in categories %}
+    <div class="category">
+        <h2>{{ category.name }}</h2>
+        {% for item in items %}
+            {% if item.category == category %}
+            <div class="menu-item">
+                <h3>{{ item.name }}</h3>
+                <p class="price">{{ item.price }}원</p>
+                <p>{{ item.description }}</p>
+            </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+    {% endfor %}
+    
+    <div class="category">
+        <h2>기타</h2>
+        {% for item in items %}
+            {% if not item.category %}
+            <div class="menu-item">
+                <h3>{{ item.name }}</h3>
+                <p class="price">{{ item.price }}원</p>
+                <p>{{ item.description }}</p>
+            </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+</body>
+</html>
