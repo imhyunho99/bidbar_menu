@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>모바일 테스트</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            margin: 0; 
+            padding: 20px;
+            background: #f8f9fa;
+        }
+        .mobile-frame {
+            max-width: 375px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        .device-info {
+            background: #e9ecef;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+        }
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin: 5px;
+        }
+        .btn:hover { background: #0056b3; }
+    </style>
+</head>
+<body>
+    <div class="mobile-frame">
+        <h1>📱 모바일 테스트</h1>
+        
+        <div class="device-info">
+            <h3>기기 정보</h3>
+            <p id="userAgent"></p>
+            <p id="screenSize"></p>
+            <p id="viewport"></p>
+        </div>
+
+        <div class="test-section">
+            <h3>메뉴 페이지 테스트</h3>
+            <a href="/menu/" class="btn">메뉴 보기</a>
+            <a href="/qr/" class="btn">QR 코드 생성</a>
+        </div>
+
+        <div class="test-section">
+            <h3>터치 테스트</h3>
+            <div id="touchArea" style="height: 100px; background: #f8f9fa; border: 2px dashed #ccc; display: flex; align-items: center; justify-content: center; margin: 10px 0;">
+                터치해보세요
+            </div>
+            <p id="touchInfo">터치 정보가 여기에 표시됩니다</p>
+        </div>
+    </div>
+
+    <script>
+        // 기기 정보 표시
+        document.getElementById('userAgent').textContent = 'User Agent: ' + navigator.userAgent;
+        document.getElementById('screenSize').textContent = 'Screen: ' + screen.width + 'x' + screen.height;
+        document.getElementById('viewport').textContent = 'Viewport: ' + window.innerWidth + 'x' + window.innerHeight;
+
+        // 터치 테스트
+        const touchArea = document.getElementById('touchArea');
+        const touchInfo = document.getElementById('touchInfo');
+
+        touchArea.addEventListener('touchstart', function(e) {
+            e.preventDefault();
+            touchInfo.textContent = '터치 시작! 터치 포인트: ' + e.touches.length;
+            touchArea.style.background = '#d4edda';
+        });
+
+        touchArea.addEventListener('touchend', function(e) {
+            e.preventDefault();
+            touchInfo.textContent = '터치 종료!';
+            touchArea.style.background = '#f8f9fa';
+        });
+
+        // 클릭 이벤트도 추가 (데스크톱 테스트용)
+        touchArea.addEventListener('click', function() {
+            touchInfo.textContent = '클릭됨! (데스크톱)';
+            touchArea.style.background = '#d1ecf1';
+            setTimeout(() => {
+                touchArea.style.background = '#f8f9fa';
+            }, 500);
+        });
+    </script>
+</body>
+</html>

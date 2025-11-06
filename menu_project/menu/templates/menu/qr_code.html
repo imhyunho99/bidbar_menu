@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR 코드 - 메뉴</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; padding: 20px; }
+        .qr-container { max-width: 400px; margin: 0 auto; }
+        .qr-image { max-width: 100%; height: auto; }
+        .url-info { margin: 20px 0; padding: 10px; background: #f5f5f5; border-radius: 5px; }
+    </style>
+</head>
+<body>
+    <div class="qr-container">
+        <h1>메뉴 QR 코드</h1>
+        <img src="data:image/png;base64,{{ qr_image }}" alt="QR Code" class="qr-image">
+        <div class="url-info">
+            <p><strong>메뉴 URL:</strong></p>
+            <p><a href="{{ menu_url }}" target="_blank">{{ menu_url }}</a></p>
+        </div>
+        <p>스마트폰으로 QR 코드를 스캔하여 메뉴를 확인하세요!</p>
+        <a href="{% url 'mobile_test' %}">모바일 테스트 페이지</a>
+    </div>
+</body>
+</html>

@@ -16,8 +16,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from menu.qr_views import generate_qr_code, mobile_test
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('menu.urls')),
+    path('menu/', include('menu.urls')),
+    path('qr/', generate_qr_code, name='qr_code'),
+    path('mobile-test/', mobile_test, name='mobile_test'),
 ]
