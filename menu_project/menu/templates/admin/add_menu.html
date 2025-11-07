@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>메뉴 추가</title>
+    <meta charset="utf-8">
+    <style>
+        body { font-family: Arial; max-width: 500px; margin: 50px auto; padding: 20px; }
+        input, select, textarea { width: 100%; padding: 10px; margin: 5px 0; }
+        button { padding: 10px 20px; background: #007cba; color: white; border: none; }
+        .back { background: #6c757d; }
+    </style>
+</head>
+<body>
+    <h2>메뉴 추가</h2>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="text" name="name" placeholder="메뉴명" required>
+        <input type="number" name="price" placeholder="가격" required>
+        <textarea name="description" placeholder="메뉴 설명" required></textarea>
+        <select name="category">
+            <option value="">카테고리 선택 (선택사항)</option>
+            {% for category in categories %}
+                <option value="{{ category.id }}">{{ category }}</option>
+            {% endfor %}
+        </select>
+        <textarea name="notes" placeholder="기타 사항"></textarea>
+        <input type="file" name="image" accept="image/*">
+        <button type="submit">추가</button>
+        <a href="{% url 'admin_dashboard' %}"><button type="button" class="back">취소</button></a>
+    </form>
+</body>
+</html>

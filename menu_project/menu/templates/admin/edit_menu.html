@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>메뉴 수정</title>
+    <meta charset="utf-8">
+    <style>
+        body { font-family: Arial; max-width: 500px; margin: 50px auto; padding: 20px; }
+        input, select, textarea { width: 100%; padding: 10px; margin: 5px 0; }
+        button { padding: 10px 20px; background: #007cba; color: white; border: none; }
+        .back { background: #6c757d; }
+    </style>
+</head>
+<body>
+    <h2>메뉴 수정</h2>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="text" name="name" value="{{ menu.name }}" required>
+        <input type="number" name="price" value="{{ menu.price }}" required>
+        <textarea name="description" required>{{ menu.description }}</textarea>
+        <select name="category">
+            <option value="">카테고리 선택 (선택사항)</option>
+            {% for category in categories %}
+                <option value="{{ category.id }}" {% if menu.category.id == category.id %}selected{% endif %}>{{ category }}</option>
+            {% endfor %}
+        </select>
+        <textarea name="notes">{{ menu.notes }}</textarea>
+        <input type="file" name="image" accept="image/*">
+        {% if menu.describe_image %}
+            <p>현재 이미지: {{ menu.describe_image.name }}</p>
+        {% endif %}
+        <button type="submit">수정</button>
+        <a href="{% url 'admin_dashboard' %}"><button type="button" class="back">취소</button></a>
+    </form>
+</body>
+</html>
