@@ -1,43 +1,199 @@
 <!DOCTYPE html>
-<html>
+<html lang="ko">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>메뉴판</title>
     <style>
-        body { font-family: Arial; margin: 20px; }
-        .category { margin: 20px 0; }
-        .menu-item { border: 1px solid #ddd; padding: 15px; margin: 10px 0; }
-        .price { color: #e74c3c; font-weight: bold; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            background: #000000;
+            color: #ffffff;
+            min-height: 100vh;
+            padding: 10px;
+        }
+        
+        .cave-container {
+            max-width: 400px;
+            margin: 0 auto;
+            background: #000000;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        .header {
+            text-align: center;
+            padding: 20px;
+            background: #000000;
+            border-bottom: 1px solid #333;
+        }
+        
+        .header h1 {
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+            color: #ffffff;
+        }
+        
+        .header .subtitle {
+            font-size: 0.9rem;
+            color: #cccccc;
+        }
+        
+        .menu-content {
+            padding: 15px;
+        }
+        
+        .category {
+            margin-bottom: 25px;
+        }
+        
+        .category-header {
+            background: #111111;
+            padding: 12px 15px;
+            border-radius: 5px;
+            border: 1px solid #333;
+            margin-bottom: 15px;
+        }
+        
+        .category-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            text-align: center;
+            color: #ffffff;
+        }
+        
+        .menu-item {
+            background: #111111;
+            border: 1px solid #333;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 12px;
+        }
+        
+        .item-name {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #ffffff;
+            margin-bottom: 8px;
+        }
+        
+        .item-price {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #ffffff;
+            float: right;
+            margin-top: -25px;
+        }
+        
+        .item-description {
+            font-size: 0.9rem;
+            color: #cccccc;
+            line-height: 1.4;
+            margin-top: 5px;
+        }
+        
+        .sub-category {
+            margin-left: 10px;
+            border-left: 2px solid #333;
+            padding-left: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .sub-category-title {
+            font-size: 1rem;
+            color: #ffffff;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        
+        .empty-category {
+            text-align: center;
+            color: #666;
+            padding: 20px;
+        }
+        
+        @media (max-width: 480px) {
+            .cave-container {
+                margin: 5px;
+                border-radius: 5px;
+            }
+            
+            .header h1 {
+                font-size: 1.5rem;
+            }
+            
+            .menu-content {
+                padding: 10px;
+            }
+            
+            .menu-item {
+                padding: 12px;
+            }
+            
+            .item-name {
+                font-size: 1rem;
+            }
+            
+            .item-price {
+                font-size: 1.1rem;
+                margin-top: -20px;
+            }
+        }
     </style>
 </head>
 <body>
-    <h1>메뉴판</h1>
-    
-    {% for category in categories %}
-    <div class="category">
-        <h2>{{ category.name }}</h2>
-        {% for item in items %}
-            {% if item.category == category %}
-            <div class="menu-item">
-                <h3>{{ item.name }}</h3>
-                <p class="price">{{ item.price }}원</p>
-                <p>{{ item.description }}</p>
-            </div>
+    <div class="cave-container">
+        <div class="header">
+            <h1>메뉴판</h1>
+            <div class="subtitle">Menu</div>
+        </div>
+        
+        <div class="menu-content">
+            {% for category in categories %}
+                <div class="category">
+                    <div class="category-header">
+                        <div class="category-title">{{ category.name }}</div>
+                    </div>
+                    
+                    {% for sub_category in category.sub_categories.all %}
+                        <div class="sub-category">
+                            <div class="sub-category-title">{{ sub_category.name }}</div>
+                            {% for item in items %}
+                                {% if item.category == sub_category %}
+                                    <div class="menu-item">
+                                        <div class="item-name">{{ item.name }}</div>
+                                        <div class="item-price">{{ item.price|floatformat:0 }}원</div>
+                                        <div class="item-description">{{ item.description }}</div>
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    {% endfor %}
+                    
+                    {% for item in items %}
+                        {% if item.category == category %}
+                            <div class="menu-item">
+                                <div class="item-name">{{ item.name }}</div>
+                                <div class="item-price">{{ item.price|floatformat:0 }}원</div>
+                                <div class="item-description">{{ item.description }}</div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            {% endfor %}
+            
+            {% if items|length == 0 %}
+                <div class="empty-category">
+                    메뉴를 준비 중입니다...
+                </div>
             {% endif %}
-        {% endfor %}
-    </div>
-    {% endfor %}
-    
-    <div class="category">
-        <h2>기타</h2>
-        {% for item in items %}
-            {% if not item.category %}
-            <div class="menu-item">
-                <h3>{{ item.name }}</h3>
-                <p class="price">{{ item.price }}원</p>
-                <p>{{ item.description }}</p>
-            </div>
-            {% endif %}
-        {% endfor %}
+        </div>
     </div>
 </body>
 </html>

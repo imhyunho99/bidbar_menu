@@ -1,26 +1,206 @@
 <!DOCTYPE html>
-<html>
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QR 코드 - 메뉴</title>
+    <title>🕳️ Cave Menu QR</title>
     <style>
-        body { font-family: Arial, sans-serif; text-align: center; padding: 20px; }
-        .qr-container { max-width: 400px; margin: 0 auto; }
-        .qr-image { max-width: 100%; height: auto; }
-        .url-info { margin: 20px 0; padding: 10px; background: #f5f5f5; border-radius: 5px; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 50%, #1a1a1a 100%);
+            color: #d4af37;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .qr-container {
+            background: radial-gradient(ellipse at center, #2a2a2a 0%, #1a1a1a 70%);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 
+                inset 0 0 50px rgba(0,0,0,0.8),
+                0 0 30px rgba(212, 175, 55, 0.3);
+            border: 2px solid #d4af37;
+            max-width: 400px;
+            position: relative;
+        }
+        
+        .qr-container::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #d4af37, #ffd700, #d4af37);
+            border-radius: 22px;
+            z-index: -1;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+        
+        @keyframes glow {
+            from { opacity: 0.5; }
+            to { opacity: 1; }
+        }
+        
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            text-shadow: 0 0 15px #d4af37;
+        }
+        
+        .subtitle {
+            font-size: 1rem;
+            color: #b8860b;
+            margin-bottom: 30px;
+            font-style: italic;
+        }
+        
+        .qr-code {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            display: inline-block;
+            margin: 20px 0;
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
+        }
+        
+        .qr-code img {
+            display: block;
+            max-width: 100%;
+            height: auto;
+        }
+        
+        .instructions {
+            font-size: 0.9rem;
+            color: #c9b037;
+            margin-top: 20px;
+            line-height: 1.5;
+        }
+        
+        .url-info {
+            background: rgba(212, 175, 55, 0.1);
+            border: 1px solid #d4af37;
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 20px;
+            font-size: 0.8rem;
+            word-break: break-all;
+        }
+        
+        .url-info a {
+            color: #ffd700;
+            text-decoration: none;
+        }
+        
+        .url-info a:hover {
+            text-shadow: 0 0 5px #ffd700;
+        }
+        
+        .test-link {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 10px 20px;
+            background: linear-gradient(45deg, #3a3a3a, #2a2a2a);
+            border: 1px solid #d4af37;
+            border-radius: 8px;
+            color: #d4af37;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .test-link:hover {
+            background: linear-gradient(45deg, #4a4a4a, #3a3a3a);
+            box-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+        }
+        
+        .cave-decoration {
+            position: absolute;
+            font-size: 1.5rem;
+            opacity: 0.3;
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        .cave-decoration:nth-child(1) {
+            top: 10px;
+            left: 10px;
+            animation-delay: 0s;
+        }
+        
+        .cave-decoration:nth-child(2) {
+            top: 10px;
+            right: 10px;
+            animation-delay: 1s;
+        }
+        
+        .cave-decoration:nth-child(3) {
+            bottom: 10px;
+            left: 10px;
+            animation-delay: 2s;
+        }
+        
+        .cave-decoration:nth-child(4) {
+            bottom: 10px;
+            right: 10px;
+            animation-delay: 1.5s;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        @media (max-width: 480px) {
+            .qr-container {
+                padding: 20px;
+                margin: 10px;
+            }
+            
+            h1 {
+                font-size: 1.5rem;
+            }
+            
+            .qr-code {
+                padding: 15px;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="qr-container">
-        <h1>메뉴 QR 코드</h1>
-        <img src="data:image/png;base64,{{ qr_image }}" alt="QR Code" class="qr-image">
+        <div class="cave-decoration">🕳️</div>
+        <div class="cave-decoration">⛰️</div>
+        <div class="cave-decoration">💎</div>
+        <div class="cave-decoration">🔦</div>
+        
+        <h1>🕳️ Cave Menu</h1>
+        <div class="subtitle">동굴 속 메뉴로의 입구</div>
+        
+        <div class="qr-code">
+            <img src="data:image/png;base64,{{ qr_image }}" alt="QR Code">
+        </div>
+        
+        <div class="instructions">
+            📱 휴대폰으로 QR 코드를 스캔하여<br>
+            동굴 속 숨겨진 메뉴를 확인하세요!
+        </div>
+        
         <div class="url-info">
             <p><strong>메뉴 URL:</strong></p>
             <p><a href="{{ menu_url }}" target="_blank">{{ menu_url }}</a></p>
         </div>
-        <p>스마트폰으로 QR 코드를 스캔하여 메뉴를 확인하세요!</p>
-        <a href="{% url 'mobile_test' %}">모바일 테스트 페이지</a>
+        
+        <a href="{% url 'mobile_test' %}" class="test-link">📱 모바일 테스트</a>
     </div>
 </body>
 </html>
