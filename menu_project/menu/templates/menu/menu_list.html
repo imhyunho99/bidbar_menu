@@ -1,199 +1,94 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>메뉴판</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: Arial, sans-serif;
-            background: #000000;
-            color: #ffffff;
-            min-height: 100vh;
-            padding: 10px;
-        }
-        
-        .cave-container {
-            max-width: 400px;
-            margin: 0 auto;
-            background: #000000;
-            border-radius: 10px;
-            overflow: hidden;
-        }
-        
-        .header {
-            text-align: center;
-            padding: 20px;
-            background: #000000;
-            border-bottom: 1px solid #333;
-        }
-        
-        .header h1 {
-            font-size: 1.8rem;
-            margin-bottom: 5px;
-            color: #ffffff;
-        }
-        
-        .header .subtitle {
-            font-size: 0.9rem;
-            color: #cccccc;
-        }
-        
-        .menu-content {
-            padding: 15px;
-        }
-        
-        .category {
-            margin-bottom: 25px;
-        }
-        
-        .category-header {
-            background: #111111;
-            padding: 12px 15px;
-            border-radius: 5px;
-            border: 1px solid #333;
-            margin-bottom: 15px;
-        }
-        
-        .category-title {
-            font-size: 1.3rem;
-            font-weight: bold;
-            text-align: center;
-            color: #ffffff;
-        }
-        
-        .menu-item {
-            background: #111111;
-            border: 1px solid #333;
-            border-radius: 5px;
-            padding: 15px;
-            margin-bottom: 12px;
-        }
-        
-        .item-name {
-            font-size: 1.1rem;
-            font-weight: bold;
-            color: #ffffff;
-            margin-bottom: 8px;
-        }
-        
-        .item-price {
-            font-size: 1.2rem;
-            font-weight: bold;
-            color: #ffffff;
-            float: right;
-            margin-top: -25px;
-        }
-        
-        .item-description {
-            font-size: 0.9rem;
-            color: #cccccc;
-            line-height: 1.4;
-            margin-top: 5px;
-        }
-        
-        .sub-category {
-            margin-left: 10px;
-            border-left: 2px solid #333;
-            padding-left: 15px;
-            margin-bottom: 20px;
-        }
-        
-        .sub-category-title {
-            font-size: 1rem;
-            color: #ffffff;
-            margin-bottom: 10px;
-            font-weight: bold;
-        }
-        
-        .empty-category {
-            text-align: center;
-            color: #666;
-            padding: 20px;
-        }
-        
-        @media (max-width: 480px) {
-            .cave-container {
-                margin: 5px;
-                border-radius: 5px;
-            }
-            
-            .header h1 {
-                font-size: 1.5rem;
-            }
-            
-            .menu-content {
-                padding: 10px;
-            }
-            
-            .menu-item {
-                padding: 12px;
-            }
-            
-            .item-name {
-                font-size: 1rem;
-            }
-            
-            .item-price {
-                font-size: 1.1rem;
-                margin-top: -20px;
-            }
-        }
-    </style>
+    <title>Bid</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
-    <div class="cave-container">
-        <div class="header">
-            <h1>메뉴판</h1>
-            <div class="subtitle">Menu</div>
+    <header class="header">
+        <div class="container">
+            <nav class="nav">
+                <div class="logo">BidBar</div>
+                <ul class="nav-links">
+                    <li><a href="#menu">메뉴</a></li>
+                    <li><a href="#about">소개</a></li>
+                    <li><a href="#contact">연락처</a></li>
+                </ul>
+            </nav>
         </div>
-        
-        <div class="menu-content">
-            {% for category in categories %}
-                <div class="category">
-                    <div class="category-header">
-                        <div class="category-title">{{ category.name }}</div>
-                    </div>
-                    
-                    {% for sub_category in category.sub_categories.all %}
-                        <div class="sub-category">
-                            <div class="sub-category-title">{{ sub_category.name }}</div>
-                            {% for item in items %}
-                                {% if item.category == sub_category %}
-                                    <div class="menu-item">
-                                        <div class="item-name">{{ item.name }}</div>
-                                        <div class="item-price">{{ item.price|floatformat:0 }}원</div>
-                                        <div class="item-description">{{ item.description }}</div>
-                                    </div>
-                                {% endif %}
-                            {% endfor %}
-                        </div>
-                    {% endfor %}
-                    
-                    {% for item in items %}
-                        {% if item.category == category %}
-                            <div class="menu-item">
-                                <div class="item-name">{{ item.name }}</div>
-                                <div class="item-price">{{ item.price|floatformat:0 }}원</div>
-                                <div class="item-description">{{ item.description }}</div>
-                            </div>
-                        {% endif %}
-                    {% endfor %}
-                </div>
-            {% endfor %}
+    </header>
+
+    <main class="main">
+        <div class="container">
+            <h1 class="page-title">메뉴</h1>
             
-            {% if items|length == 0 %}
-                <div class="empty-category">
-                    메뉴를 준비 중입니다...
+            <!-- 카테고리 필터 -->
+            <div class="category-filters">
+                <button class="category-btn active" data-category="all">전체</button>
+                {% for category in categories %}
+                <button class="category-btn" data-category="{{ category.id }}">{{ category.name }}</button>
+                {% endfor %}
+            </div>
+
+            <!-- 메뉴 그리드 -->
+            <div class="menu-grid" id="menuGrid">
+                {% for item in items %}
+                <div class="menu-item" data-category="{{ item.category.id|default:'none' }}">
+                    {% if item.describe_image %}
+                    <img src="{{ item.describe_image.url }}" alt="{{ item.name }}" class="menu-image">
+                    {% else %}
+                    <div class="menu-image no-image">
+                        <span>이미지 없음</span>
+                    </div>
+                    {% endif %}
+                    
+                    <div class="menu-content">
+                        <h3 class="menu-title">{{ item.name }}</h3>
+                        <p class="menu-description">{{ item.description }}</p>
+                        
+                        {% if item.notes %}
+                        <p class="menu-notes">{{ item.notes }}</p>
+                        {% endif %}
+                        
+                        <div class="menu-price">₩{{ item.price|floatformat:0 }}</div>
+                    </div>
                 </div>
-            {% endif %}
+                {% empty %}
+                <div class="no-menu">
+                    등록된 메뉴가 없습니다.
+                </div>
+                {% endfor %}
+            </div>
         </div>
-    </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const filterButtons = document.querySelectorAll('.category-btn');
+            const menuItems = document.querySelectorAll('.menu-item');
+
+            filterButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // 활성 버튼 변경
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+
+                    const category = this.dataset.category;
+
+                    // 메뉴 아이템 필터링
+                    menuItems.forEach(item => {
+                        if (category === 'all' || item.dataset.category === category) {
+                            item.style.display = 'block';
+                        } else {
+                            item.style.display = 'none';
+                        }
+                    });
+                });
+            });
+        });
+    </script>
 </body>
 </html>

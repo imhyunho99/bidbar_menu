@@ -8,7 +8,7 @@ def generate_qr_code(request):
     # 현재 서버 URL 가져오기
     host = request.get_host()
     protocol = 'https' if request.is_secure() else 'http'
-    menu_url = f"{protocol}://{host}/menu/"
+    menu_url = f"{protocol}://{host}/"
     
     # QR 코드 생성
     qr = qrcode.QRCode(version=1, box_size=10, border=5)
@@ -26,6 +26,3 @@ def generate_qr_code(request):
         'qr_image': img_str,
         'menu_url': menu_url
     })
-
-def mobile_test(request):
-    return render(request, 'menu/mobile_test.html')
