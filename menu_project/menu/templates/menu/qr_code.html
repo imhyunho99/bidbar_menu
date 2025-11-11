@@ -12,67 +12,58 @@
         }
         
         body {
-            font-family: 'Georgia', serif;
-            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 50%, #1a1a1a 100%);
-            color: #d4af37;
+            font-family: 'GT Walsheim Pro', -webkit-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #000;
+            color: #fff;
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
             padding: 20px;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
         
         .qr-container {
-            background: radial-gradient(ellipse at center, #2a2a2a 0%, #1a1a1a 70%);
-            border-radius: 20px;
-            padding: 30px;
+            background-color: #1a1a1a;
+            border-radius: 16px;
+            padding: 2rem;
             text-align: center;
-            box-shadow: 
-                inset 0 0 50px rgba(0,0,0,0.8),
-                0 0 30px rgba(212, 175, 55, 0.3);
-            border: 2px solid #d4af37;
+            border: 1px solid #333;
             max-width: 400px;
-            position: relative;
+            width: 100%;
+            transition: all 0.3s ease;
         }
         
-        .qr-container::before {
-            content: '';
-            position: absolute;
-            top: -2px;
-            left: -2px;
-            right: -2px;
-            bottom: -2px;
-            background: linear-gradient(45deg, #d4af37, #ffd700, #d4af37);
-            border-radius: 22px;
-            z-index: -1;
-            animation: glow 2s ease-in-out infinite alternate;
-        }
-        
-        @keyframes glow {
-            from { opacity: 0.5; }
-            to { opacity: 1; }
+        .qr-container:hover {
+            background-color: #222;
+            border-color: #555;
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
         }
         
         h1 {
             font-size: 2rem;
-            margin-bottom: 10px;
-            text-shadow: 0 0 15px #d4af37;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: #fff;
         }
         
         .subtitle {
             font-size: 1rem;
-            color: #b8860b;
-            margin-bottom: 30px;
+            color: #aaa;
+            margin-bottom: 2rem;
             font-style: italic;
         }
         
         .qr-code {
-            background: white;
-            padding: 20px;
-            border-radius: 15px;
+            background: #fff;
+            padding: 1.5rem;
+            border-radius: 12px;
             display: inline-block;
-            margin: 20px 0;
-            box-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
+            margin: 1.5rem 0;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
         }
         
         .qr-code img {
@@ -83,106 +74,75 @@
         
         .instructions {
             font-size: 0.9rem;
-            color: #c9b037;
-            margin-top: 20px;
+            color: #ccc;
+            margin-top: 1.5rem;
             line-height: 1.5;
         }
         
         .url-info {
-            background: rgba(212, 175, 55, 0.1);
-            border: 1px solid #d4af37;
-            border-radius: 10px;
-            padding: 15px;
-            margin-top: 20px;
-            font-size: 0.8rem;
+            background-color: #222;
+            border: 1px solid #333;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 1.5rem;
+            font-size: 0.85rem;
             word-break: break-all;
         }
         
+        .url-info p {
+            margin-bottom: 0.5rem;
+        }
+        
         .url-info a {
-            color: #ffd700;
+            color: #007bff;
             text-decoration: none;
+            transition: color 0.3s;
         }
         
         .url-info a:hover {
-            text-shadow: 0 0 5px #ffd700;
-        }
-        
-        .test-link {
-            display: inline-block;
-            margin-top: 15px;
-            padding: 10px 20px;
-            background: linear-gradient(45deg, #3a3a3a, #2a2a2a);
-            border: 1px solid #d4af37;
-            border-radius: 8px;
-            color: #d4af37;
-            text-decoration: none;
-            transition: all 0.3s ease;
-        }
-        
-        .test-link:hover {
-            background: linear-gradient(45deg, #4a4a4a, #3a3a3a);
-            box-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
-        }
-        
-        .cave-decoration {
-            position: absolute;
-            font-size: 1.5rem;
-            opacity: 0.3;
-            animation: float 3s ease-in-out infinite;
-        }
-        
-        .cave-decoration:nth-child(1) {
-            top: 10px;
-            left: 10px;
-            animation-delay: 0s;
-        }
-        
-        .cave-decoration:nth-child(2) {
-            top: 10px;
-            right: 10px;
-            animation-delay: 1s;
-        }
-        
-        .cave-decoration:nth-child(3) {
-            bottom: 10px;
-            left: 10px;
-            animation-delay: 2s;
-        }
-        
-        .cave-decoration:nth-child(4) {
-            bottom: 10px;
-            right: 10px;
-            animation-delay: 1.5s;
-        }
-        
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
+            color: #0056b3;
         }
         
         @media (max-width: 480px) {
             .qr-container {
-                padding: 20px;
-                margin: 10px;
+                padding: 1.5rem;
+                margin: 1rem;
             }
             
             h1 {
-                font-size: 1.5rem;
+                font-size: 1.8rem;
             }
             
             .qr-code {
-                padding: 15px;
+                padding: 1rem;
+            }
+            
+            .instructions {
+                font-size: 0.85rem;
+            }
+            
+            .url-info {
+                font-size: 0.8rem;
+            }
+        }
+        
+        @media (max-width: 360px) {
+            .qr-container {
+                padding: 1rem;
+            }
+            
+            h1 {
+                font-size: 1.6rem;
+            }
+            
+            .qr-code {
+                padding: 0.8rem;
             }
         }
     </style>
 </head>
 <body>
     <div class="qr-container">
-        <div class="cave-decoration">🕳️</div>
-        <div class="cave-decoration">⛰️</div>
-        <div class="cave-decoration">💎</div>
-        <div class="cave-decoration">🔦</div>
-        
         <h1>Bis in die_</h1>
         <div class="subtitle">IG: @bidbar_</div>
         
@@ -194,14 +154,11 @@
             안녕하세요.
 즐겁고자 만든 비드바입니다.<br>
 자유로운 비드바이나,
-우아한 행동 부탁드립니다. <br>
+우아한 행동 부탁드립니다. <br><br>
 
+과하게 취한분은 주류를 제공하지 않습니다. <br><br>
 
-과하게 취한분은 주류를 제공하지 않습니다. <br>
-
-
-먼 길 와주셔서 정말 감사합니다.<br>
-
+먼 길 와주셔서 정말 감사합니다.<br><br>
 
 킵 차지 10.000₩ <br>
 브로큰 차지 20.000₩ <br>
