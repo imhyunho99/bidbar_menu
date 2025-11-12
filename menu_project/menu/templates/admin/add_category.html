@@ -1,28 +1,45 @@
+{% load static %}
 <!DOCTYPE html>
-<html>
+<html lang="ko">
 <head>
-    <title>카테고리 추가</title>
-    <meta charset="utf-8">
-    <style>
-        body { font-family: Arial; max-width: 500px; margin: 50px auto; padding: 20px; }
-        input, select { width: 100%; padding: 10px; margin: 5px 0; }
-        button { padding: 10px 20px; background: #007cba; color: white; border: none; }
-        .back { background: #6c757d; }
-    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>카테고리 추가 - BidBar</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
-    <h2>카테고리 추가</h2>
-    <form method="post">
-        {% csrf_token %}
-        <input type="text" name="name" placeholder="카테고리명" required>
-        <select name="parent">
-            <option value="">상위 카테고리 (선택사항)</option>
-            {% for category in categories %}
-                <option value="{{ category.id }}">{{ category.name }}</option>
-            {% endfor %}
-        </select>
-        <button type="submit">추가</button>
-        <a href="{% url 'admin_dashboard' %}"><button type="button" class="back">취소</button></a>
-    </form>
+    <main class="main">
+        <div class="admin-container">
+            <div class="admin-form">
+                <h2>카테고리 추가</h2>
+                
+                <form method="post">
+                    {% csrf_token %}
+                    
+                    <div class="admin-form-group">
+                        <label for="name">카테고리명</label>
+                        <input type="text" id="name" name="name" placeholder="카테고리명을 입력하세요" required>
+                    </div>
+                    
+                    <div class="admin-form-group">
+                        <label for="parent">상위 카테고리</label>
+                        <select id="parent" name="parent">
+                            <option value="">상위 카테고리 (선택사항)</option>
+                            {% for category in categories %}
+                                <option value="{{ category.id }}">{{ category.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    
+                    <div class="admin-form-group">
+                        <button type="submit" class="btn-primary">추가</button>
+                        <a href="{% url 'admin_dashboard' %}">
+                            <button type="button" class="btn-secondary">취소</button>
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
 </body>
 </html>

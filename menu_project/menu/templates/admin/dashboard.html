@@ -1,51 +1,91 @@
+{% load static %}
 <!DOCTYPE html>
-<html>
+<html lang="ko">
 <head>
-    <title>관리자 페이지</title>
-    <meta charset="utf-8">
-    <style>
-        body { font-family: Arial; margin: 20px; }
-        .header { display: flex; justify-content: space-between; align-items: center; }
-        .btn { padding: 8px 16px; background: #007cba; color: white; text-decoration: none; margin: 5px; }
-        .btn-danger { background: #dc3545; }
-        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
-        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-        th { background: #f2f2f2; }
-    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>관리자 페이지 - BidBar</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
-    <div class="header">
-        <h1>관리자 페이지</h1>
-        <a href="{% url 'menu_list' %}" class="btn">메뉴 보기</a>
-    </div>
+    <main class="main">
+        <div class="admin-container">
+            <div class="admin-header">
+                <h1 class="admin-title">관리자 페이지</h1>
+                <a href="{% url 'menu_list' %}" class="admin-btn admin-btn-primary">메뉴 보기</a>
+            </div>
 
-    <h2>카테고리 관리</h2>
-    <a href="{% url 'add_category' %}" class="btn">카테고리 추가</a>
-    <table>
-        <tr><th>카테고리명</th><th>작업</th></tr>
-        {% for category in categories %}
-        <tr>
-            <td>{{ category }}</td>
-            <td><a href="{% url 'delete_category' category.id %}" class="btn btn-danger">삭제</a></td>
-        </tr>
-        {% endfor %}
-    </table>
+            <div class="admin-section">
+                <h2>카테고리 관리</h2>
+                <div class="mb-2">
+                    <a href="{% url 'add_category' %}" class="admin-btn admin-btn-primary">카테고리 추가</a>
+                </div>
+                <div class="admin-table-container">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>카테고리명</th>
+                                <th>작업</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for category in categories %}
+                            <tr>
+                                <td>{{ category }}</td>
+                                <td>
+                                    <a href="{% url 'delete_category' category.id %}" 
+                                       class="admin-btn admin-btn-danger"
+                                       onclick="return confirm('정말 삭제하시겠습니까?')">삭제</a>
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="2" class="text-center">등록된 카테고리가 없습니다.</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
 
-    <h2>메뉴 관리</h2>
-    <a href="{% url 'add_menu' %}" class="btn">메뉴 추가</a>
-    <table>
-        <tr><th>메뉴명</th><th>가격</th><th>카테고리</th><th>작업</th></tr>
-        {% for menu in menu_items %}
-        <tr>
-            <td>{{ menu.name }}</td>
-            <td>{{ menu.price }}원</td>
-            <td>{{ menu.category|default:"미분류" }}</td>
-            <td>
-                <a href="{% url 'edit_menu' menu.id %}" class="btn">수정</a>
-                <a href="{% url 'delete_menu' menu.id %}" class="btn btn-danger">삭제</a>
-            </td>
-        </tr>
-        {% endfor %}
-    </table>
+            <div class="admin-section">
+                <h2>메뉴 관리</h2>
+                <div class="mb-2">
+                    <a href="{% url 'add_menu' %}" class="admin-btn admin-btn-primary">메뉴 추가</a>
+                </div>
+                <div class="admin-table-container">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>메뉴명</th>
+                                <th>가격</th>
+                                <th>카테고리</th>
+                                <th>작업</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for menu in menu_items %}
+                            <tr>
+                                <td>{{ menu.name }}</td>
+                                <td>₩{{ menu.price|floatformat:0 }}</td>
+                                <td>{{ menu.category|default:"미분류" }}</td>
+                                <td>
+                                    <a href="{% url 'edit_menu' menu.id %}" class="admin-btn admin-btn-primary">수정</a>
+                                    <a href="{% url 'delete_menu' menu.id %}" 
+                                       class="admin-btn admin-btn-danger"
+                                       onclick="return confirm('정말 삭제하시겠습니까?')">삭제</a>
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="4" class="text-center">등록된 메뉴가 없습니다.</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
 </body>
 </html>

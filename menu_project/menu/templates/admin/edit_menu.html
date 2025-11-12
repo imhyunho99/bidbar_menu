@@ -1,35 +1,70 @@
+{% load static %}
 <!DOCTYPE html>
-<html>
+<html lang="ko">
 <head>
-    <title>메뉴 수정</title>
-    <meta charset="utf-8">
-    <style>
-        body { font-family: Arial; max-width: 500px; margin: 50px auto; padding: 20px; }
-        input, select, textarea { width: 100%; padding: 10px; margin: 5px 0; }
-        button { padding: 10px 20px; background: #007cba; color: white; border: none; }
-        .back { background: #6c757d; }
-    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>메뉴 수정 - BidBar</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
-    <h2>메뉴 수정</h2>
-    <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        <input type="text" name="name" value="{{ menu.name }}" required>
-        <input type="number" name="price" value="{{ menu.price }}" required>
-        <textarea name="description" required>{{ menu.description }}</textarea>
-        <select name="category">
-            <option value="">카테고리 선택 (선택사항)</option>
-            {% for category in categories %}
-                <option value="{{ category.id }}" {% if menu.category.id == category.id %}selected{% endif %}>{{ category }}</option>
-            {% endfor %}
-        </select>
-        <textarea name="notes">{{ menu.notes }}</textarea>
-        <input type="file" name="image" accept="image/*">
-        {% if menu.describe_image %}
-            <p>현재 이미지: {{ menu.describe_image.name }}</p>
-        {% endif %}
-        <button type="submit">수정</button>
-        <a href="{% url 'admin_dashboard' %}"><button type="button" class="back">취소</button></a>
-    </form>
+    <main class="main">
+        <div class="admin-container">
+            <div class="admin-form">
+                <h2>메뉴 수정</h2>
+                
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    
+                    <div class="admin-form-group">
+                        <label for="name">메뉴명</label>
+                        <input type="text" id="name" name="name" value="{{ menu.name }}" required>
+                    </div>
+                    
+                    <div class="admin-form-group">
+                        <label for="price">가격</label>
+                        <input type="number" id="price" name="price" value="{{ menu.price }}" required>
+                    </div>
+                    
+                    <div class="admin-form-group">
+                        <label for="description">메뉴 설명</label>
+                        <textarea id="description" name="description" required>{{ menu.description }}</textarea>
+                    </div>
+                    
+                    <div class="admin-form-group">
+                        <label for="category">카테고리</label>
+                        <select id="category" name="category">
+                            <option value="">카테고리 선택 (선택사항)</option>
+                            {% for category in categories %}
+                                <option value="{{ category.id }}" {% if menu.category.id == category.id %}selected{% endif %}>{{ category }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    
+                    <div class="admin-form-group">
+                        <label for="notes">기타 사항</label>
+                        <textarea id="notes" name="notes">{{ menu.notes }}</textarea>
+                    </div>
+                    
+                    <div class="admin-form-group">
+                        <label for="image">이미지</label>
+                        <input type="file" id="image" name="image" accept="image/*">
+                        {% if menu.describe_image %}
+                            <div class="admin-current-image">
+                                현재 이미지: {{ menu.describe_image.name }}
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="admin-form-group">
+                        <button type="submit" class="btn-primary">수정</button>
+                        <a href="{% url 'admin_dashboard' %}">
+                            <button type="button" class="btn-secondary">취소</button>
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
 </body>
 </html>

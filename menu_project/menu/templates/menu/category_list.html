@@ -32,34 +32,18 @@
         <div class="container">
             <h1 class="page-title">{{ category.name }}</h1>
 
-            <!-- 메뉴 그리드 -->
-            <div class="menu-grid" id="menuGrid">
-                {% for item in items %}
-                <div class="menu-item">
-                    {% if item.describe_image %}
-                    <img src="{{ item.describe_image.url }}" alt="{{ item.name }}" class="menu-image">
-                    {% else %}
-                    <div class="menu-image no-image">
-                        <span>이미지 없음</span>
+            <div class="category-section">
+                <div class="category-grid">
+                    {% for sub_category in categories %}
+                    <a href="{% url 'menu:menu_list' sub_category.id %}" class="category-card">
+                        <h3>{{ sub_category.name }}</h3>
+                    </a>
+                    {% empty %}
+                    <div class="no-categories">
+                        등록된 하위 카테고리가 없습니다.
                     </div>
-                    {% endif %}
-                    
-                    <div class="menu-content">
-                        <h3 class="menu-title">{{ item.name }}</h3>
-                        <p class="menu-description">{{ item.description }}</p>
-                        
-                        {% if item.notes %}
-                        <p class="menu-notes">{{ item.notes }}</p>
-                        {% endif %}
-                        
-                        <div class="menu-price">₩{{ item.price|floatformat:0 }}</div>
-                    </div>
+                    {% endfor %}
                 </div>
-                {% empty %}
-                <div class="no-menu">
-                    등록된 메뉴가 없습니다.
-                </div>
-                {% endfor %}
             </div>
         </div>
     </main>

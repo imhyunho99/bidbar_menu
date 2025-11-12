@@ -7,7 +7,7 @@ class Category(models.Model):
     메뉴 카테고리 모델. 부모-자식 관계를 통해 계층 구조를 지원합니다.
     (예: 음료 > 커피 > 아이스 아메리카노)
     """
-    name = models.CharField(max_length=100, unique=True, verbose_name="카테고리명")
+    name = models.CharField(max_length=100, verbose_name="카테고리명")
     # 'self'를 참조하여 부모 카테고리를 지정할 수 있습니다.
     # 최상위 카테고리(부모 카테고리)는 이 필드가 비어있게 됩니다.
     parent = models.ForeignKey(
