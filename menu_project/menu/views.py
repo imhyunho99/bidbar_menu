@@ -1,4 +1,5 @@
 from django.shortcuts import render, get_object_or_404
+from django.db.models import Case, When, IntegerField
 from .models import MenuItem, Category
 
 def get_breadcrumb_path(category):
@@ -12,7 +13,18 @@ def get_breadcrumb_path(category):
 
 def menu_main(request):
     # 최상위 카테고리만 가져오기 (parent가 None인 카테고리)
-    top_categories = Category.objects.filter(parent=None)
+    # 지정된 순서로 정렬: 식사 메뉴, 칵테일, 위스키, 데킬라 / 메즈칼, 진 / 럼
+    top_categories = Category.objects.filter(parent=None).annotate(
+        custom_order=Case(
+            When(name='식사 메뉴', then=1),
+            When(name='칵테일', then=2),
+            When(name='위스키', then=3),
+            When(name='데킬라 / 메즈칼', then=4),
+            When(name='진 / 럼', then=5),
+            default=999,
+            output_field=IntegerField()
+        )
+    ).order_by('custom_order', 'name')
     
     return render(request, 'menu/menu_main.html', {
         'categories': top_categories
