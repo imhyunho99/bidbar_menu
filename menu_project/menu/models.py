@@ -57,9 +57,8 @@ class MenuItem(models.Model):
     # 5. 기타
     notes = models.TextField(blank=True, null=True, verbose_name="기타 사항")
 
-    # 6. 설명 이미지
-    # Pillow 라이브러리가 설치되어 있어야 합니다 (pip install Pillow)
-    describe_image = models.ImageField(
+    # 6. 메뉴 이미지
+    menu_image = models.ImageField(
         upload_to='menu_images/',
         blank=True,
         null=True,
