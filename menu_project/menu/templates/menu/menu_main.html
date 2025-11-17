@@ -4,20 +4,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bid</title>
+    <title>BidBar</title>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body style="background-color: #000 !important;">
     <!-- 로딩 스크린 -->
     <div id="loading-screen" class="loading-screen">
         <div class="loading-logo">
-            <img src="{% static 'logo.png' %}" alt="Bid">
+            <video id="loadingVideo" autoplay muted>
+                <source src="{% static 'bidbar.mp4' %}" type="video/mp4">
+            </video>
         </div>
     </div>
+
     <main class="main" style="padding: 0 !important;">
         <div class="container" style="padding: 0 !important; margin: 0 !important; max-width: none !important;">
             <div class="intro-section" style="margin: 0 !important; padding: 0 !important;">
+                {% if site_settings and site_settings.intro_image %}
+                <img src="{{ site_settings.intro_image.url }}" alt="Menu Introduction" class="intro-image" style="margin: 0 !important; padding: 0 !important; display: block;">
+                {% else %}
                 <img src="{% static 'menu_intro.png' %}" alt="Menu Introduction" class="intro-image" style="margin: 0 !important; padding: 0 !important; display: block;">
+                {% endif %}
             </div>
 
             <div class="category-section">
@@ -39,14 +46,16 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const loadingScreen = document.getElementById('loading-screen');
+            const loadingVideo = document.getElementById('loadingVideo');
             
-            setTimeout(() => {
+            // 비디오 재생 완료 후 로딩 스크린 제거
+            loadingVideo.addEventListener('ended', function() {
                 loadingScreen.classList.add('door-open');
                 
                 setTimeout(() => {
                     loadingScreen.style.display = 'none';
                 }, 1000);
-            }, 1500);
+            });
         });
     </script>
 </body>

@@ -4,35 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ category.name }} - Bid</title>
+    <title>{{ category.name }} - BidBar</title>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
-<body class="background-with-gradient">
-    <header class="header">
-        <div class="container">
-            <nav class="nav">
-                <div class="logo">
-                    <a href="{% url 'menu:menu_main' %}">Bid</a>
-                </div>
-                <div class="breadcrumb-nav">
-                    <a href="{% url 'menu:menu_main' %}">홈</a>
-                    {% for cat in breadcrumb_path %}
-                        {% if not forloop.last %}
-                            > <a href="{% url 'menu:menu_list' cat.id %}">{{ cat.name }}</a>
-                        {% else %}
-                            > {{ cat.name }}
-                        {% endif %}
-                    {% endfor %}
-                </div>
-            </nav>
-        </div>
-    </header>
-
-    <main class="main">
-        <div class="container">
-            <h1 class="page-title">{{ category.name }}</h1>
-
-            <div class="category-section">
+<body class="background-with-gradient" style="margin: 0 !important; padding: 0 !important;">
+    <main class="main" style="padding: 0 !important; margin: 0 !important;">
+        <div class="container" style="padding: 0 !important; margin: 0 !important; max-width: none !important;">
+            <div class="category-section" style="margin: 0 !important; padding: 0 !important;">
                 <div class="category-grid">
                     {% for sub_category in categories %}
                     <a href="{% url 'menu:menu_list' sub_category.id %}" class="category-card">

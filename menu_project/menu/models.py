@@ -2,6 +2,25 @@
 
 from django.db import models
 
+class SiteSettings(models.Model):
+    """
+    사이트 설정 모델 - 인트로 이미지 등을 관리
+    """
+    intro_image = models.ImageField(
+        upload_to='site_images/',
+        verbose_name="인트로 이미지",
+        help_text="메인 페이지에 표시될 인트로 이미지"
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = "사이트 설정"
+        verbose_name_plural = "사이트 설정"
+
+    def __str__(self):
+        return f"사이트 설정 - {self.created_at.strftime('%Y-%m-%d')}"
+
 class Category(models.Model):
     """
     메뉴 카테고리 모델. 부모-자식 관계를 통해 계층 구조를 지원합니다.
@@ -64,6 +83,13 @@ class MenuItem(models.Model):
         null=True,
         verbose_name="메뉴 이미지"
     )
+
+    # 7. 우선순위
+    priority = models.IntegerField(
+        default=0,
+        verbose_name="우선순위",
+        help_text="낮은 숫자일수록 먼저 표시됩니다"
+    )
     
     is_available = models.BooleanField(default=True, verbose_name="판매 가능 여부")
 
@@ -74,7 +100,7 @@ class MenuItem(models.Model):
     class Meta:
         verbose_name = "메뉴 항목"
         verbose_name_plural = "메뉴 항목"
-        ordering = ['name']
+        ordering = ['priority', 'name']
 
     def __str__(self):
         return self.name

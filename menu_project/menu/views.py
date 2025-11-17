@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from django.db.models import Case, When, IntegerField
-from .models import MenuItem, Category
+from .models import MenuItem, Category, SiteSettings
 
 def get_breadcrumb_path(category):
     """카테고리의 전체 경로를 생성"""
@@ -26,8 +26,12 @@ def menu_main(request):
         )
     ).order_by('custom_order', 'name')
     
+    # 사이트 설정에서 인트로 이미지 가져오기
+    site_settings = SiteSettings.objects.first()
+    
     return render(request, 'menu/menu_main.html', {
-        'categories': top_categories
+        'categories': top_categories,
+        'site_settings': site_settings
     })
 
 def menu_list(request, category_id):
@@ -45,8 +49,8 @@ def menu_list(request, category_id):
             'breadcrumb_path': breadcrumb_path
         })
     else:
-        # 최하위 카테고리인 경우 - 메뉴 표시
-        items = MenuItem.objects.filter(category=category, is_available=True)
+        # 최하위 카테고리인 경우 - 메뉴 표시 (우선순위 순으로 정렬)
+        items = MenuItem.objects.filter(category=category, is_available=True).order_by('priority', 'name')
         return render(request, 'menu/menu_list.html', {
             'category': category,
             'items': items,

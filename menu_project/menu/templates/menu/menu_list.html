@@ -4,62 +4,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ category.name }} - Bid</title>
+    <title>{{ category.name }} - BidBar</title>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
-<body class="background-with-gradient">
-    <header class="header">
-        <div class="container">
-            <nav class="nav">
-                <div class="logo">
-                    <a href="{% url 'menu:menu_main' %}">Bid</a>
-                </div>
-                <div class="breadcrumb-nav">
-                    <a href="{% url 'menu:menu_main' %}">홈</a>
-                    {% for cat in breadcrumb_path %}
-                        {% if not forloop.last %}
-                            > <a href="{% url 'menu:menu_list' cat.id %}">{{ cat.name }}</a>
+<body style="margin: 0 !important; padding: 0 !important;">
+    <!-- 배경 레이어 -->
+    <div class="background-with-gradient"></div>
+    
+    <!-- 콘텐츠 레이어 -->
+    <div class="menu-container">
+        <main class="main" style="padding: 0 !important; margin: 0 !important;">
+            <div class="container" style="padding: 0 !important; margin: 0 !important; max-width: none !important;">
+                <!-- 메뉴 그리드 -->
+                <div class="menu-grid" id="menuGrid" style="margin: 0 !important; padding: 0 !important;">
+                    {% for item in items %}
+                    <div class="menu-item">
+                        {% if item.menu_image %}
+                            <!-- 이미지가 있는 경우: 이미지만 표시 -->
+                            <img src="{{ item.menu_image.url }}" alt="{{ item.name }}" class="menu-only-image">
                         {% else %}
-                            > {{ cat.name }}
+                            <!-- 이미지가 없는 경우: 텍스트 정보 표시 -->
+                            <div class="menu-content">
+                                <h3 class="menu-title">{{ item.name }}</h3>
+                                <p class="menu-description">{{ item.description }}</p>
+                                
+                                {% if item.notes %}
+                                <p class="menu-notes">{{ item.notes }}</p>
+                                {% endif %}
+                                
+                                <div class="menu-price">₩{{ item.price|floatformat:0 }}</div>
+                            </div>
                         {% endif %}
+                    </div>
+                    {% empty %}
+                    <div class="no-menu">
+                        등록된 메뉴가 없습니다.
+                    </div>
                     {% endfor %}
                 </div>
-            </nav>
-        </div>
-    </header>
-
-    <main class="main">
-        <div class="container">
-            <h1 class="page-title">{{ category.name }}</h1>
-
-            <!-- 메뉴 그리드 -->
-            <div class="menu-grid" id="menuGrid">
-                {% for item in items %}
-                <div class="menu-item">
-                    {% if item.menu_image %}
-                        <!-- 이미지가 있는 경우: 이미지만 표시 -->
-                        <img src="{{ item.menu_image.url }}" alt="{{ item.name }}" class="menu-only-image">
-                    {% else %}
-                        <!-- 이미지가 없는 경우: 텍스트 정보 표시 -->
-                        <div class="menu-content">
-                            <h3 class="menu-title">{{ item.name }}</h3>
-                            <p class="menu-description">{{ item.description }}</p>
-                            
-                            {% if item.notes %}
-                            <p class="menu-notes">{{ item.notes }}</p>
-                            {% endif %}
-                            
-                            <div class="menu-price">₩{{ item.price|floatformat:0 }}</div>
-                        </div>
-                    {% endif %}
-                </div>
-                {% empty %}
-                <div class="no-menu">
-                    등록된 메뉴가 없습니다.
-                </div>
-                {% endfor %}
             </div>
-        </div>
-    </main>
+        </main>
+    </div>
 </body>
 </html>
