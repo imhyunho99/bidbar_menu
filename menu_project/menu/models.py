@@ -27,6 +27,11 @@ class Category(models.Model):
     (예: 음료 > 커피 > 아이스 아메리카노)
     """
     name = models.CharField(max_length=100, verbose_name="카테고리명")
+    priority = models.IntegerField(
+        default=0,
+        verbose_name="우선순위",
+        help_text="낮은 숫자일수록 먼저 표시됩니다"
+    )
     # 'self'를 참조하여 부모 카테고리를 지정할 수 있습니다.
     # 최상위 카테고리(부모 카테고리)는 이 필드가 비어있게 됩니다.
     parent = models.ForeignKey(
@@ -41,7 +46,7 @@ class Category(models.Model):
     class Meta:
         verbose_name = "메뉴 카테고리"
         verbose_name_plural = "메뉴 카테고리"
-        ordering = ['name']
+        ordering = ['priority', 'name']
 
     def __str__(self):
         # 부모 카테고리가 있는 경우 '부모 > 자식' 형태로 표시

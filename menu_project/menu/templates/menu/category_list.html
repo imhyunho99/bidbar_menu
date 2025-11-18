@@ -7,23 +7,29 @@
     <title>{{ category.name }} - BidBar</title>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
-<body class="background-with-gradient" style="margin: 0 !important; padding: 0 !important;">
-    <main class="main" style="padding: 0 !important; margin: 0 !important;">
-        <div class="container" style="padding: 0 !important; margin: 0 !important; max-width: none !important;">
-            <div class="category-section" style="margin: 0 !important; padding: 0 !important;">
-                <div class="category-grid">
-                    {% for sub_category in categories %}
-                    <a href="{% url 'menu:menu_list' sub_category.id %}" class="category-card">
-                        <h3>{{ sub_category.name }}</h3>
-                    </a>
-                    {% empty %}
-                    <div class="no-categories">
-                        등록된 하위 카테고리가 없습니다.
+<body style="margin: 0 !important; padding: 0 !important;">
+    <!-- 배경 레이어 -->
+    <div class="background-with-gradient"></div>
+    
+    <!-- 콘텐츠 레이어 -->
+    <div class="menu-container">
+        <main class="main" style="padding: 0 !important; margin: 0 !important;">
+            <div class="container" style="padding: 0 !important; margin: 0 !important; max-width: none !important;">
+                <div class="category-section" style="margin: 0 !important; padding: 0 !important;">
+                    <div class="category-grid">
+                        {% for sub_category in categories %}
+                        <a href="{% url 'menu:menu_list' sub_category.id %}" class="category-card">
+                            <h3>{{ sub_category.name }}</h3>
+                        </a>
+                        {% empty %}
+                        <div class="no-categories">
+                            등록된 하위 카테고리가 없습니다.
+                        </div>
+                        {% endfor %}
                     </div>
-                    {% endfor %}
                 </div>
             </div>
-        </div>
-    </main>
+        </main>
+    </div>
 </body>
 </html>

@@ -11,8 +11,10 @@
     <!-- 로딩 스크린 -->
     <div id="loading-screen" class="loading-screen">
         <div class="loading-logo">
-            <video id="loadingVideo" autoplay muted>
+            <video id="loadingVideo" autoplay muted playsinline webkit-playsinline>
                 <source src="{% static 'bidbar.mp4' %}" type="video/mp4">
+                <!-- 비디오 로드 실패 시 이미지로 대체 -->
+                <img src="{% static 'logo.png' %}" alt="Logo" style="width: 80vw; max-width: 400px; height: auto;">
             </video>
         </div>
     </div>
@@ -47,15 +49,33 @@
         document.addEventListener('DOMContentLoaded', function() {
             const loadingScreen = document.getElementById('loading-screen');
             const loadingVideo = document.getElementById('loadingVideo');
+            let videoEnded = false;
             
             // 비디오 재생 완료 후 로딩 스크린 제거
             loadingVideo.addEventListener('ended', function() {
+                videoEnded = true;
+                hideLoadingScreen();
+            });
+            
+            // 비디오 로드 에러 시 이미지로 대체하고 3초 후 진행
+            loadingVideo.addEventListener('error', function() {
+                console.log('Video failed to load, using fallback');
+                setTimeout(hideLoadingScreen, 3000);
+            });
+            
+            // 비디오가 3초 내에 시작되지 않으면 강제로 진행
+            setTimeout(function() {
+                if (!videoEnded) {
+                    hideLoadingScreen();
+                }
+            }, 5000);
+            
+            function hideLoadingScreen() {
                 loadingScreen.classList.add('door-open');
-                
                 setTimeout(() => {
                     loadingScreen.style.display = 'none';
                 }, 1000);
-            });
+            }
         });
     </script>
 </body>

@@ -13,18 +13,8 @@ def get_breadcrumb_path(category):
 
 def menu_main(request):
     # 최상위 카테고리만 가져오기 (parent가 None인 카테고리)
-    # 지정된 순서로 정렬: 식사 메뉴, 칵테일, 위스키, 데킬라 / 메즈칼, 진 / 럼
-    top_categories = Category.objects.filter(parent=None).annotate(
-        custom_order=Case(
-            When(name='식사 메뉴', then=1),
-            When(name='칵테일', then=2),
-            When(name='위스키', then=3),
-            When(name='데킬라 / 메즈칼', then=4),
-            When(name='진 / 럼', then=5),
-            default=999,
-            output_field=IntegerField()
-        )
-    ).order_by('custom_order', 'name')
+    # 우선순위 순으로 정렬
+    top_categories = Category.objects.filter(parent=None).order_by('priority', 'name')
     
     # 사이트 설정에서 인트로 이미지 가져오기
     site_settings = SiteSettings.objects.first()
@@ -37,7 +27,7 @@ def menu_main(request):
 def menu_list(request, category_id):
     # 선택된 카테고리
     category = get_object_or_404(Category, id=category_id)
-    sub_categories = category.sub_categories.all()
+    sub_categories = category.sub_categories.all().order_by('priority', 'name')
     breadcrumb_path = get_breadcrumb_path(category)
     
     # 하위 카테고리가 있으면 카테고리 페이지, 없으면 메뉴 페이지

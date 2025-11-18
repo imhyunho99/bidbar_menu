@@ -8,7 +8,10 @@ class SiteSettingsAdmin(admin.ModelAdmin):
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ['name', 'parent']
+    list_display = ['name', 'priority', 'parent']
+    list_filter = ['parent']
+    list_editable = ['priority']
+    ordering = ['priority', 'name']
 
 @admin.register(MenuItem)
 class MenuItemAdmin(admin.ModelAdmin):
