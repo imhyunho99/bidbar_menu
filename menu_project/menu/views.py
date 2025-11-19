@@ -30,13 +30,17 @@ def menu_list(request, category_id):
     sub_categories = category.sub_categories.all().order_by('priority', 'name')
     breadcrumb_path = get_breadcrumb_path(category)
     
+    # 모든 카테고리 가져오기
+    all_categories = Category.objects.all().order_by('priority', 'name')
+    
     # 하위 카테고리가 있으면 카테고리 페이지, 없으면 메뉴 페이지
     if sub_categories.exists():
         # 하위 카테고리가 있는 경우 - 카테고리 선택 페이지
         return render(request, 'menu/category_list.html', {
             'category': category,
             'categories': sub_categories,
-            'breadcrumb_path': breadcrumb_path
+            'breadcrumb_path': breadcrumb_path,
+            'all_categories': all_categories
         })
     else:
         # 최하위 카테고리인 경우 - 메뉴 표시 (우선순위 순으로 정렬)
@@ -44,5 +48,6 @@ def menu_list(request, category_id):
         return render(request, 'menu/menu_list.html', {
             'category': category,
             'items': items,
-            'breadcrumb_path': breadcrumb_path
+            'breadcrumb_path': breadcrumb_path,
+            'all_categories': all_categories
         })

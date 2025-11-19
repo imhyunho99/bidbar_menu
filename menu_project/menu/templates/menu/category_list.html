@@ -21,6 +21,24 @@
             <button class="close-menu" id="closeMenu">×</button>
         </div>
         <div class="side-menu-content">
+            <ul class="category-nav">
+                <li><a href="{% url 'menu:menu_main' %}">홈</a></li>
+                {% for cat in all_categories %}
+                    {% if not cat.parent %}
+                        <li class="top-category">
+                            <div class="category-header" onclick="toggleCategory({{ cat.id }})">
+                                <span class="toggle-icon" id="icon-{{ cat.id }}">▶</span>
+                                <a href="{% url 'menu:menu_list' cat.id %}" {% if cat.id == category.id %}class="current"{% endif %}>{{ cat.name }}</a>
+                            </div>
+                            <ul class="sub-categories" id="sub-{{ cat.id }}" style="display: none;">
+                                {% for sub_cat in cat.sub_categories.all %}
+                                    <li><a href="{% url 'menu:menu_list' sub_cat.id %}" {% if sub_cat.id == category.id %}class="current"{% endif %}>{{ sub_cat.name }}</a></li>
+                                {% endfor %}
+                            </ul>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
         </div>
     </div>
 
@@ -63,6 +81,19 @@
         function closeMenuFunc() {
             sideMenu.classList.remove('active');
             menuOverlay.classList.remove('active');
+        }
+
+        function toggleCategory(categoryId) {
+            const subCategories = document.getElementById('sub-' + categoryId);
+            const icon = document.getElementById('icon-' + categoryId);
+            
+            if (subCategories.style.display === 'none') {
+                subCategories.style.display = 'block';
+                icon.textContent = '▼';
+            } else {
+                subCategories.style.display = 'none';
+                icon.textContent = '▶';
+            }
         }
 
         menuToggle.addEventListener('click', openMenu);
