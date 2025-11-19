@@ -11,6 +11,13 @@ class SiteSettings(models.Model):
         verbose_name="인트로 이미지",
         help_text="메인 페이지에 표시될 인트로 이미지"
     )
+    intro_video = models.FileField(
+        upload_to='site_videos/',
+        blank=True,
+        null=True,
+        verbose_name="인트로 비디오",
+        help_text="로딩 화면에 표시될 인트로 비디오 (MP4 파일)"
+    )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

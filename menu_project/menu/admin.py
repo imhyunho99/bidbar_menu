@@ -4,7 +4,7 @@ from .models import Category, MenuItem, SiteSettings
 @admin.register(SiteSettings)
 class SiteSettingsAdmin(admin.ModelAdmin):
     list_display = ['__str__', 'created_at', 'updated_at']
-    fields = ['intro_image']
+    fields = ['intro_image', 'intro_video']
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
