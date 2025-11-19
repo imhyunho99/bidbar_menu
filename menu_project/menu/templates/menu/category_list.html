@@ -52,9 +52,17 @@
                 <div class="category-section" style="margin: 0 !important; padding: 0 !important;">
                     <div class="category-grid">
                         {% for sub_category in categories %}
-                        <a href="{% url 'menu:menu_list' sub_category.id %}" class="category-card">
-                            <h3>{{ sub_category.name }}</h3>
-                        </a>
+                        <div class="category-item">
+                            {% if sub_category.category_image %}
+                                <!-- 이미지가 있는 경우: 이미지만 표시 -->
+                                <img src="{{ sub_category.category_image.url }}" alt="{{ sub_category.name }}" class="category-only-image">
+                            {% else %}
+                                <!-- 이미지가 없는 경우: 텍스트 표시 (클릭 가능) -->
+                                <a href="{% url 'menu:menu_list' sub_category.id %}" class="category-content">
+                                    <h3>{{ sub_category.name }}</h3>
+                                </a>
+                            {% endif %}
+                        </div>
                         {% empty %}
                         <div class="no-categories">
                             등록된 하위 카테고리가 없습니다.

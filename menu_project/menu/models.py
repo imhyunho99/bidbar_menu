@@ -49,6 +49,13 @@ class Category(models.Model):
         related_name='sub_categories',
         verbose_name="부모 카테고리"
     )
+    # 카테고리 이미지 필드 추가
+    category_image = models.ImageField(
+        upload_to='category_images/',
+        blank=True,
+        null=True,
+        verbose_name="카테고리 이미지"
+    )
 
     class Meta:
         verbose_name = "메뉴 카테고리"
