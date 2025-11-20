@@ -6,10 +6,85 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ category.name }} - BidBar</title>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    {% if site_settings %}
+    <style>
+        {% if site_settings.side_image %}
+        .background-with-gradient {
+            background: url('{{ site_settings.side_image.url }}');
+            background-size: contain;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            min-height: 100vh;
+        }
+        {% endif %}
+        
+        {% if site_settings.menu_name_font %}
+        @font-face {
+            font-family: 'MenuNameFont';
+            src: url('{{ site_settings.menu_name_font.url }}');
+        }
+        {% endif %}
+        {% if site_settings.menu_name_en_font %}
+        @font-face {
+            font-family: 'MenuNameEnFont';
+            src: url('{{ site_settings.menu_name_en_font.url }}');
+        }
+        {% endif %}
+        {% if site_settings.menu_price_font %}
+        @font-face {
+            font-family: 'MenuPriceFont';
+            src: url('{{ site_settings.menu_price_font.url }}');
+        }
+        {% endif %}
+        {% if site_settings.menu_description_font %}
+        @font-face {
+            font-family: 'MenuDescriptionFont';
+            src: url('{{ site_settings.menu_description_font.url }}');
+        }
+        {% endif %}
+        
+        {% if site_settings.menu_name_font or site_settings.menu_name_color %}
+        .menu-title {
+            {% if site_settings.menu_name_font %}font-family: 'MenuNameFont', sans-serif;{% endif %}
+            {% if site_settings.menu_name_color %}color: {{ site_settings.menu_name_color }};{% endif %}
+        }
+        {% endif %}
+        {% if site_settings.menu_name_en_font or site_settings.menu_name_en_color %}
+        .menu-title-en {
+            {% if site_settings.menu_name_en_font %}font-family: 'MenuNameEnFont', sans-serif;{% endif %}
+            {% if site_settings.menu_name_en_color %}color: {{ site_settings.menu_name_en_color }};{% endif %}
+        }
+        {% endif %}
+        {% if site_settings.menu_price_font or site_settings.menu_price_color %}
+        .menu-price {
+            {% if site_settings.menu_price_font %}font-family: 'MenuPriceFont', sans-serif;{% endif %}
+            {% if site_settings.menu_price_color %}color: {{ site_settings.menu_price_color }};{% endif %}
+        }
+        {% endif %}
+        {% if site_settings.menu_description_font or site_settings.menu_description_color %}
+        .menu-description {
+            {% if site_settings.menu_description_font %}font-family: 'MenuDescriptionFont', sans-serif;{% endif %}
+            {% if site_settings.menu_description_color %}color: {{ site_settings.menu_description_color }};{% endif %}
+        }
+        {% endif %}
+    </style>
+    {% endif %}
 </head>
 <body style="margin: 0 !important; padding: 0 !important;">
     <!-- 배경 레이어 -->
     <div class="background-with-gradient"></div>
+    
+    <!-- 검색 아이콘 -->
+    <button class="search-toggle" id="searchToggle">🔍</button>
+    
+    <!-- 검색 입력창 -->
+    <div class="search-container" id="searchContainer" style="display: none;">
+        <input type="text" id="searchInput" />
+        <button class="search-nav" id="searchPrev">↑</button>
+        <button class="search-nav" id="searchNext">↓</button>
+        <button class="search-close" id="searchClose">×</button>
+    </div>
     
     <!-- 사이드 메뉴 버튼 -->
     <button class="menu-toggle" id="menuToggle">☰</button>
@@ -60,6 +135,9 @@
                             <!-- 이미지가 없는 경우: 텍스트 정보 표시 -->
                             <div class="menu-content">
                                 <h3 class="menu-title">{{ item.name }}</h3>
+                                {% if item.name_en %}
+                                <p class="menu-title-en">{{ item.name_en }}</p>
+                                {% endif %}
                                 <p class="menu-description">{{ item.description }}</p>
                                 
                                 {% if item.notes %}
@@ -110,6 +188,118 @@
             }
         }
 
+        // 검색 기능
+        const searchToggle = document.getElementById('searchToggle');
+        const searchContainer = document.getElementById('searchContainer');
+        const searchInput = document.getElementById('searchInput');
+        const searchClose = document.getElementById('searchClose');
+        const menuItems = document.querySelectorAll('.menu-item');
+        
+        let currentSearchIndex = 0;
+        let searchResults = [];
+
+        function openSearch() {
+            searchContainer.style.display = 'flex';
+            searchInput.focus();
+        }
+
+        function closeSearch() {
+            searchContainer.style.display = 'none';
+            searchInput.value = '';
+            clearHighlights();
+            currentSearchIndex = 0;
+            searchResults = [];
+        }
+
+        function clearHighlights() {
+            menuItems.forEach(item => {
+                item.style.border = '';
+                item.style.backgroundColor = '';
+            });
+        }
+
+        function highlightCurrentResult() {
+            clearHighlights();
+            if (searchResults.length > 0) {
+                const currentItem = searchResults[currentSearchIndex];
+                currentItem.style.border = '2px solid #fff';
+                currentItem.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
+                currentItem.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }
+
+        function performSearch() {
+            const searchTerm = searchInput.value.toLowerCase().trim();
+            
+            if (!searchTerm) {
+                clearHighlights();
+                searchResults = [];
+                currentSearchIndex = 0;
+                return;
+            }
+            
+            searchResults = [];
+            
+            menuItems.forEach(item => {
+                const title = item.querySelector('.menu-title');
+                const titleEn = item.querySelector('.menu-title-en');
+                const description = item.querySelector('.menu-description');
+                
+                let isMatch = false;
+                
+                if (title && title.textContent.toLowerCase().includes(searchTerm)) {
+                    isMatch = true;
+                }
+                if (titleEn && titleEn.textContent.toLowerCase().includes(searchTerm)) {
+                    isMatch = true;
+                }
+                if (description && description.textContent.toLowerCase().includes(searchTerm)) {
+                    isMatch = true;
+                }
+                
+                if (isMatch) {
+                    searchResults.push(item);
+                }
+            });
+            
+            currentSearchIndex = 0;
+            highlightCurrentResult();
+        }
+
+        function nextResult() {
+            if (searchResults.length > 0) {
+                currentSearchIndex = (currentSearchIndex + 1) % searchResults.length;
+                highlightCurrentResult();
+            }
+        }
+
+        function prevResult() {
+            if (searchResults.length > 0) {
+                currentSearchIndex = (currentSearchIndex - 1 + searchResults.length) % searchResults.length;
+                highlightCurrentResult();
+            }
+        }
+
+        searchToggle.addEventListener('click', openSearch);
+        searchClose.addEventListener('click', closeSearch);
+        searchInput.addEventListener('input', performSearch);
+        
+        // 네비게이션 버튼
+        document.getElementById('searchPrev').addEventListener('click', prevResult);
+        document.getElementById('searchNext').addEventListener('click', nextResult);
+        
+        // Enter키로 다음 결과, Shift+Enter로 이전 결과
+        searchInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                if (e.shiftKey) {
+                    prevResult();
+                } else {
+                    nextResult();
+                }
+            }
+        });
+        
         menuToggle.addEventListener('click', openMenu);
         closeMenu.addEventListener('click', closeMenuFunc);
         menuOverlay.addEventListener('click', closeMenuFunc);

@@ -6,6 +6,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ category.name }} - BidBar</title>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    {% if site_settings and site_settings.side_image %}
+    <style>
+        .background-with-gradient {
+            background: url('{{ site_settings.side_image.url }}');
+            background-size: contain;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            min-height: 100vh;
+        }
+    </style>
+    {% endif %}
 </head>
 <body style="margin: 0 !important; padding: 0 !important;">
     <!-- 배경 레이어 -->

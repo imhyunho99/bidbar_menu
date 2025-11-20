@@ -4,7 +4,23 @@ from .models import Category, MenuItem, SiteSettings
 @admin.register(SiteSettings)
 class SiteSettingsAdmin(admin.ModelAdmin):
     list_display = ['__str__', 'created_at', 'updated_at']
-    fields = ['intro_image', 'intro_video']
+    fieldsets = (
+        ('이미지/비디오 설정', {
+            'fields': ('intro_image', 'intro_video', 'side_image')
+        }),
+        ('메뉴명(한글) 스타일', {
+            'fields': ('menu_name_font', 'menu_name_color')
+        }),
+        ('메뉴명(영문) 스타일', {
+            'fields': ('menu_name_en_font', 'menu_name_en_color')
+        }),
+        ('가격 스타일', {
+            'fields': ('menu_price_font', 'menu_price_color')
+        }),
+        ('메뉴 설명 스타일', {
+            'fields': ('menu_description_font', 'menu_description_color')
+        }),
+    )
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):

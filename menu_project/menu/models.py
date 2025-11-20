@@ -18,6 +18,30 @@ class SiteSettings(models.Model):
         verbose_name="인트로 비디오",
         help_text="로딩 화면에 표시될 인트로 비디오 (MP4 파일)"
     )
+    side_image = models.ImageField(
+        upload_to='site_images/',
+        blank=True,
+        null=True,
+        verbose_name="사이드 이미지",
+        help_text="사이드 메뉴 등에 사용될 이미지"
+    )
+    
+    # 메뉴명(한글) 설정
+    menu_name_font = models.FileField(upload_to='fonts/', blank=True, null=True, verbose_name="메뉴명(한글) 폰트 파일")
+    menu_name_color = models.CharField(max_length=7, blank=True, default='', verbose_name="메뉴명(한글) 색상", help_text="#ffffff")
+    
+    # 메뉴명(영문) 설정
+    menu_name_en_font = models.FileField(upload_to='fonts/', blank=True, null=True, verbose_name="메뉴명(영문) 폰트 파일")
+    menu_name_en_color = models.CharField(max_length=7, blank=True, default='', verbose_name="메뉴명(영문) 색상", help_text="#cccccc")
+    
+    # 가격 설정
+    menu_price_font = models.FileField(upload_to='fonts/', blank=True, null=True, verbose_name="가격 폰트 파일")
+    menu_price_color = models.CharField(max_length=7, blank=True, default='', verbose_name="가격 색상", help_text="#ffffff")
+    
+    # 메뉴 설명 설정
+    menu_description_font = models.FileField(upload_to='fonts/', blank=True, null=True, verbose_name="메뉴 설명 폰트 파일")
+    menu_description_color = models.CharField(max_length=7, blank=True, default='', verbose_name="메뉴 설명 색상", help_text="#aaaaaa")
+    
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -74,8 +98,11 @@ class MenuItem(models.Model):
     """
     # 1. 이름
     name = models.CharField(max_length=100, verbose_name="메뉴명")
+    
+    # 2. 영문명
+    name_en = models.CharField(max_length=100, blank=True, null=True, verbose_name="메뉴명(영문)")
 
-    # 2. 가격
+    # 3. 가격
     price = models.DecimalField(max_digits=10, decimal_places=0, verbose_name="가격")
 
     # 3. 설명

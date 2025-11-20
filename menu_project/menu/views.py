@@ -33,6 +33,9 @@ def menu_list(request, category_id):
     # 모든 카테고리 가져오기
     all_categories = Category.objects.all().order_by('priority', 'name')
     
+    # 사이트 설정 가져오기
+    site_settings = SiteSettings.objects.first()
+    
     # 하위 카테고리가 있으면 카테고리 페이지, 없으면 메뉴 페이지
     if sub_categories.exists():
         # 하위 카테고리가 있는 경우 - 카테고리 선택 페이지
@@ -40,7 +43,8 @@ def menu_list(request, category_id):
             'category': category,
             'categories': sub_categories,
             'breadcrumb_path': breadcrumb_path,
-            'all_categories': all_categories
+            'all_categories': all_categories,
+            'site_settings': site_settings
         })
     else:
         # 최하위 카테고리인 경우 - 메뉴 표시 (우선순위 순으로 정렬)
@@ -49,5 +53,6 @@ def menu_list(request, category_id):
             'category': category,
             'items': items,
             'breadcrumb_path': breadcrumb_path,
-            'all_categories': all_categories
+            'all_categories': all_categories,
+            'site_settings': site_settings
         })
