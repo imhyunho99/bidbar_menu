@@ -872,6 +872,28 @@ body {
 
 /* Mobile Responsive Design */
 @media (max-width: 768px) {
+    .search-container {
+        left: 50px;
+        right: 50px;
+        padding: 3px;
+    }
+    
+    .search-container input {
+        font-size: 14px;
+        padding: 8px;
+    }
+    
+    .search-nav {
+        font-size: 14px;
+        padding: 3px 6px;
+    }
+    
+    .search-toggle,
+    .menu-toggle {
+        font-size: 16px;
+        padding: 8px 12px;
+    }
+    
     .container {
         padding: 0 15px;
     }
@@ -974,6 +996,20 @@ body {
 }
 
 @media (max-width: 480px) {
+    .search-container {
+        left: 45px;
+        right: 45px;
+    }
+    
+    .search-container input {
+        font-size: 16px; /* iOS zoom 방지 */
+    }
+    
+    .search-toggle,
+    .menu-toggle {
+        padding: 12px 15px; /* 터치 영역 확대 */
+    }
+    
     .main {
         padding: 1rem 0;
     }

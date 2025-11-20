@@ -28,6 +28,19 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*'] #change allowhost after development
 
+# 모바일 접근을 위한 추가 설정
+CSRF_TRUSTED_ORIGINS = [
+    'http://172.28.8.200:8000',
+    'http://localhost:8000',
+    'http://127.0.0.1:8000',
+]
+
+# X-Frame-Options 설정
+X_FRAME_OPTIONS = 'SAMEORIGIN'
+
+# 보안 헤더 설정
+SECURE_CROSS_ORIGIN_OPENER_POLICY = None
+
 
 # Application definition
 
