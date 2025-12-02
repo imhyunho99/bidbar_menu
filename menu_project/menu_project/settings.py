@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,16 +21,18 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-# TDL: Replace this with a secure key for production use
-SECRET_KEY = 'django-insecure-07elwz6_#&2wmqr^_nx=4md07rwsva)n)t5(g$+t4n(+&_7bjx'
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'django-insecure-07elwz6_#&2wmqr^_nx=4md07rwsva)n)t5(g$+t4n(+&_7bjx')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('DJANGO_DEBUG', 'False') == 'True'
 
-ALLOWED_HOSTS = ['*'] #change allowhost after development
+ALLOWED_HOSTS = os.environ.get('DJANGO_ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
 
 # 모바일 접근을 위한 추가 설정
 CSRF_TRUSTED_ORIGINS = [
+    'https://bid-menu.duckdns.org',
+    'http://bid-menu.duckdns.org',
+    'http://140.245.71.233',
     'http://172.28.8.200:8000',
     'http://localhost:8000',
     'http://127.0.0.1:8000',
@@ -40,6 +43,17 @@ X_FRAME_OPTIONS = 'SAMEORIGIN'
 
 # 보안 헤더 설정
 SECURE_CROSS_ORIGIN_OPENER_POLICY = None
+
+# HTTPS 보안 설정
+if not DEBUG:
+    SECURE_SSL_REDIRECT = True
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    SECURE_BROWSER_XSS_FILTER = True
+    SECURE_CONTENT_TYPE_NOSNIFF = True
+    SECURE_HSTS_SECONDS = 31536000
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_HSTS_PRELOAD = True
 
 
 # Application definition
@@ -90,11 +104,11 @@ WSGI_APPLICATION = 'menu_project.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'bidbar_menu',
-        'USER': 'nahyeonho',
-        'PASSWORD': '',
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'NAME': os.environ.get('DB_NAME', 'bidbar_menu'),
+        'USER': os.environ.get('DB_USER', 'bidbar_user'),
+        'PASSWORD': os.environ.get('DB_PASSWORD', ''),
+        'HOST': os.environ.get('DB_HOST', 'localhost'),
+        'PORT': os.environ.get('DB_PORT', '5432'),
     }
 }
 
