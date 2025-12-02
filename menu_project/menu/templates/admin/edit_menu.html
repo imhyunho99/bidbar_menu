@@ -17,6 +17,11 @@
                     {% csrf_token %}
                     
                     <div class="admin-form-group">
+                        <label for="name_en">메뉴명 (영문)</label>
+                        <input type="text" id="name_en" name="name_en" value="{{ menu.name_en|default:'' }}">
+                    </div>
+                    
+                    <div class="admin-form-group">
                         <label for="name">메뉴명</label>
                         <input type="text" id="name" name="name" value="{{ menu.name }}" required>
                     </div>

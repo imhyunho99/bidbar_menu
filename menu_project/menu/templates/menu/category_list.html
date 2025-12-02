@@ -15,7 +15,7 @@
     <style>
         .background-with-gradient {
             background: url('{{ site_settings.side_image.url }}');
-            background-size: contain;
+            background-size: cover;
             background-position: center;
             background-attachment: fixed;
             background-repeat: no-repeat;
@@ -27,6 +27,18 @@
 <body style="margin: 0 !important; padding: 0 !important;">
     <!-- 배경 레이어 -->
     <div class="background-with-gradient"></div>
+    
+    <!-- 검색 아이콘 -->
+    <button class="search-toggle" id="searchToggle">🔍</button>
+    
+    <!-- 검색 입력창 -->
+    <div class="search-container" id="searchContainer" style="display: none;">
+        <div class="search-input-wrapper">
+            <input type="text" id="searchInput" placeholder="메뉴 및 카테고리 검색..." />
+            <button class="search-close" id="searchClose">×</button>
+        </div>
+        <div class="search-results" id="searchResults"></div>
+    </div>
     
     <!-- 사이드 메뉴 버튼 -->
     <button class="menu-toggle" id="menuToggle">☰</button>
@@ -41,7 +53,7 @@
             <ul class="category-nav">
                 <li><a href="{% url 'menu:menu_main' %}">홈</a></li>
                 {% for cat in all_categories %}
-                    {% if not cat.parent %}
+                    {% if not cat.parent and not cat.category_image %}
                         <li class="top-category">
                             <div class="category-header" onclick="toggleCategory({{ cat.id }})">
                                 <span class="toggle-icon" id="icon-{{ cat.id }}">▶</span>
@@ -49,7 +61,9 @@
                             </div>
                             <ul class="sub-categories" id="sub-{{ cat.id }}" style="display: none;">
                                 {% for sub_cat in cat.sub_categories.all %}
-                                    <li><a href="{% url 'menu:menu_list' sub_cat.id %}" {% if sub_cat.id == category.id %}class="current"{% endif %}>{{ sub_cat.name }}</a></li>
+                                    {% if not sub_cat.category_image %}
+                                        <li><a href="{% url 'menu:menu_list' sub_cat.id %}" {% if sub_cat.id == category.id %}class="current"{% endif %}>{{ sub_cat.name }}</a></li>
+                                    {% endif %}
                                 {% endfor %}
                             </ul>
                         </li>
@@ -121,9 +135,71 @@
             }
         }
 
+        // 검색 기능
+        const searchToggle = document.getElementById('searchToggle');
+        const searchContainer = document.getElementById('searchContainer');
+        const searchInput = document.getElementById('searchInput');
+        const searchClose = document.getElementById('searchClose');
+        const searchResults = document.getElementById('searchResults');
+        
+        let searchTimeout;
+
+        function openSearch() {
+            searchContainer.style.display = 'flex';
+            searchInput.focus();
+        }
+
+        function closeSearch() {
+            searchContainer.style.display = 'none';
+            searchInput.value = '';
+            searchResults.innerHTML = '';
+        }
+
+        function performSearch() {
+            const query = searchInput.value.trim();
+            
+            if (query.length < 2) {
+                searchResults.innerHTML = '';
+                return;
+            }
+
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(() => {
+                fetch(`/menu/api/search/?q=${encodeURIComponent(query)}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        displaySearchResults(data.results);
+                    })
+                    .catch(error => {
+                        console.error('Search error:', error);
+                        searchResults.innerHTML = '<div class="search-no-results">검색 중 오류가 발생했습니다.</div>';
+                    });
+            }, 300);
+        }
+
+        function displaySearchResults(results) {
+            if (results.length === 0) {
+                searchResults.innerHTML = '<div class="search-no-results">검색 결과가 없습니다.</div>';
+                return;
+            }
+
+            const html = results.map(result => `
+                <div class="search-result-item" onclick="window.location.href='${result.url}'">
+                    <div class="search-result-title">${result.title}</div>
+                    <div class="search-result-subtitle">${result.subtitle}</div>
+                </div>
+            `).join('');
+
+            searchResults.innerHTML = html;
+        }
+
         menuToggle.addEventListener('click', openMenu);
         closeMenu.addEventListener('click', closeMenuFunc);
         menuOverlay.addEventListener('click', closeMenuFunc);
+        
+        searchToggle.addEventListener('click', openSearch);
+        searchClose.addEventListener('click', closeSearch);
+        searchInput.addEventListener('input', performSearch);
     </script>
 </body>
 </html>

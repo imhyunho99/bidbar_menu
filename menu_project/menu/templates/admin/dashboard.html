@@ -66,7 +66,9 @@
                         <tbody>
                             {% for menu in menu_items %}
                             <tr>
-                                <td>{{ menu.name }}</td>
+                                <td>
+                                    {% if menu.name_en %}{{ menu.name_en }}<br>{% endif %}{{ menu.name }}
+                                </td>
                                 <td>₩{{ menu.price|floatformat:0 }}</td>
                                 <td>{{ menu.category|default:"미분류" }}</td>
                                 <td>

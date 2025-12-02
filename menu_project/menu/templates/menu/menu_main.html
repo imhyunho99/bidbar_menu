@@ -13,6 +13,54 @@
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body style="background-color: #000 !important;">
+    <!-- 검색 아이콘 -->
+    <button class="search-toggle" id="searchToggle">🔍</button>
+    
+    <!-- 검색 입력창 -->
+    <div class="search-container" id="searchContainer" style="display: none;">
+        <div class="search-input-wrapper">
+            <input type="text" id="searchInput" placeholder="메뉴 및 카테고리 검색..." />
+            <button class="search-close" id="searchClose">×</button>
+        </div>
+        <div class="search-results" id="searchResults"></div>
+    </div>
+    
+    <!-- 사이드 메뉴 버튼 -->
+    <button class="menu-toggle" id="menuToggle">☰</button>
+
+    <!-- 사이드 메뉴 -->
+    <div class="side-menu" id="sideMenu">
+        <div class="side-menu-header">
+            <h3>메뉴</h3>
+            <button class="close-menu" id="closeMenu">×</button>
+        </div>
+        <div class="side-menu-content">
+            <ul class="category-nav">
+                <li><a href="{% url 'menu:menu_main' %}">홈</a></li>
+                {% for category in categories %}
+                    {% if not category.category_image %}
+                    <li class="top-category">
+                        <div class="category-header" onclick="toggleCategory({{ category.id }})">
+                            <span class="toggle-icon" id="icon-{{ category.id }}">▶</span>
+                            <a href="{% url 'menu:menu_list' category.id %}">{{ category.name }}</a>
+                        </div>
+                        <ul class="sub-categories" id="sub-{{ category.id }}" style="display: none;">
+                            {% for sub_cat in category.sub_categories.all %}
+                                {% if not sub_cat.category_image %}
+                                <li><a href="{% url 'menu:menu_list' sub_cat.id %}">{{ sub_cat.name }}</a></li>
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+    <!-- 사이드 메뉴 오버레이 -->
+    <div class="menu-overlay" id="menuOverlay"></div>
+    
     <!-- 로딩 스크린 -->
     <div id="loading-screen" class="loading-screen">
         <div class="loading-logo">
@@ -90,6 +138,105 @@
                 }, 1000);
             }
         });
+
+        // 사이드 메뉴 기능
+        const menuToggle = document.getElementById('menuToggle');
+        const sideMenu = document.getElementById('sideMenu');
+        const menuOverlay = document.getElementById('menuOverlay');
+        const closeMenu = document.getElementById('closeMenu');
+
+        function openMenu() {
+            sideMenu.classList.add('active');
+            menuOverlay.classList.add('active');
+        }
+
+        function closeMenuFunc() {
+            sideMenu.classList.remove('active');
+            menuOverlay.classList.remove('active');
+        }
+
+        function toggleCategory(categoryId) {
+            const subCategories = document.getElementById('sub-' + categoryId);
+            const icon = document.getElementById('icon-' + categoryId);
+            
+            if (subCategories.style.display === 'none') {
+                subCategories.style.display = 'block';
+                icon.textContent = '▼';
+            } else {
+                subCategories.style.display = 'none';
+                icon.textContent = '▶';
+            }
+        }
+
+        // 검색 기능
+        const searchToggle = document.getElementById('searchToggle');
+        const searchContainer = document.getElementById('searchContainer');
+        const searchInput = document.getElementById('searchInput');
+        const searchClose = document.getElementById('searchClose');
+        const searchResults = document.getElementById('searchResults');
+        
+        let searchTimeout;
+
+        function openSearch() {
+            searchContainer.style.display = 'flex';
+            searchInput.focus();
+        }
+
+        function closeSearch() {
+            searchContainer.style.display = 'none';
+            searchInput.value = '';
+            searchResults.innerHTML = '';
+        }
+
+        function performSearch() {
+            const query = searchInput.value.trim();
+            
+            if (query.length < 2) {
+                searchResults.innerHTML = '';
+                return;
+            }
+
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(() => {
+                fetch(`/menu/api/search/?q=${encodeURIComponent(query)}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        displaySearchResults(data.results);
+                    })
+                    .catch(error => {
+                        console.error('Search error:', error);
+                        searchResults.innerHTML = '<div class="search-no-results">검색 중 오류가 발생했습니다.</div>';
+                    });
+            }, 300);
+        }
+
+        function displaySearchResults(results) {
+            if (results.length === 0) {
+                searchResults.innerHTML = '<div class="search-no-results">검색 결과가 없습니다.</div>';
+                return;
+            }
+
+            const html = results.map(result => `
+                <div class="search-result-item" onclick="window.location.href='${result.url}'">
+                    <div class="search-result-title">${result.title}</div>
+                    <div class="search-result-subtitle">${result.subtitle}</div>
+                </div>
+            `).join('');
+
+            searchResults.innerHTML = html;
+        }
+
+        if (menuToggle) {
+            menuToggle.addEventListener('click', openMenu);
+            closeMenu.addEventListener('click', closeMenuFunc);
+            menuOverlay.addEventListener('click', closeMenuFunc);
+        }
+
+        if (searchToggle) {
+            searchToggle.addEventListener('click', openSearch);
+            searchClose.addEventListener('click', closeSearch);
+            searchInput.addEventListener('input', performSearch);
+        }
     </script>
 </body>
 </html>

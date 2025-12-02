@@ -18,6 +18,22 @@
             min-height: 100vh;
             display: flex;
             align-items: center;
+        }
+
+        .qr-container {
+            border-left: 1px solid rgba(0, 0, 0, 1);
+            overflow-y: auto;
+        }
+
+        body {
+            font-family: 'GT Walsheim Pro', -webkit-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #000;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
             justify-content: center;
             padding: 20px;
             line-height: 1.6;
@@ -215,5 +231,50 @@
             <p><a href="{{ menu_url }}" target="_blank">{{ menu_url }}</a></p>
         </div>
     </div>
+
+    <script>
+        // 사이드 메뉴 기능
+        const menuToggle = document.getElementById('menuToggle');
+        const sideMenu = document.getElementById('sideMenu');
+        const menuOverlay = document.getElementById('menuOverlay');
+        const closeMenu = document.getElementById('closeMenu');
+
+        function openMenu() {
+            sideMenu.classList.add('active');
+            menuOverlay.classList.add('active');
+        }
+
+        function closeMenuFunc() {
+            sideMenu.classList.remove('active');
+            menuOverlay.classList.remove('active');
+        }
+
+        // 검색 기능
+        const searchToggle = document.getElementById('searchToggle');
+        const searchContainer = document.getElementById('searchContainer');
+        const searchInput = document.getElementById('searchInput');
+        const searchClose = document.getElementById('searchClose');
+        const searchResults = document.getElementById('searchResults');
+        
+        let searchTimeout;
+
+        function openSearch() {
+            searchContainer.style.display = 'flex';
+            searchInput.focus();
+        }
+
+        function closeSearch() {
+            searchContainer.style.display = 'none';
+            searchInput.value = '';
+            searchResults.innerHTML = '';
+        }
+
+        function performSearch() {
+            const query = searchInput.value.trim();
+            
+            if (query.length < 2) {
+                searchResults.innerHTML = '';
+                return;
+    </script>
 </body>
 </html>

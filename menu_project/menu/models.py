@@ -29,18 +29,30 @@ class SiteSettings(models.Model):
     # 메뉴명(한글) 설정
     menu_name_font = models.FileField(upload_to='fonts/', blank=True, null=True, verbose_name="메뉴명(한글) 폰트 파일")
     menu_name_color = models.CharField(max_length=7, blank=True, default='', verbose_name="메뉴명(한글) 색상", help_text="#ffffff")
+    menu_name_size = models.IntegerField(blank=True, null=True, verbose_name="메뉴명(한글) 크기", help_text="픽셀 단위 (예: 18)")
+    menu_name_bold = models.BooleanField(default=False, verbose_name="메뉴명(한글) 볼드")
+    menu_name_italic = models.BooleanField(default=False, verbose_name="메뉴명(한글) 이탤릭")
     
     # 메뉴명(영문) 설정
     menu_name_en_font = models.FileField(upload_to='fonts/', blank=True, null=True, verbose_name="메뉴명(영문) 폰트 파일")
     menu_name_en_color = models.CharField(max_length=7, blank=True, default='', verbose_name="메뉴명(영문) 색상", help_text="#cccccc")
+    menu_name_en_size = models.IntegerField(blank=True, null=True, verbose_name="메뉴명(영문) 크기", help_text="픽셀 단위 (예: 14)")
+    menu_name_en_bold = models.BooleanField(default=False, verbose_name="메뉴명(영문) 볼드")
+    menu_name_en_italic = models.BooleanField(default=False, verbose_name="메뉴명(영문) 이탤릭")
     
     # 가격 설정
     menu_price_font = models.FileField(upload_to='fonts/', blank=True, null=True, verbose_name="가격 폰트 파일")
     menu_price_color = models.CharField(max_length=7, blank=True, default='', verbose_name="가격 색상", help_text="#ffffff")
+    menu_price_size = models.IntegerField(blank=True, null=True, verbose_name="가격 크기", help_text="픽셀 단위 (예: 20)")
+    menu_price_bold = models.BooleanField(default=False, verbose_name="가격 볼드")
+    menu_price_italic = models.BooleanField(default=False, verbose_name="가격 이탤릭")
     
     # 메뉴 설명 설정
     menu_description_font = models.FileField(upload_to='fonts/', blank=True, null=True, verbose_name="메뉴 설명 폰트 파일")
     menu_description_color = models.CharField(max_length=7, blank=True, default='', verbose_name="메뉴 설명 색상", help_text="#aaaaaa")
+    menu_description_size = models.IntegerField(blank=True, null=True, verbose_name="메뉴 설명 크기", help_text="픽셀 단위 (예: 14)")
+    menu_description_bold = models.BooleanField(default=False, verbose_name="메뉴 설명 볼드")
+    menu_description_italic = models.BooleanField(default=False, verbose_name="메뉴 설명 이탤릭")
     
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

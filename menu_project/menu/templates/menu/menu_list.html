@@ -16,11 +16,23 @@
         {% if site_settings.side_image %}
         .background-with-gradient {
             background: url('{{ site_settings.side_image.url }}');
-            background-size: contain;
-            background-position: center;
+            background-size: cover;
+            background-position: center center;
             background-attachment: fixed;
             background-repeat: no-repeat;
-            min-height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 998;
+            pointer-events: none;
+        }
+        
+        @media (max-width: 768px) {
+            .background-with-gradient {
+                background-attachment: scroll;
+            }
         }
         {% endif %}
         
@@ -49,28 +61,40 @@
         }
         {% endif %}
         
-        {% if site_settings.menu_name_font or site_settings.menu_name_color %}
+        {% if site_settings.menu_name_font or site_settings.menu_name_color or site_settings.menu_name_size or site_settings.menu_name_bold or site_settings.menu_name_italic %}
         .menu-title {
             {% if site_settings.menu_name_font %}font-family: 'MenuNameFont', sans-serif;{% endif %}
             {% if site_settings.menu_name_color %}color: {{ site_settings.menu_name_color }};{% endif %}
+            {% if site_settings.menu_name_size %}font-size: {{ site_settings.menu_name_size }}px;{% endif %}
+            {% if site_settings.menu_name_bold %}font-weight: bold;{% endif %}
+            {% if site_settings.menu_name_italic %}font-style: italic;{% endif %}
         }
         {% endif %}
-        {% if site_settings.menu_name_en_font or site_settings.menu_name_en_color %}
+        {% if site_settings.menu_name_en_font or site_settings.menu_name_en_color or site_settings.menu_name_en_size or site_settings.menu_name_en_bold or site_settings.menu_name_en_italic %}
         .menu-title-en {
             {% if site_settings.menu_name_en_font %}font-family: 'MenuNameEnFont', sans-serif;{% endif %}
             {% if site_settings.menu_name_en_color %}color: {{ site_settings.menu_name_en_color }};{% endif %}
+            {% if site_settings.menu_name_en_size %}font-size: {{ site_settings.menu_name_en_size }}px;{% endif %}
+            {% if site_settings.menu_name_en_bold %}font-weight: bold;{% endif %}
+            {% if site_settings.menu_name_en_italic %}font-style: italic;{% endif %}
         }
         {% endif %}
-        {% if site_settings.menu_price_font or site_settings.menu_price_color %}
+        {% if site_settings.menu_price_font or site_settings.menu_price_color or site_settings.menu_price_size or site_settings.menu_price_bold or site_settings.menu_price_italic %}
         .menu-price {
             {% if site_settings.menu_price_font %}font-family: 'MenuPriceFont', sans-serif;{% endif %}
             {% if site_settings.menu_price_color %}color: {{ site_settings.menu_price_color }};{% endif %}
+            {% if site_settings.menu_price_size %}font-size: {{ site_settings.menu_price_size }}px;{% endif %}
+            {% if site_settings.menu_price_bold %}font-weight: bold;{% endif %}
+            {% if site_settings.menu_price_italic %}font-style: italic;{% endif %}
         }
         {% endif %}
-        {% if site_settings.menu_description_font or site_settings.menu_description_color %}
+        {% if site_settings.menu_description_font or site_settings.menu_description_color or site_settings.menu_description_size or site_settings.menu_description_bold or site_settings.menu_description_italic %}
         .menu-description {
             {% if site_settings.menu_description_font %}font-family: 'MenuDescriptionFont', sans-serif;{% endif %}
             {% if site_settings.menu_description_color %}color: {{ site_settings.menu_description_color }};{% endif %}
+            {% if site_settings.menu_description_size %}font-size: {{ site_settings.menu_description_size }}px;{% endif %}
+            {% if site_settings.menu_description_bold %}font-weight: bold;{% endif %}
+            {% if site_settings.menu_description_italic %}font-style: italic;{% endif %}
         }
         {% endif %}
     </style>
@@ -85,10 +109,11 @@
     
     <!-- 검색 입력창 -->
     <div class="search-container" id="searchContainer" style="display: none;">
-        <input type="text" id="searchInput" />
-        <button class="search-nav" id="searchPrev">↑</button>
-        <button class="search-nav" id="searchNext">↓</button>
-        <button class="search-close" id="searchClose">×</button>
+        <div class="search-input-wrapper">
+            <input type="text" id="searchInput" placeholder="메뉴 및 카테고리 검색..." />
+            <button class="search-close" id="searchClose">×</button>
+        </div>
+        <div class="search-results" id="searchResults"></div>
     </div>
     
     <!-- 사이드 메뉴 버튼 -->
@@ -104,7 +129,7 @@
             <ul class="category-nav">
                 <li><a href="{% url 'menu:menu_main' %}">홈</a></li>
                 {% for cat in all_categories %}
-                    {% if not cat.parent %}
+                    {% if not cat.parent and not cat.category_image %}
                         <li class="top-category">
                             <div class="category-header" onclick="toggleCategory({{ cat.id }})">
                                 <span class="toggle-icon" id="icon-{{ cat.id }}">▶</span>
@@ -112,7 +137,9 @@
                             </div>
                             <ul class="sub-categories" id="sub-{{ cat.id }}" style="display: none;">
                                 {% for sub_cat in cat.sub_categories.all %}
-                                    <li><a href="{% url 'menu:menu_list' sub_cat.id %}" {% if sub_cat.id == category.id %}class="current"{% endif %}>{{ sub_cat.name }}</a></li>
+                                    {% if not sub_cat.category_image %}
+                                        <li><a href="{% url 'menu:menu_list' sub_cat.id %}" {% if sub_cat.id == category.id %}class="current"{% endif %}>{{ sub_cat.name }}</a></li>
+                                    {% endif %}
                                 {% endfor %}
                             </ul>
                         </li>
@@ -132,17 +159,17 @@
                 <!-- 메뉴 그리드 -->
                 <div class="menu-grid" id="menuGrid" style="margin: 0 !important; padding: 0 !important;">
                     {% for item in items %}
-                    <div class="menu-item">
+                    <div class="menu-item" id="menu-{{ item.id }}">
                         {% if item.menu_image %}
                             <!-- 이미지가 있는 경우: 이미지만 표시 -->
                             <img src="{{ item.menu_image.url }}" alt="{{ item.name }}" class="menu-only-image">
                         {% else %}
                             <!-- 이미지가 없는 경우: 텍스트 정보 표시 -->
                             <div class="menu-content">
-                                <h3 class="menu-title">{{ item.name }}</h3>
                                 {% if item.name_en %}
                                 <p class="menu-title-en">{{ item.name_en }}</p>
                                 {% endif %}
+                                <h3 class="menu-title">{{ item.name }}</h3>
                                 <p class="menu-description">{{ item.description }}</p>
                                 
                                 {% if item.notes %}
@@ -198,10 +225,9 @@
         const searchContainer = document.getElementById('searchContainer');
         const searchInput = document.getElementById('searchInput');
         const searchClose = document.getElementById('searchClose');
-        const menuItems = document.querySelectorAll('.menu-item');
+        const searchResults = document.getElementById('searchResults');
         
-        let currentSearchIndex = 0;
-        let searchResults = [];
+        let searchTimeout;
 
         function openSearch() {
             searchContainer.style.display = 'flex';
@@ -211,103 +237,66 @@
         function closeSearch() {
             searchContainer.style.display = 'none';
             searchInput.value = '';
-            clearHighlights();
-            currentSearchIndex = 0;
-            searchResults = [];
-        }
-
-        function clearHighlights() {
-            menuItems.forEach(item => {
-                item.style.border = '';
-                item.style.backgroundColor = '';
-            });
-        }
-
-        function highlightCurrentResult() {
-            clearHighlights();
-            if (searchResults.length > 0) {
-                const currentItem = searchResults[currentSearchIndex];
-                currentItem.style.border = '2px solid #fff';
-                currentItem.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
-                currentItem.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            }
+            searchResults.innerHTML = '';
         }
 
         function performSearch() {
-            const searchTerm = searchInput.value.toLowerCase().trim();
+            const query = searchInput.value.trim();
             
-            if (!searchTerm) {
-                clearHighlights();
-                searchResults = [];
-                currentSearchIndex = 0;
+            if (query.length < 2) {
+                searchResults.innerHTML = '';
                 return;
             }
-            
-            searchResults = [];
-            
-            menuItems.forEach(item => {
-                const title = item.querySelector('.menu-title');
-                const titleEn = item.querySelector('.menu-title-en');
-                const description = item.querySelector('.menu-description');
-                
-                let isMatch = false;
-                
-                if (title && title.textContent.toLowerCase().includes(searchTerm)) {
-                    isMatch = true;
-                }
-                if (titleEn && titleEn.textContent.toLowerCase().includes(searchTerm)) {
-                    isMatch = true;
-                }
-                if (description && description.textContent.toLowerCase().includes(searchTerm)) {
-                    isMatch = true;
-                }
-                
-                if (isMatch) {
-                    searchResults.push(item);
-                }
-            });
-            
-            currentSearchIndex = 0;
-            highlightCurrentResult();
+
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(() => {
+                fetch(`/menu/api/search/?q=${encodeURIComponent(query)}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        displaySearchResults(data.results);
+                    })
+                    .catch(error => {
+                        console.error('Search error:', error);
+                        searchResults.innerHTML = '<div class="search-no-results">검색 중 오류가 발생했습니다.</div>';
+                    });
+            }, 300);
         }
 
-        function nextResult() {
-            if (searchResults.length > 0) {
-                currentSearchIndex = (currentSearchIndex + 1) % searchResults.length;
-                highlightCurrentResult();
+        function displaySearchResults(results) {
+            if (results.length === 0) {
+                searchResults.innerHTML = '<div class="search-no-results">검색 결과가 없습니다.</div>';
+                return;
             }
-        }
 
-        function prevResult() {
-            if (searchResults.length > 0) {
-                currentSearchIndex = (currentSearchIndex - 1 + searchResults.length) % searchResults.length;
-                highlightCurrentResult();
-            }
+            const html = results.map(result => `
+                <div class="search-result-item" onclick="window.location.href='${result.url}'">
+                    <div class="search-result-title">${result.title}</div>
+                    <div class="search-result-subtitle">${result.subtitle}</div>
+                </div>
+            `).join('');
+
+            searchResults.innerHTML = html;
         }
 
         searchToggle.addEventListener('click', openSearch);
         searchClose.addEventListener('click', closeSearch);
         searchInput.addEventListener('input', performSearch);
         
-        // 네비게이션 버튼
-        document.getElementById('searchPrev').addEventListener('click', prevResult);
-        document.getElementById('searchNext').addEventListener('click', nextResult);
-        
-        // Enter키로 다음 결과, Shift+Enter로 이전 결과
-        searchInput.addEventListener('keydown', function(e) {
-            if (e.key === 'Enter') {
-                e.preventDefault();
-                if (e.shiftKey) {
-                    prevResult();
-                } else {
-                    nextResult();
-                }
-            }
-        });
-        
         menuToggle.addEventListener('click', openMenu);
         closeMenu.addEventListener('click', closeMenuFunc);
         menuOverlay.addEventListener('click', closeMenuFunc);
+
+        // 앵커 스크롤 기능
+        window.addEventListener('load', function() {
+            if (window.location.hash) {
+                setTimeout(function() {
+                    const element = document.querySelector(window.location.hash);
+                    if (element) {
+                        element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+                }, 100);
+            }
+        });
     </script>
 </body>
 </html>

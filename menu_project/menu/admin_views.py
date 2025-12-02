@@ -40,11 +40,12 @@ def add_menu(request):
     if request.method == 'POST':
         MenuItem.objects.create(
             name=request.POST['name'],
+            name_en=request.POST.get('name_en', ''),
             price=request.POST['price'],
             description=request.POST['description'],
             category_id=request.POST.get('category') or None,
             notes=request.POST.get('notes', ''),
-            describe_image=request.FILES.get('image')
+            menu_image=request.FILES.get('image')
         )
         return redirect('admin_dashboard')
     categories = Category.objects.all()
@@ -55,12 +56,13 @@ def edit_menu(request, menu_id):
     menu = get_object_or_404(MenuItem, id=menu_id)
     if request.method == 'POST':
         menu.name = request.POST['name']
+        menu.name_en = request.POST.get('name_en', '')
         menu.price = request.POST['price']
         menu.description = request.POST['description']
         menu.category_id = request.POST.get('category') or None
         menu.notes = request.POST.get('notes', '')
         if request.FILES.get('image'):
-            menu.describe_image = request.FILES['image']
+            menu.menu_image = request.FILES['image']
         menu.save()
         return redirect('admin_dashboard')
     categories = Category.objects.all()
