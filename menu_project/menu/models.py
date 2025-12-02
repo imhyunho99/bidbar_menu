@@ -1,6 +1,7 @@
 # menu/models.py
 
 from django.db import models
+from .utils import optimize_image
 
 class SiteSettings(models.Model):
     """
@@ -63,6 +64,13 @@ class SiteSettings(models.Model):
 
     def __str__(self):
         return f"사이트 설정 - {self.created_at.strftime('%Y-%m-%d')}"
+    
+    def save(self, *args, **kwargs):
+        if self.intro_image:
+            self.intro_image = optimize_image(self.intro_image, max_width=1200, quality=85)
+        if self.side_image:
+            self.side_image = optimize_image(self.side_image, max_width=800, quality=85)
+        super().save(*args, **kwargs)
 
 class Category(models.Model):
     """
@@ -103,6 +111,11 @@ class Category(models.Model):
         if self.parent:
             return f"{self.parent.name} > {self.name}"
         return self.name
+    
+    def save(self, *args, **kwargs):
+        if self.category_image:
+            self.category_image = optimize_image(self.category_image, max_width=600, quality=80)
+        super().save(*args, **kwargs)
 
 class MenuItem(models.Model):
     """
@@ -163,4 +176,8 @@ class MenuItem(models.Model):
     def __str__(self):
         return self.name
     
+    def save(self, *args, **kwargs):
+        if self.menu_image:
+            self.menu_image = optimize_image(self.menu_image, max_width=800, quality=80)
+        super().save(*args, **kwargs)
     
