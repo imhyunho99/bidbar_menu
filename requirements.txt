@@ -1,4 +1,10 @@
-Django
-psycopg2-binary
-Pillow
-qrcode[pil]
+antiorm==1.2.1
+asgiref==3.10.0
+db==0.1.1
+db-sqlite3==0.0.1
+Django==5.2.7
+djangorestframework==3.16.1
+pillow==12.0.0
+psycopg2-binary==2.9.11
+qrcode==8.2
+sqlparse==0.5.3
