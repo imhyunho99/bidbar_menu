@@ -55,10 +55,13 @@
                 {% for cat in all_categories %}
                     {% if not cat.parent and not cat.category_image %}
                         <li class="top-category">
-                            <div class="category-header" onclick="toggleCategory({{ cat.id }})">
+                            <div class="category-header" {% if cat.sub_categories.exists %}onclick="toggleCategory({{ cat.id }})"{% endif %}>
+                                {% if cat.sub_categories.exists %}
                                 <span class="toggle-icon" id="icon-{{ cat.id }}">▶</span>
+                                {% endif %}
                                 <a href="{% url 'menu:menu_list' cat.id %}" {% if cat.id == category.id %}class="current"{% endif %}>{{ cat.name }}</a>
                             </div>
+                            {% if cat.sub_categories.exists %}
                             <ul class="sub-categories" id="sub-{{ cat.id }}" style="display: none;">
                                 {% for sub_cat in cat.sub_categories.all %}
                                     {% if not sub_cat.category_image %}
@@ -66,6 +69,7 @@
                                     {% endif %}
                                 {% endfor %}
                             </ul>
+                            {% endif %}
                         </li>
                     {% endif %}
                 {% endfor %}
