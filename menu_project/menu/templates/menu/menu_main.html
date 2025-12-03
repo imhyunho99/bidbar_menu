@@ -113,22 +113,11 @@
             const loadingScreen = document.getElementById('loading-screen');
             const loadingVideo = document.getElementById('loadingVideo');
             let videoEnded = false;
-            let minTimeElapsed = false;
-            
-            // 최소 3초는 로딩 화면 표시
-            setTimeout(function() {
-                minTimeElapsed = true;
-                if (videoEnded) {
-                    hideLoadingScreen();
-                }
-            }, 3000);
             
             // 비디오 재생 완료 후 로딩 스크린 제거
             loadingVideo.addEventListener('ended', function() {
                 videoEnded = true;
-                if (minTimeElapsed) {
-                    hideLoadingScreen();
-                }
+                hideLoadingScreen();
             });
             
             // 비디오 로드 에러 시 이미지로 대체하고 3초 후 진행
@@ -139,7 +128,7 @@
             
             // 비디오가 5초 내에 시작되지 않으면 강제로 진행
             setTimeout(function() {
-                if (!videoEnded && !minTimeElapsed) {
+                if (!videoEnded) {
                     hideLoadingScreen();
                 }
             }, 5000);
