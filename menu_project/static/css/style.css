@@ -389,53 +389,6 @@
     font-size: 1.1rem;
 }
 
-/* Mobile Responsive for new elements */
-@media (max-width: 768px) {
-    .welcome-section {
-        margin-bottom: 2rem;
-        padding: 1rem 0;
-    }
-    
-    .welcome-message {
-        padding: 1.5rem;
-        font-size: 0.9rem;
-    }
-    
-    .category-grid {
-        grid-template-columns: 1fr;
-        gap: 0;
-    }
-    
-    .category-card {
-        padding: 1.5rem 1rem;
-    }
-    
-    .category-card h3 {
-        font-size: 1.1rem;
-    }
-    
-    .section-title {
-        font-size: 1.3rem;
-        margin-bottom: 1rem;
-    }
-}
-
-@media (max-width: 480px) {
-    .welcome-message {
-        padding: 1rem;
-        font-size: 0.85rem;
-        line-height: 1.5;
-    }
-    
-    .category-card {
-        padding: 1.2rem 0.8rem;
-    }
-    
-    .category-card h3 {
-        font-size: 1rem;
-    }
-}
-
 /* Loading Screen */
 .loading-screen {
     position: fixed;
@@ -475,27 +428,31 @@
     }
 }
 
-/* Background with gradient effect for category and menu pages */
+/* [수정됨] Background 최적화
+   - 모바일 주소창 높이 변화 대응 (dvh 사용)
+   - 스크롤 시 밀림 현상 방지를 위해 will-change 및 fixed 로직 개선
+*/
 .background-with-gradient {
     background: url('../side.png');
     background-size: cover;
     background-position: center center;
-    background-attachment: fixed;
     background-repeat: no-repeat;
+    
+    /* div 자체가 fixed이므로 배경을 fixed로 설정할 필요가 없음 (모바일 성능 이슈 방지) */
     position: fixed;
     top: 0;
     left: 0;
-    width: 100vw;
+    width: 100%;
+    
+    /* 높이 설정 개선: 100vh(fallback) + 100dvh(모바일 주소창 대응) */
     height: 100vh;
+    height: 100dvh;
+    
     z-index: 998;
     pointer-events: none;
-}
-
-/* 모바일에서 배경 이미지 최적화 */
-@media (max-width: 768px) {
-    .background-with-gradient {
-        background-attachment: fixed;
-    }
+    
+    /* 그래픽 렌더링 최적화 */
+    will-change: transform;
 }
 
 .menu-container {
@@ -932,6 +889,40 @@ body {
 
 /* Mobile Responsive Design */
 @media (max-width: 768px) {
+    /* [수정됨] 모바일에서 배경화면 밀림 방지 */
+    .background-with-gradient {
+        background-attachment: scroll !important; /* 강제 scroll 적용 */
+        background-position: center top; /* 필요시 위치 조정 */
+    }
+
+    .welcome-section {
+        margin-bottom: 2rem;
+        padding: 1rem 0;
+    }
+    
+    .welcome-message {
+        padding: 1.5rem;
+        font-size: 0.9rem;
+    }
+    
+    .category-grid {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+    
+    .category-card {
+        padding: 1.5rem 1rem;
+    }
+    
+    .category-card h3 {
+        font-size: 1.1rem;
+    }
+    
+    .section-title {
+        font-size: 1.3rem;
+        margin-bottom: 1rem;
+    }
+
     .search-container {
         left: 50px;
         right: 50px;
@@ -1056,6 +1047,20 @@ body {
 }
 
 @media (max-width: 480px) {
+    .welcome-message {
+        padding: 1rem;
+        font-size: 0.85rem;
+        line-height: 1.5;
+    }
+    
+    .category-card {
+        padding: 1.2rem 0.8rem;
+    }
+    
+    .category-card h3 {
+        font-size: 1rem;
+    }
+
     .search-container {
         left: 45px;
         right: 45px;
