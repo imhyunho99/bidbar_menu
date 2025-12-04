@@ -494,7 +494,7 @@
 /* 모바일에서 배경 이미지 최적화 */
 @media (max-width: 768px) {
     .background-with-gradient {
-        background-attachment: scroll;
+        background-attachment: fixed;
     }
 }
 
