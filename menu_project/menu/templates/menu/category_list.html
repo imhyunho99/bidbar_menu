@@ -19,7 +19,19 @@
             background-position: center;
             background-attachment: fixed;
             background-repeat: no-repeat;
-            min-height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 998;
+            pointer-events: none;
+        }
+        
+        @media (max-width: 768px) {
+            .background-with-gradient {
+                background-attachment: scroll;
+            }
         }
     </style>
     {% endif %}
