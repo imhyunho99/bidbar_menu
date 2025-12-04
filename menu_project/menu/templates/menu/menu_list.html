@@ -15,7 +15,7 @@
     <style>
         {% if site_settings.side_image %}
         .background-with-gradient {
-            background: url('{{ site_settings.side_image.url }}');
+            background: linear-gradient(to bottom, rgba(255,255,255,0) 0%, rgba(255,255,255,0.3) 70%, rgba(255,255,255,0.8) 100%), url('{{ site_settings.side_image.url }}');
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
