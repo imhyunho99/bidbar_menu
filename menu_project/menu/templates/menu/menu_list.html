@@ -297,7 +297,7 @@
         if (background) {
             window.addEventListener('scroll', function() {
                 const scrollPercent = Math.min(window.scrollY / (document.documentElement.scrollHeight - window.innerHeight), 1);
-                const scale = 1 - (scrollPercent * 0.6); // 100% -> 40%
+                const scale = 1 + (scrollPercent * 1.5); // 100% -> 250% (확대)
                 background.style.transform = `scale(${scale})`;
             });
         }
