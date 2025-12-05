@@ -707,7 +707,7 @@ body {
     color: #fff;
     text-align: left;
     margin: 0;
-    flex: 0 1 auto;
+    flex: 1 1 auto;
 }
 
 .menu-title-en {
