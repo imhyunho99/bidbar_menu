@@ -27,6 +27,8 @@
             height: 100vh;
             z-index: 998;
             pointer-events: none;
+            transform-origin: center center;
+            transition: transform 0.1s ease-out;
         }
         
         @media (max-width: 768px) {
@@ -289,6 +291,16 @@
         menuToggle.addEventListener('click', openMenu);
         closeMenu.addEventListener('click', closeMenuFunc);
         menuOverlay.addEventListener('click', closeMenuFunc);
+
+        // 스크롤 시 배경 이미지 축소 효과
+        const background = document.querySelector('.background-with-gradient');
+        if (background) {
+            window.addEventListener('scroll', function() {
+                const scrollPercent = Math.min(window.scrollY / (document.documentElement.scrollHeight - window.innerHeight), 1);
+                const scale = 1 - (scrollPercent * 0.6); // 100% -> 40%
+                background.style.transform = `scale(${scale})`;
+            });
+        }
 
         // 앵커 스크롤 기능
         window.addEventListener('load', function() {
