@@ -175,14 +175,15 @@
                                 {% if item.name_en %}
                                 <p class="menu-title-en">{{ item.name_en }}</p>
                                 {% endif %}
-                                <h3 class="menu-title">{{ item.name }}</h3>
+                                <div class="menu-header">
+                                    <h3 class="menu-title">{{ item.name }}</h3>
+                                    <div class="menu-price">{{ item.price|floatformat:"-2" }}</div>
+                                </div>
                                 <p class="menu-description">{{ item.description }}</p>
                                 
                                 {% if item.notes %}
                                 <p class="menu-notes">{{ item.notes }}</p>
                                 {% endif %}
-                                
-                                <div class="menu-price">{{ item.price|floatformat:"-2" }}</div>
                             </div>
                         {% endif %}
                     </div>
