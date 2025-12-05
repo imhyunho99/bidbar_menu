@@ -128,7 +128,7 @@ class MenuItem(models.Model):
     name_en = models.CharField(max_length=100, blank=True, null=True, verbose_name="메뉴명(영문)")
 
     # 3. 가격
-    price = models.DecimalField(max_digits=10, decimal_places=0, verbose_name="가격")
+    price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="가격")
 
     # 3. 설명
     description = models.TextField(verbose_name="메뉴 설명")
