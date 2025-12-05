@@ -321,7 +321,6 @@
     font-size: 1rem;
     color: #aaa;
     margin-bottom: 2rem;
-    font-style: italic;
 }
 
 .welcome-message {
@@ -721,7 +720,6 @@ body {
     color: #888;
     font-size: 0.8rem;
     margin-bottom: 0.5rem;
-    font-style: italic;
     text-align: left;
 }
 
