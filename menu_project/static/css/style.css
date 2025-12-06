@@ -738,6 +738,7 @@ body {
     white-space: nowrap;
     flex: 0 0 auto;
     margin: 0;
+    margin-left: auto;
 }
 
 .no-menu {
