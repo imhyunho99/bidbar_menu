@@ -3,7 +3,7 @@
     position: fixed;
     top: 10px;
     right: 10px;
-    z-index: 100;
+    z-index: 999;
     background: transparent;
     color: #fff;
     border: none;
@@ -23,7 +23,7 @@
     position: fixed;
     top: 10px;
     left: 10px;
-    z-index: 100;
+    z-index: 999;
     background: transparent;
     color: #fff;
     border: none;
