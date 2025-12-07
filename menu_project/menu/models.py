@@ -100,6 +100,12 @@ class Category(models.Model):
         null=True,
         verbose_name="카테고리 이미지"
     )
+    # 사이드 이미지 숨김 여부
+    hide_side_image = models.BooleanField(
+        default=False,
+        verbose_name="사이드 이미지 숨기기",
+        help_text="체크하면 이 카테고리에서 배경 이미지가 뒤로 숨겨집니다"
+    )
 
     class Meta:
         verbose_name = "메뉴 카테고리"
