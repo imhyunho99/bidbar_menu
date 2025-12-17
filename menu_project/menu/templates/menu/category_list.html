@@ -7,7 +7,7 @@
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>{{ category.name }} - BidBar</title>
+    <title>{{ category.name_en|default:category.name }} - BidBar</title>
     <link rel="icon" type="image/x-icon" href="{% static 'favicon.ico' %}">
     <link rel="shortcut icon" type="image/x-icon" href="{% static 'favicon.ico' %}">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
@@ -112,8 +112,7 @@
                             {% else %}
                                 <!-- 이미지가 없는 경우: 텍스트 표시 (클릭 가능) -->
                                 <a href="{% url 'menu:menu_list' sub_category.id %}" class="category-content">
-                                    {% if sub_category.name_en %}<h4 class="category-name-en">{{ sub_category.name_en }}</h4>{% endif %}
-                                    <h3 class="category-name-ko">{{ sub_category.name }}</h3>
+                                    <h3>{{ sub_category.name_en|default:sub_category.name }}</h3>
                                 </a>
                             {% endif %}
                         </div>
