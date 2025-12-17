@@ -179,11 +179,17 @@
                             <!-- 이미지가 없는 경우: 텍스트 정보 표시 -->
                             <div class="menu-content">
                                 <div class="menu-info">
-                                    <div class="menu-title">
-                                        {% if item.name_en %}<span class="menu-title-en">{{ item.name_en }}</span><br>{% endif %}{{ item.name }}<br><span class="menu-description">{{ item.description }}</span>{% if item.notes %}<br><span class="menu-notes">{{ item.notes }}</span>{% endif %}
+                                    <div class="menu-title-line">
+                                        <div class="menu-title">
+                                            {% if item.name_en %}<span class="menu-title-en">{{ item.name_en }}</span><br>{% endif %}{{ item.name }}
+                                        </div>
+                                        <div class="menu-price">{{ item.price }}</div>
                                     </div>
+                                    <div class="menu-description">{{ item.description }}</div>
+                                    {% if item.notes %}
+                                    <div class="menu-notes">{{ item.notes }}</div>
+                                    {% endif %}
                                 </div>
-                                <div class="menu-price">{{ item.price }}</div>
                             </div>
                         {% endif %}
                     </div>

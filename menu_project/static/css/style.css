@@ -722,6 +722,13 @@ body {
     flex-direction: column;
 }
 
+.menu-title-line {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    width: 100%;
+}
+
 .menu-title {
     font-size: 1.2rem;
     font-weight: 600;
@@ -729,6 +736,7 @@ body {
     margin: 0;
     padding: 0;
     line-height: 1.1;
+    flex: 1;
 }
 
 .menu-title .menu-title-en {
@@ -737,17 +745,18 @@ body {
     font-weight: 400;
 }
 
-.menu-title .menu-description {
-    font-size: 1rem;
+.menu-description {
     color: #aaa;
-    font-weight: 400;
+    margin: 0.5rem 0 0 0;
+    padding: 0;
     line-height: 1.4;
 }
 
-.menu-title .menu-notes {
-    font-size: 0.8rem;
+.menu-notes {
     color: #888;
-    font-weight: 400;
+    font-size: 0.8rem;
+    margin: 0.3rem 0 0 0;
+    padding: 0;
 }
 
 .menu-price {
@@ -756,6 +765,7 @@ body {
     color: #fff;
     margin-left: 2rem;
     white-space: nowrap;
+    align-self: flex-start;
 }
 }
 }
