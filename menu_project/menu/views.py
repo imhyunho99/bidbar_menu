@@ -32,7 +32,7 @@ def search_api(request):
     for item in menu_items:
         results.append({
             'title': item.name,
-            'subtitle': f"{item.category.name if item.category else ''} - {item.price}",
+            'subtitle': '',
             'url': f'/category/{item.category.id}/' if item.category else '/'
         })
     
@@ -45,7 +45,7 @@ def search_api(request):
     for category in categories:
         results.append({
             'title': category.name,
-            'subtitle': '카테고리',
+            'subtitle': '',
             'url': f'/category/{category.id}/'
         })
     
