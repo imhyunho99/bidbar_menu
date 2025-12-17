@@ -11,8 +11,9 @@
     <link rel="icon" type="image/x-icon" href="{% static 'favicon.ico' %}">
     <link rel="shortcut icon" type="image/x-icon" href="{% static 'favicon.ico' %}">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    {% if site_settings and site_settings.side_image %}
+    {% if site_settings %}
     <style>
+        {% if site_settings.side_image %}
         .background-with-gradient {
             background: url('{{ site_settings.side_image.url }}');
             background-size: cover;
@@ -33,6 +34,40 @@
                 background-attachment: scroll;
             }
         }
+        {% endif %}
+        
+        {% if site_settings.category_name_font %}
+        @font-face {
+            font-family: 'CategoryNameFont';
+            src: url('{{ site_settings.category_name_font.url }}');
+        }
+        {% endif %}
+        {% if site_settings.category_name_en_font %}
+        @font-face {
+            font-family: 'CategoryNameEnFont';
+            src: url('{{ site_settings.category_name_en_font.url }}');
+        }
+        {% endif %}
+        
+        {% if site_settings.category_name_font or site_settings.category_name_color or site_settings.category_name_size or site_settings.category_name_bold or site_settings.category_name_italic %}
+        .category-name-ko {
+            {% if site_settings.category_name_font %}font-family: 'CategoryNameFont', sans-serif !important;{% endif %}
+            {% if site_settings.category_name_color %}color: {{ site_settings.category_name_color }} !important;{% endif %}
+            {% if site_settings.category_name_size %}font-size: {{ site_settings.category_name_size }}px !important;{% endif %}
+            {% if site_settings.category_name_bold %}font-weight: bold !important;{% endif %}
+            {% if site_settings.category_name_italic %}font-style: italic !important;{% endif %}
+        }
+        {% endif %}
+        
+        {% if site_settings.category_name_en_font or site_settings.category_name_en_color or site_settings.category_name_en_size or site_settings.category_name_en_bold or site_settings.category_name_en_italic %}
+        .category-name-en {
+            {% if site_settings.category_name_en_font %}font-family: 'CategoryNameEnFont', sans-serif !important;{% endif %}
+            {% if site_settings.category_name_en_color %}color: {{ site_settings.category_name_en_color }} !important;{% endif %}
+            {% if site_settings.category_name_en_size %}font-size: {{ site_settings.category_name_en_size }}px !important;{% endif %}
+            {% if site_settings.category_name_en_bold %}font-weight: bold !important;{% endif %}
+            {% if site_settings.category_name_en_italic %}font-style: italic !important;{% endif %}
+        }
+        {% endif %}
     </style>
     {% endif %}
 </head>
