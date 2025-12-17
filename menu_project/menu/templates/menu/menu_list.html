@@ -65,38 +65,38 @@
         
         {% if site_settings.menu_name_font or site_settings.menu_name_color or site_settings.menu_name_size or site_settings.menu_name_bold or site_settings.menu_name_italic %}
         .menu-title {
-            {% if site_settings.menu_name_font %}font-family: 'MenuNameFont', sans-serif;{% endif %}
-            {% if site_settings.menu_name_color %}color: {{ site_settings.menu_name_color }};{% endif %}
-            {% if site_settings.menu_name_size %}font-size: {{ site_settings.menu_name_size }}px;{% endif %}
-            {% if site_settings.menu_name_bold %}font-weight: bold;{% endif %}
-            {% if site_settings.menu_name_italic %}font-style: italic;{% endif %}
+            {% if site_settings.menu_name_font %}font-family: 'MenuNameFont', sans-serif !important;{% endif %}
+            {% if site_settings.menu_name_color %}color: {{ site_settings.menu_name_color }} !important;{% endif %}
+            {% if site_settings.menu_name_size %}font-size: {{ site_settings.menu_name_size }}px !important;{% endif %}
+            {% if site_settings.menu_name_bold %}font-weight: bold !important;{% endif %}
+            {% if site_settings.menu_name_italic %}font-style: italic !important;{% endif %}
         }
         {% endif %}
         {% if site_settings.menu_name_en_font or site_settings.menu_name_en_color or site_settings.menu_name_en_size or site_settings.menu_name_en_bold or site_settings.menu_name_en_italic %}
-        .menu-title-en {
-            {% if site_settings.menu_name_en_font %}font-family: 'MenuNameEnFont', sans-serif;{% endif %}
-            {% if site_settings.menu_name_en_color %}color: {{ site_settings.menu_name_en_color }};{% endif %}
-            {% if site_settings.menu_name_en_size %}font-size: {{ site_settings.menu_name_en_size }}px;{% endif %}
-            {% if site_settings.menu_name_en_bold %}font-weight: bold;{% endif %}
-            {% if site_settings.menu_name_en_italic %}font-style: italic;{% endif %}
+        .menu-title .menu-title-en {
+            {% if site_settings.menu_name_en_font %}font-family: 'MenuNameEnFont', sans-serif !important;{% endif %}
+            {% if site_settings.menu_name_en_color %}color: {{ site_settings.menu_name_en_color }} !important;{% endif %}
+            {% if site_settings.menu_name_en_size %}font-size: {{ site_settings.menu_name_en_size }}px !important;{% endif %}
+            {% if site_settings.menu_name_en_bold %}font-weight: bold !important;{% endif %}
+            {% if site_settings.menu_name_en_italic %}font-style: italic !important;{% endif %}
         }
         {% endif %}
         {% if site_settings.menu_price_font or site_settings.menu_price_color or site_settings.menu_price_size or site_settings.menu_price_bold or site_settings.menu_price_italic %}
         .menu-price {
-            {% if site_settings.menu_price_font %}font-family: 'MenuPriceFont', sans-serif;{% endif %}
-            {% if site_settings.menu_price_color %}color: {{ site_settings.menu_price_color }};{% endif %}
-            {% if site_settings.menu_price_size %}font-size: {{ site_settings.menu_price_size }}px;{% endif %}
-            {% if site_settings.menu_price_bold %}font-weight: bold;{% endif %}
-            {% if site_settings.menu_price_italic %}font-style: italic;{% endif %}
+            {% if site_settings.menu_price_font %}font-family: 'MenuPriceFont', sans-serif !important;{% endif %}
+            {% if site_settings.menu_price_color %}color: {{ site_settings.menu_price_color }} !important;{% endif %}
+            {% if site_settings.menu_price_size %}font-size: {{ site_settings.menu_price_size }}px !important;{% endif %}
+            {% if site_settings.menu_price_bold %}font-weight: bold !important;{% endif %}
+            {% if site_settings.menu_price_italic %}font-style: italic !important;{% endif %}
         }
         {% endif %}
         {% if site_settings.menu_description_font or site_settings.menu_description_color or site_settings.menu_description_size or site_settings.menu_description_bold or site_settings.menu_description_italic %}
         .menu-description {
-            {% if site_settings.menu_description_font %}font-family: 'MenuDescriptionFont', sans-serif;{% endif %}
-            {% if site_settings.menu_description_color %}color: {{ site_settings.menu_description_color }};{% endif %}
-            {% if site_settings.menu_description_size %}font-size: {{ site_settings.menu_description_size }}px;{% endif %}
-            {% if site_settings.menu_description_bold %}font-weight: bold;{% endif %}
-            {% if site_settings.menu_description_italic %}font-style: italic;{% endif %}
+            {% if site_settings.menu_description_font %}font-family: 'MenuDescriptionFont', sans-serif !important;{% endif %}
+            {% if site_settings.menu_description_color %}color: {{ site_settings.menu_description_color }} !important;{% endif %}
+            {% if site_settings.menu_description_size %}font-size: {{ site_settings.menu_description_size }}px !important;{% endif %}
+            {% if site_settings.menu_description_bold %}font-weight: bold !important;{% endif %}
+            {% if site_settings.menu_description_italic %}font-style: italic !important;{% endif %}
         }
         {% endif %}
     </style>
