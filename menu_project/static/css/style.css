@@ -212,7 +212,7 @@
 .category-nav a .category-name-en {
     font-size: 0.8rem;
     color: #999;
-    margin-bottom: 2px;
+    margin-bottom: 0.7px;
     line-height: 1.1;
 }
 
@@ -407,7 +407,7 @@
 .category-name-en {
     font-size: 0.9rem;
     color: #ccc;
-    margin: 0 0 2px 0;
+    margin: 0 0 0.7px 0;
     line-height: 1.2;
 }
 
@@ -728,7 +728,7 @@ body {
 .menu-title-en {
     font-size: 0.9rem;
     color: #ccc;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.17rem;
 }
 
 .menu-description {
