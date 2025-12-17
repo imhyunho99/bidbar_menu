@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404
-from django.db.models import Case, When, IntegerField
+from django.db.models import Case, When, IntegerField, Q
+from django.http import JsonResponse
 from .models import MenuItem, Category, SiteSettings
 
 def get_breadcrumb_path(category):
@@ -10,6 +11,45 @@ def get_breadcrumb_path(category):
         path.insert(0, current)
         current = current.parent
     return path
+
+def search_api(request):
+    """검색 API"""
+    query = request.GET.get('q', '').strip()
+    
+    if len(query) < 2:
+        return JsonResponse({'results': []})
+    
+    results = []
+    
+    # 메뉴 아이템 검색 (한글명, 영문명, 설명에서 검색)
+    menu_items = MenuItem.objects.filter(
+        Q(name__icontains=query) | 
+        Q(name_en__icontains=query) | 
+        Q(description__icontains=query),
+        is_available=True
+    ).select_related('category')[:10]
+    
+    for item in menu_items:
+        results.append({
+            'title': item.name,
+            'subtitle': f"{item.category.name if item.category else ''} - {item.price}",
+            'url': f'/category/{item.category.id}/' if item.category else '/'
+        })
+    
+    # 카테고리 검색 (한글명, 영문명에서 검색)
+    categories = Category.objects.filter(
+        Q(name__icontains=query) | 
+        Q(name_en__icontains=query)
+    )[:5]
+    
+    for category in categories:
+        results.append({
+            'title': category.name,
+            'subtitle': '카테고리',
+            'url': f'/category/{category.id}/'
+        })
+    
+    return JsonResponse({'results': results})
 
 def menu_main(request):
     # 최상위 카테고리만 가져오기 (parent가 None인 카테고리)
