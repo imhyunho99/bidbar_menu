@@ -724,7 +724,7 @@ body {
 
 .menu-title-line {
     display: flex;
-    align-items: flex-start;
+    align-items: flex-end;
     justify-content: space-between;
     width: 100%;
 }
@@ -765,7 +765,6 @@ body {
     color: #fff;
     margin-left: 2rem;
     white-space: nowrap;
-    align-self: flex-start;
 }
 }
 }
