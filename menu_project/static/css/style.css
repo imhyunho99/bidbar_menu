@@ -737,18 +737,17 @@ body {
     font-weight: 400;
 }
 
-.menu-description {
+.menu-title .menu-description {
+    font-size: 1rem;
     color: #aaa;
-    margin: 0.5rem 0 0 0;
-    padding: 0;
+    font-weight: 400;
     line-height: 1.4;
 }
 
-.menu-notes {
-    color: #888;
+.menu-title .menu-notes {
     font-size: 0.8rem;
-    margin: 0.3rem 0 0 0;
-    padding: 0;
+    color: #888;
+    font-weight: 400;
 }
 
 .menu-price {

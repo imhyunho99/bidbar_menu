@@ -180,12 +180,8 @@
                             <div class="menu-content">
                                 <div class="menu-info">
                                     <div class="menu-title">
-                                        {% if item.name_en %}<span class="menu-title-en">{{ item.name_en }}</span><br>{% endif %}{{ item.name }}
+                                        {% if item.name_en %}<span class="menu-title-en">{{ item.name_en }}</span><br>{% endif %}{{ item.name }}<br><span class="menu-description">{{ item.description }}</span>{% if item.notes %}<br><span class="menu-notes">{{ item.notes }}</span>{% endif %}
                                     </div>
-                                    <div class="menu-description">{{ item.description }}</div>
-                                    {% if item.notes %}
-                                    <div class="menu-notes">{{ item.notes }}</div>
-                                    {% endif %}
                                 </div>
                                 <div class="menu-price">{{ item.price }}</div>
                             </div>
