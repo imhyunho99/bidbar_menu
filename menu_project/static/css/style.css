@@ -212,14 +212,17 @@
 .category-nav a .category-name-en {
     font-size: 0.8rem;
     color: #999;
-    margin-bottom: 0.7px;
-    line-height: 1.1;
+    margin: 0;
+    padding: 0;
+    line-height: 1;
 }
 
 .category-nav a .category-name-ko {
     font-size: 1rem;
     color: #ccc;
-    line-height: 1.1;
+    margin: 0;
+    padding: 0;
+    line-height: 1;
 }
 
 .category-nav a:hover .category-name-en,
@@ -407,16 +410,18 @@
 .category-name-en {
     font-size: 0.9rem;
     color: #ccc;
-    margin: 0 0 0.7px 0;
-    line-height: 1.2;
+    margin: 0;
+    padding: 0;
+    line-height: 1;
 }
 
 .category-name-ko {
     font-size: 1.2rem;
     font-weight: 600;
     margin: 0;
+    padding: 0;
     color: #fff;
-    line-height: 1.2;
+    line-height: 1;
 }
 
 .no-categories {
@@ -728,7 +733,9 @@ body {
 .menu-title-en {
     font-size: 0.9rem;
     color: #ccc;
-    margin-bottom: 0.17rem;
+    margin: 0;
+    padding: 0;
+    line-height: 1;
 }
 
 .menu-description {
