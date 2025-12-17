@@ -36,10 +36,11 @@ class CategoryAdminForm(forms.ModelForm):
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
     form = CategoryAdminForm
-    list_display = ['name', 'priority', 'parent']
+    list_display = ['name', 'name_en', 'priority', 'parent']
     list_filter = ['parent']
     list_editable = ['priority']
     ordering = ['priority', 'name']
+    fields = ['name_en', 'name', 'priority', 'parent', 'category_image', 'hide_side_image']
 
 @admin.register(MenuItem)
 class MenuItemAdmin(admin.ModelAdmin):

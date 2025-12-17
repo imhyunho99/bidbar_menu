@@ -209,6 +209,29 @@
     transition: color 0.3s ease;
 }
 
+.category-nav a .category-name-en {
+    font-size: 0.8rem;
+    color: #999;
+    margin-bottom: 2px;
+    line-height: 1.1;
+}
+
+.category-nav a .category-name-ko {
+    font-size: 1rem;
+    color: #ccc;
+    line-height: 1.1;
+}
+
+.category-nav a:hover .category-name-en,
+.category-nav a.current .category-name-en {
+    color: #bbb;
+}
+
+.category-nav a:hover .category-name-ko,
+.category-nav a.current .category-name-ko {
+    color: #fff;
+}
+
 .category-nav a:hover,
 .category-nav a.current {
     color: #fff;
@@ -379,6 +402,21 @@
     font-size: 1.2rem;
     font-weight: 600;
     margin: 0;
+}
+
+.category-name-en {
+    font-size: 0.9rem;
+    color: #ccc;
+    margin: 0 0 2px 0;
+    line-height: 1.2;
+}
+
+.category-name-ko {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin: 0;
+    color: #fff;
+    line-height: 1.2;
 }
 
 .no-categories {

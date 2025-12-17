@@ -55,6 +55,20 @@ class SiteSettings(models.Model):
     menu_description_bold = models.BooleanField(default=False, verbose_name="메뉴 설명 볼드")
     menu_description_italic = models.BooleanField(default=False, verbose_name="메뉴 설명 이탤릭")
     
+    # 카테고리명(한글) 설정
+    category_name_font = models.FileField(upload_to='fonts/', blank=True, null=True, verbose_name="카테고리명(한글) 폰트 파일")
+    category_name_color = models.CharField(max_length=7, blank=True, default='', verbose_name="카테고리명(한글) 색상", help_text="#ffffff")
+    category_name_size = models.IntegerField(blank=True, null=True, verbose_name="카테고리명(한글) 크기", help_text="픽셀 단위 (예: 18)")
+    category_name_bold = models.BooleanField(default=False, verbose_name="카테고리명(한글) 볼드")
+    category_name_italic = models.BooleanField(default=False, verbose_name="카테고리명(한글) 이탤릭")
+    
+    # 카테고리명(영문) 설정
+    category_name_en_font = models.FileField(upload_to='fonts/', blank=True, null=True, verbose_name="카테고리명(영문) 폰트 파일")
+    category_name_en_color = models.CharField(max_length=7, blank=True, default='', verbose_name="카테고리명(영문) 색상", help_text="#cccccc")
+    category_name_en_size = models.IntegerField(blank=True, null=True, verbose_name="카테고리명(영문) 크기", help_text="픽셀 단위 (예: 14)")
+    category_name_en_bold = models.BooleanField(default=False, verbose_name="카테고리명(영문) 볼드")
+    category_name_en_italic = models.BooleanField(default=False, verbose_name="카테고리명(영문) 이탤릭")
+    
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -77,7 +91,8 @@ class Category(models.Model):
     메뉴 카테고리 모델. 부모-자식 관계를 통해 계층 구조를 지원합니다.
     (예: 음료 > 커피 > 아이스 아메리카노)
     """
-    name = models.CharField(max_length=100, verbose_name="카테고리명")
+    name = models.CharField(max_length=100, verbose_name="카테고리명(한글)")
+    name_en = models.CharField(max_length=100, blank=True, null=True, verbose_name="카테고리명(영문)")
     priority = models.IntegerField(
         default=0,
         verbose_name="우선순위",

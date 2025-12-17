@@ -137,13 +137,19 @@
                                 {% if cat.sub_categories.exists %}
                                 <span class="toggle-icon" id="icon-{{ cat.id }}">▶</span>
                                 {% endif %}
-                                <a href="{% url 'menu:menu_list' cat.id %}" {% if cat.id == category.id %}class="current"{% endif %}>{{ cat.name }}</a>
+                                <a href="{% url 'menu:menu_list' cat.id %}" {% if cat.id == category.id %}class="current"{% endif %}>
+                                    {% if cat.name_en %}<div class="category-name-en">{{ cat.name_en }}</div>{% endif %}
+                                    <div class="category-name-ko">{{ cat.name }}</div>
+                                </a>
                             </div>
                             {% if cat.sub_categories.exists %}
                             <ul class="sub-categories" id="sub-{{ cat.id }}" style="display: none;">
                                 {% for sub_cat in cat.sub_categories.all %}
                                     {% if not sub_cat.category_image %}
-                                        <li><a href="{% url 'menu:menu_list' sub_cat.id %}" {% if sub_cat.id == category.id %}class="current"{% endif %}>{{ sub_cat.name }}</a></li>
+                                        <li><a href="{% url 'menu:menu_list' sub_cat.id %}" {% if sub_cat.id == category.id %}class="current"{% endif %}>
+                                            {% if sub_cat.name_en %}<div class="category-name-en">{{ sub_cat.name_en }}</div>{% endif %}
+                                            <div class="category-name-ko">{{ sub_cat.name }}</div>
+                                        </a></li>
                                     {% endif %}
                                 {% endfor %}
                             </ul>
