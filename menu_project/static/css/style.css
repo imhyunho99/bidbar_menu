@@ -728,15 +728,13 @@ body {
     color: #fff;
     margin: 0;
     padding: 0;
-    line-height: 1;
+    line-height: 1.1;
 }
 
-.menu-title-en {
+.menu-title .menu-title-en {
     font-size: 0.9rem;
     color: #ccc;
-    margin: 0;
-    padding: 0;
-    line-height: 1;
+    font-weight: 400;
 }
 
 .menu-description {

@@ -179,10 +179,9 @@
                             <!-- 이미지가 없는 경우: 텍스트 정보 표시 -->
                             <div class="menu-content">
                                 <div class="menu-info">
-                                    {% if item.name_en %}
-                                    <div class="menu-title-en">{{ item.name_en }}</div>
-                                    {% endif %}
-                                    <div class="menu-title">{{ item.name }}</div>
+                                    <div class="menu-title">
+                                        {% if item.name_en %}<span class="menu-title-en">{{ item.name_en }}</span><br>{% endif %}{{ item.name }}
+                                    </div>
                                     <div class="menu-description">{{ item.description }}</div>
                                     {% if item.notes %}
                                     <div class="menu-notes">{{ item.notes }}</div>
