@@ -264,17 +264,35 @@
                 
                 if (normalizedBaseUrl === normalizedCurrentPath) {
                     // 같은 페이지 내 앵커로 즉시 이동
-                    const element = document.getElementById(anchor);
-                    if (element) {
-                        element.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                        history.pushState(null, null, '#' + anchor);
-                    }
+                    scrollToElement(anchor);
                 } else {
                     // 다른 페이지로 이동
                     window.location.href = url;
                 }
             } else {
                 window.location.href = url;
+            }
+        }
+
+        function scrollToElement(elementId) {
+            const element = document.getElementById(elementId);
+            if (element) {
+                // 여러 방법으로 스크롤 시도
+                element.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
+                
+                // 백업 방법: 직접 스크롤 계산
+                setTimeout(() => {
+                    const rect = element.getBoundingClientRect();
+                    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                    const targetY = rect.top + scrollTop - (window.innerHeight / 2) + (rect.height / 2);
+                    
+                    window.scrollTo({
+                        top: targetY,
+                        behavior: 'smooth'
+                    });
+                }, 100);
+                
+                history.pushState(null, null, '#' + elementId);
             }
         }
 
