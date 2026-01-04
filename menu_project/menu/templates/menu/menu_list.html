@@ -282,13 +282,36 @@
             }
 
             const html = results.map(result => `
-                <div class="search-result-item" onclick="window.location.href='${result.url}'">
+                <div class="search-result-item" onclick="handleSearchClick('${result.url}')">
                     <div class="search-result-title">${result.title}</div>
                     <div class="search-result-subtitle">${result.subtitle}</div>
                 </div>
             `).join('');
 
             searchResults.innerHTML = html;
+        }
+
+        function handleSearchClick(url) {
+            closeSearch();
+            
+            if (url.includes('#')) {
+                const [baseUrl, anchor] = url.split('#');
+                const currentPath = window.location.pathname;
+                
+                if (baseUrl === currentPath || baseUrl.endsWith(currentPath)) {
+                    // 같은 페이지 내 앵커로 이동
+                    const element = document.getElementById(anchor);
+                    if (element) {
+                        element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        history.pushState(null, null, '#' + anchor);
+                    }
+                } else {
+                    // 다른 페이지로 이동
+                    window.location.href = url;
+                }
+            } else {
+                window.location.href = url;
+            }
         }
 
         searchToggle.addEventListener('click', openSearch);
