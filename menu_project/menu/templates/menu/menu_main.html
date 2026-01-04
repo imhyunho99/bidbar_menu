@@ -159,6 +159,20 @@
             const loadingVideo = document.getElementById('loadingVideo');
             let videoEnded = false;
             
+            // 인트로 영상 캐시 체크 (1시간)
+            const lastIntroTime = localStorage.getItem('lastIntroTime');
+            const currentTime = Date.now();
+            const oneHour = 60 * 60 * 1000; // 1시간 = 60분 * 60초 * 1000ms
+            
+            if (lastIntroTime && (currentTime - parseInt(lastIntroTime)) < oneHour) {
+                // 1시간 이내에 본 경우 인트로 스킵
+                hideLoadingScreen();
+                return;
+            }
+            
+            // 인트로 시청 시간 저장
+            localStorage.setItem('lastIntroTime', currentTime.toString());
+            
             // 비디오 재생 완료 후 로딩 스크린 제거
             loadingVideo.addEventListener('ended', function() {
                 videoEnded = true;
