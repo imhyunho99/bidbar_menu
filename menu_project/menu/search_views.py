@@ -20,7 +20,7 @@ def search_api(request):
             'type': 'category',
             'title': category.name,
             'subtitle': '카테고리',
-            'url': f'/menu/category/{category.id}/'
+            'url': f'/category/{category.id}/'
         })
     
     # 메뉴 검색
@@ -36,7 +36,7 @@ def search_api(request):
             'type': 'menu',
             'title': item.name,
             'subtitle': f'{item.category.name if item.category else "메뉴"} - ₩{item.price:,.0f}',
-            'url': f'/menu/category/{item.category.id}/#menu-{item.id}' if item.category else f'/menu/#menu-{item.id}'
+            'url': f'/category/{item.category.id}/#menu-{item.id}' if item.category else f'/#menu-{item.id}'
         })
     
     return JsonResponse({'results': results[:8]})

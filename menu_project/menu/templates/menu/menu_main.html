@@ -294,13 +294,19 @@
                 const [baseUrl, anchor] = url.split('#');
                 const currentPath = window.location.pathname;
                 
-                if (baseUrl === currentPath || baseUrl.endsWith(currentPath)) {
+                // URL 정규화 (끝의 슬래시 제거)
+                const normalizedBaseUrl = baseUrl.replace(/\/$/, '');
+                const normalizedCurrentPath = currentPath.replace(/\/$/, '');
+                
+                if (normalizedBaseUrl === normalizedCurrentPath) {
                     // 같은 페이지 내 앵커로 이동
-                    const element = document.getElementById(anchor);
-                    if (element) {
-                        element.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                        history.pushState(null, null, '#' + anchor);
-                    }
+                    setTimeout(() => {
+                        const element = document.getElementById(anchor);
+                        if (element) {
+                            element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                            history.pushState(null, null, '#' + anchor);
+                        }
+                    }, 100);
                 } else {
                     // 다른 페이지로 이동
                     window.location.href = url;
