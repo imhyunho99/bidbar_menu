@@ -50,6 +50,11 @@ staticfiles/
 ehthumbs.db
 Thumbs.db
 
+# Temporary files
+*.csv
+*.numbers
+webhook_test.txt
+
 # Environment variables
 .env
 .env.local
