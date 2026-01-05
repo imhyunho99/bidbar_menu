@@ -28,7 +28,7 @@
             z-index: {% if category.hide_side_image %}-10{% else %}10{% endif %};
             pointer-events: none;
             transform-origin: center center;
-            transition: transform 0.3s ease-out;
+            transition: transform 0.1s ease-out;
         }
         
         @media (max-width: 768px) {
@@ -349,7 +349,7 @@
         if (background) {
             window.addEventListener('scroll', function() {
                 const scrollPercent = Math.min(window.scrollY / (document.documentElement.scrollHeight - window.innerHeight), 1);
-                const scale = 1 + (scrollPercent * 0.4); // 100% -> 170% (확대)
+                const scale = 1 + (scrollPercent * 1.8); // 100% -> 280% (두 배 빠른 확대)
                 background.style.transform = `scale(${scale})`;
             });
         }

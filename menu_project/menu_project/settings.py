@@ -14,8 +14,11 @@ from pathlib import Path
 import os
 from dotenv import load_dotenv
 
-# .env 파일 로드
-load_dotenv(Path(__file__).resolve().parent.parent.parent / '.env')
+# .env 파일 로드 (로컬 개발용 우선)
+if os.path.exists(Path(__file__).resolve().parent.parent.parent / '.env.local'):
+    load_dotenv(Path(__file__).resolve().parent.parent.parent / '.env.local')
+else:
+    load_dotenv(Path(__file__).resolve().parent.parent.parent / '.env')
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -106,16 +109,25 @@ WSGI_APPLICATION = 'menu_project.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.environ.get('DB_NAME', 'bidbar_menu'),
-        'USER': os.environ.get('DB_USER', 'bidbar_user'),
-        'PASSWORD': os.environ.get('DB_PASSWORD', ''),
-        'HOST': os.environ.get('DB_HOST', 'localhost'),
-        'PORT': os.environ.get('DB_PORT', '5432'),
+# 로컬 개발용 SQLite 사용
+if os.environ.get('USE_SQLITE') == 'True':
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': os.environ.get('DB_NAME', 'bidbar_menu'),
+            'USER': os.environ.get('DB_USER', 'bidbar_user'),
+            'PASSWORD': os.environ.get('DB_PASSWORD', ''),
+            'HOST': os.environ.get('DB_HOST', 'localhost'),
+            'PORT': os.environ.get('DB_PORT', '5432'),
+        }
+    }
 
 
 # Password validation
