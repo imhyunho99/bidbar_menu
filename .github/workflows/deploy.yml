@@ -1,0 +1,27 @@
+name: Deploy to Oracle Cloud
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Deploy to server
+      uses: appleboy/ssh-action@v1.0.3
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        key: ${{ secrets.PRIVATE_KEY }}
+        script: |
+          cd /home/ubuntu/bidbar_menu
+          git pull origin main
+          source venv/bin/activate
+          pip install -r requirements.txt
+          cd menu_project
+          python manage.py migrate
+          python manage.py collectstatic --noinput
+          sudo systemctl restart uwsgi
+          sudo systemctl reload nginx

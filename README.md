@@ -36,31 +36,32 @@ http://bid-menu.duckdns.org/
 
 ### CI/CD
 
-* GitHub Webhook
+* GitHub Actions
   * Trigger: main 브랜치 push
-  * Endpoint: `/webhook/github/`
-  * 백그라운드 배포로 타임아웃 방지
+  * SSH를 통한 서버 배포
+  * 타임아웃 없는 안정적인 배포
 
 #### 서버 설정
 
-1. 배포 스크립트 설치:
+1. GitHub Secrets 설정:
+   - `HOST`: 서버 IP 주소
+   - `USERNAME`: SSH 사용자명 (ubuntu)
+   - `PRIVATE_KEY`: SSH 개인키
+
+2. 서버에서 SSH 키 설정:
 ```bash
 # 서버에서 실행
-sudo cp deploy.sh /home/ubuntu/deploy.sh
-sudo chmod +x /home/ubuntu/deploy.sh
+ssh-keygen -t rsa -b 4096 -C "github-actions"
+cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
+# ~/.ssh/id_rsa 내용을 GitHub Secrets의 PRIVATE_KEY에 추가
 ```
 
-2. GitHub 웹훅 설정:
-   - URL: `http://your-domain.com/webhook/github/`
-   - Content type: `application/json`
-   - Events: `Just the push event`
+#### GitHub Actions 장점
 
-#### 웹훅 타임아웃 해결
-
-- 웹훅 엔드포인트가 즉시 응답(200 OK)을 반환
-- 실제 배포는 백그라운드 스레드에서 처리
-- GitHub의 10초 타임아웃 제한 회피
-- 배포 로그는 `/home/ubuntu/deploy.log`에서 확인 가능
+- 웹훅 타임아웃 문제 해결
+- 배포 로그를 GitHub에서 확인 가능
+- 실패 시 자동 알림
+- 더 안정적이고 관리하기 쉬운 CI/CD
   
 
 ## 주요 기능
