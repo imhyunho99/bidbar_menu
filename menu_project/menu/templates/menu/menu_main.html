@@ -343,6 +343,39 @@
             searchClose.addEventListener('click', closeSearch);
             searchInput.addEventListener('input', performSearch);
         }
+
+        // 앵커 스크롤 기능 개선
+        function scrollToAnchor() {
+            if (window.location.hash) {
+                const elementId = window.location.hash.substring(1);
+                const element = document.getElementById(elementId);
+                if (element) {
+                    // 여러 방법으로 스크롤 시도
+                    element.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
+                    
+                    // 백업 방법: 직접 스크롤 계산
+                    setTimeout(() => {
+                        const rect = element.getBoundingClientRect();
+                        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                        const targetY = rect.top + scrollTop - (window.innerHeight / 2) + (rect.height / 2);
+                        
+                        window.scrollTo({
+                            top: Math.max(0, targetY),
+                            behavior: 'smooth'
+                        });
+                    }, 200);
+                }
+            }
+        }
+
+        // 페이지 로드 시와 해시 변경 시 스크롤
+        window.addEventListener('load', scrollToAnchor);
+        window.addEventListener('hashchange', scrollToAnchor);
+        
+        // DOM 준비 완료 시에도 실행
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(scrollToAnchor, 500);
+        });
     </script>
 </body>
 </html>
