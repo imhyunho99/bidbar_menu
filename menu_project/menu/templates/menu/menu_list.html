@@ -292,21 +292,28 @@
         }
 
         function handleSearchClick(url) {
+            console.log('Search click URL:', url);
             closeSearch();
             
             if (url.includes('#')) {
                 const [baseUrl, anchor] = url.split('#');
                 const currentPath = window.location.pathname;
                 
+                console.log('Base URL:', baseUrl, 'Current path:', currentPath, 'Anchor:', anchor);
+                
                 // URL 정규화 (끝의 슬래시 제거)
                 const normalizedBaseUrl = baseUrl.replace(/\/$/, '');
                 const normalizedCurrentPath = currentPath.replace(/\/$/, '');
                 
+                console.log('Normalized - Base:', normalizedBaseUrl, 'Current:', normalizedCurrentPath);
+                
                 if (normalizedBaseUrl === normalizedCurrentPath) {
                     // 같은 페이지 내 앵커로 즉시 이동
+                    console.log('Same page, scrolling to element');
                     scrollToElement(anchor);
                 } else {
                     // 다른 페이지로 이동
+                    console.log('Different page, navigating to:', url);
                     window.location.href = url;
                 }
             } else {
@@ -354,12 +361,18 @@
             });
         }
 
-        // 앵커 스크롤 기능 개선
+        // 앵커 스크롤 기능 개선 (디버깅 포함)
         function scrollToAnchor() {
+            console.log('scrollToAnchor called, hash:', window.location.hash);
             if (window.location.hash) {
                 const elementId = window.location.hash.substring(1);
+                console.log('Looking for element ID:', elementId);
                 const element = document.getElementById(elementId);
+                console.log('Found element:', element);
+                
                 if (element) {
+                    console.log('Element position:', element.getBoundingClientRect());
+                    
                     // 여러 방법으로 스크롤 시도
                     element.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
                     
@@ -369,11 +382,14 @@
                         const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
                         const targetY = rect.top + scrollTop - (window.innerHeight / 2) + (rect.height / 2);
                         
+                        console.log('Scrolling to Y:', targetY);
                         window.scrollTo({
                             top: Math.max(0, targetY),
                             behavior: 'smooth'
                         });
                     }, 200);
+                } else {
+                    console.log('Element not found!');
                 }
             }
         }
