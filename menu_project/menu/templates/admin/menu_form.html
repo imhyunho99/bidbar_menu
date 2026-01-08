@@ -15,7 +15,51 @@
                 
                 <form method="post" enctype="multipart/form-data">
                     {% csrf_token %}
-                    {{ form.as_p }}
+                    
+                    <div class="admin-form-group">
+                        <label for="name_en">메뉴명 (영문)</label>
+                        <input type="text" id="name_en" name="name_en" value="{{ menu.name_en|default:'' }}" placeholder="영문 메뉴명을 입력하세요">
+                    </div>
+                    
+                    <div class="admin-form-group">
+                        <label for="name">메뉴명</label>
+                        <input type="text" id="name" name="name" value="{{ menu.name|default:'' }}" placeholder="메뉴명을 입력하세요" required>
+                    </div>
+                    
+                    <div class="admin-form-group">
+                        <label for="price">가격</label>
+                        <input type="number" id="price" name="price" value="{{ menu.price|default:'' }}" placeholder="가격을 입력하세요" required>
+                    </div>
+                    
+                    <div class="admin-form-group">
+                        <label for="description">메뉴 설명</label>
+                        <textarea id="description" name="description" placeholder="메뉴 설명을 입력하세요" required>{{ menu.description|default:'' }}</textarea>
+                    </div>
+                    
+                    <div class="admin-form-group">
+                        <label for="category">카테고리</label>
+                        <select id="category" name="category">
+                            <option value="">카테고리 선택 (선택사항)</option>
+                            {% for category in categories %}
+                                <option value="{{ category.id }}" {% if menu.category.id == category.id %}selected{% endif %}>{{ category }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    
+                    <div class="admin-form-group">
+                        <label for="notes">기타 사항</label>
+                        <textarea id="notes" name="notes" placeholder="기타 사항을 입력하세요">{{ menu.notes|default:'' }}</textarea>
+                    </div>
+                    
+                    <div class="admin-form-group">
+                        <label for="image">이미지</label>
+                        <input type="file" id="image" name="image" accept="image/*">
+                        {% if menu.menu_image %}
+                            <div class="admin-current-image">
+                                현재 이미지: {{ menu.menu_image.name }}
+                            </div>
+                        {% endif %}
+                    </div>
                     
                     <div class="admin-form-group">
                         <button type="submit" class="btn-primary">{% if menu %}수정{% else %}추가{% endif %}</button>

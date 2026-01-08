@@ -49,7 +49,7 @@ def add_menu(request):
         )
         return redirect('admin_dashboard')
     categories = Category.objects.all()
-    return render(request, 'admin/add_menu.html', {'categories': categories})
+    return render(request, 'admin/menu_form.html', {'categories': categories, 'menu': None})
 
 @login_required
 def edit_menu(request, menu_id):
@@ -66,7 +66,7 @@ def edit_menu(request, menu_id):
         menu.save()
         return redirect('admin_dashboard')
     categories = Category.objects.all()
-    return render(request, 'admin/edit_menu.html', {'menu': menu, 'categories': categories})
+    return render(request, 'admin/menu_form.html', {'menu': menu, 'categories': categories})
 
 @login_required
 def delete_menu(request, menu_id):

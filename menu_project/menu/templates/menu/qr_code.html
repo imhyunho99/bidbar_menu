@@ -232,49 +232,5 @@
         </div>
     </div>
 
-    <script>
-        // 사이드 메뉴 기능
-        const menuToggle = document.getElementById('menuToggle');
-        const sideMenu = document.getElementById('sideMenu');
-        const menuOverlay = document.getElementById('menuOverlay');
-        const closeMenu = document.getElementById('closeMenu');
-
-        function openMenu() {
-            sideMenu.classList.add('active');
-            menuOverlay.classList.add('active');
-        }
-
-        function closeMenuFunc() {
-            sideMenu.classList.remove('active');
-            menuOverlay.classList.remove('active');
-        }
-
-        // 검색 기능
-        const searchToggle = document.getElementById('searchToggle');
-        const searchContainer = document.getElementById('searchContainer');
-        const searchInput = document.getElementById('searchInput');
-        const searchClose = document.getElementById('searchClose');
-        const searchResults = document.getElementById('searchResults');
-        
-        let searchTimeout;
-
-        function openSearch() {
-            searchContainer.style.display = 'flex';
-            searchInput.focus();
-        }
-
-        function closeSearch() {
-            searchContainer.style.display = 'none';
-            searchInput.value = '';
-            searchResults.innerHTML = '';
-        }
-
-        function performSearch() {
-            const query = searchInput.value.trim();
-            
-            if (query.length < 2) {
-                searchResults.innerHTML = '';
-                return;
-    </script>
 </body>
 </html>

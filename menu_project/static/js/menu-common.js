@@ -3,6 +3,9 @@
 class MenuApp {
     constructor() {
         this.searchTimeout = null;
+        this.loadingScreen = null;
+        this.loadingVideo = null;
+        this.videoEnded = false;
         this.init();
     }
 
@@ -30,6 +33,10 @@ class MenuApp {
         this.searchInput = document.getElementById('searchInput');
         this.searchClose = document.getElementById('searchClose');
         this.searchResults = document.getElementById('searchResults');
+
+        // 로딩 스크린 요소들
+        this.loadingScreen = document.getElementById('loading-screen');
+        this.loadingVideo = document.getElementById('loadingVideo');
     }
 
     bindEvents() {
@@ -52,11 +59,69 @@ class MenuApp {
     }
     
     initPageLoadActions() {
+        // 로딩 스크린 초기화
+        this.initLoadingScreen();
+
         // 페이지 로드 시 스크롤
-        document.addEventListener('DOMContentLoaded', () => this.scrollToTarget());
-        window.addEventListener('load', () => {
-            setTimeout(() => this.scrollToTarget(), 100); 
+        document.addEventListener('DOMContentLoaded', () => {
+            this.scrollToTarget();
+            this.scrollToAnchor();
         });
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                this.scrollToTarget();
+                this.scrollToAnchor();
+            }, 100); 
+        });
+        window.addEventListener('hashchange', () => this.scrollToAnchor());
+    }
+
+    // ==========================================
+    // 로딩 스크린 기능
+    // ==========================================
+    initLoadingScreen() {
+        if (!this.loadingScreen || !this.loadingVideo) return;
+
+        // 인트로 영상 캐시 체크 (1시간)
+        const lastIntroTime = localStorage.getItem('lastIntroTime');
+        const currentTime = Date.now();
+        const oneHour = 60 * 60 * 1000;
+
+        if (lastIntroTime && (currentTime - parseInt(lastIntroTime)) < oneHour) {
+            // 1시간 이내에 본 경우 인트로 완전 스킵
+            this.loadingScreen.style.display = 'none';
+            return;
+        }
+
+        // 인트로 시청 시간 저장
+        localStorage.setItem('lastIntroTime', currentTime.toString());
+
+        // 비디오 재생 완료 후 로딩 스크린 제거
+        this.loadingVideo.addEventListener('ended', () => {
+            this.videoEnded = true;
+            this.hideLoadingScreen();
+        });
+
+        // 비디오 로드 에러 시 이미지로 대체하고 3초 후 진행
+        this.loadingVideo.addEventListener('error', () => {
+            console.log('Video failed to load, using fallback');
+            setTimeout(() => this.hideLoadingScreen(), 3000);
+        });
+
+        // 비디오가 5초 내에 시작되지 않으면 강제로 진행
+        setTimeout(() => {
+            if (!this.videoEnded) {
+                this.hideLoadingScreen();
+            }
+        }, 5000);
+    }
+
+    hideLoadingScreen() {
+        if (!this.loadingScreen) return;
+        this.loadingScreen.classList.add('door-open');
+        setTimeout(() => {
+            this.loadingScreen.style.display = 'none';
+        }, 1000);
     }
 
     // ==========================================
@@ -79,6 +144,33 @@ class MenuApp {
                 block: 'center',
                 inline: 'nearest'
             });
+        }
+    }
+
+    scrollToAnchor() {
+        if (!window.location.hash) return;
+
+        const elementId = window.location.hash.substring(1);
+        const element = document.getElementById(elementId);
+        
+        if (element) {
+            element.scrollIntoView({ 
+                behavior: 'smooth', 
+                block: 'center', 
+                inline: 'nearest' 
+            });
+            
+            // 백업 방법: 직접 스크롤 계산
+            setTimeout(() => {
+                const rect = element.getBoundingClientRect();
+                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                const targetY = rect.top + scrollTop - (window.innerHeight / 2) + (rect.height / 2);
+                
+                window.scrollTo({
+                    top: Math.max(0, targetY),
+                    behavior: 'smooth'
+                });
+            }, 200);
         }
     }
 
@@ -139,18 +231,36 @@ class MenuApp {
     }
 
     handleSearchClick(url) {
-        let finalUrl = url;
+        this.closeSearch();
         
-        // URL에 #이 있으면 ?target= 파라미터로 변경하여 이동
         if (url.includes('#')) {
             const [baseUrl, anchor] = url.split('#');
-            const cleanId = anchor.replace('menu-', ''); 
+            const currentPath = window.location.pathname;
             
-            const separator = baseUrl.includes('?') ? '&' : '?';
-            finalUrl = `${baseUrl}${separator}target=${cleanId}`;
+            // URL 정규화 (끝의 슬래시 제거)
+            const normalizedBaseUrl = baseUrl.replace(/\/$/, '');
+            const normalizedCurrentPath = currentPath.replace(/\/$/, '');
+            
+            if (normalizedBaseUrl === normalizedCurrentPath) {
+                // 같은 페이지 내 앵커로 즉시 이동
+                const element = document.getElementById(anchor);
+                if (element) {
+                    element.scrollIntoView({ 
+                        behavior: 'smooth', 
+                        block: 'center', 
+                        inline: 'nearest' 
+                    });
+                    history.pushState(null, null, '#' + anchor);
+                }
+            } else {
+                // 다른 페이지로 이동 - target 파라미터로 변환
+                const cleanId = anchor.replace('menu-', '');
+                const separator = baseUrl.includes('?') ? '&' : '?';
+                window.location.href = `${baseUrl}${separator}target=${cleanId}`;
+            }
+        } else {
+            window.location.href = url;
         }
-
-        window.location.href = finalUrl;
     }
 
     // ==========================================

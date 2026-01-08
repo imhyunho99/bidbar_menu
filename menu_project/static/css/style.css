@@ -149,7 +149,7 @@
     width: 300px;
     height: 100vh;
     background: rgba(0, 0, 0, 1);
-    z-index: 100;
+    z-index: 1000;
     transition: right 0.3s ease;
     border-left: 3px solid #000;
     overflow-y: auto;
@@ -471,6 +471,10 @@
     }
 }
 
+.loading-screen.door-open {
+    animation: splitScreen 1s ease-out forwards;
+}
+
 /* [수정됨] Background 최적화
    - 모바일 주소창 높이 변화 대응 (dvh 사용)
    - 스크롤 시 밀림 현상 방지를 위해 will-change 및 fixed 로직 개선
@@ -766,8 +770,6 @@ body {
     color: #fff;
     margin-left: 2rem;
     white-space: nowrap;
-}
-}
 }
 
 .no-menu {
