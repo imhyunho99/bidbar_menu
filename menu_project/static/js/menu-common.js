@@ -121,7 +121,7 @@ class MenuApp {
         this.loadingScreen.classList.add('door-open');
         setTimeout(() => {
             this.loadingScreen.style.display = 'none';
-        }, 1000);
+        }, 500);
     }
 
     // ==========================================

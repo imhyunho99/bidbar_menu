@@ -462,17 +462,9 @@
     object-fit: cover;
 }
 
-@keyframes splitScreen {
-    0% {
-        clip-path: inset(0 0 0 0);
-    }
-    100% {
-        clip-path: inset(0 0 0 100%);
-    }
-}
-
 .loading-screen.door-open {
-    animation: splitScreen 1s ease-out forwards;
+    opacity: 0;
+    transition: opacity 0.5s ease-out;
 }
 
 /* [수정됨] Background 최적화
