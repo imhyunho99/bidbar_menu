@@ -37,25 +37,42 @@ class MenuApp {
         // 로딩 스크린 요소들
         this.loadingScreen = document.getElementById('loading-screen');
         this.loadingVideo = document.getElementById('loadingVideo');
+
+        // 리모컨 요소들
+        this.navigationRemote = document.getElementById('navigationRemote');
+        this.remoteTop = document.getElementById('remoteTop');
+        this.remotePrev = document.getElementById('remotePrev');
+        this.remoteNext = document.getElementById('remoteNext');
     }
 
     bindEvents() {
         // 사이드 메뉴 이벤트
         if (this.menuToggle) {
             this.menuToggle.addEventListener('click', () => this.openMenu());
-            this.closeMenu.addEventListener('click', () => this.closeMenuFunc());
-            this.menuOverlay.addEventListener('click', () => this.closeMenuFunc());
+            if (this.closeMenu) {
+                this.closeMenu.addEventListener('click', () => this.closeMenuFunc());
+            }
+            if (this.menuOverlay) {
+                this.menuOverlay.addEventListener('click', () => this.closeMenuFunc());
+            }
         }
 
         // 검색 이벤트
         if (this.searchToggle) {
             this.searchToggle.addEventListener('click', () => this.openSearch());
-            this.searchClose.addEventListener('click', () => this.closeSearch());
-            this.searchInput.addEventListener('input', () => this.performSearch());
+            if (this.searchClose) {
+                this.searchClose.addEventListener('click', () => this.closeSearch());
+            }
+            if (this.searchInput) {
+                this.searchInput.addEventListener('input', () => this.performSearch());
+            }
         }
 
-        // 스크롤 배경 효과
+        // 스크롤 배경 효과 및 리모컨 표시
         this.initScrollBackground();
+
+        // 리모컨 이벤트
+        this.initNavigationRemote();
     }
     
     initPageLoadActions() {
@@ -292,12 +309,75 @@ class MenuApp {
     initScrollBackground() {
         const background = document.querySelector('.background-with-gradient');
         if (background) {
-            window.addEventListener('scroll', function() {
+            window.addEventListener('scroll', () => {
                 const scrollPercent = Math.min(window.scrollY / (document.documentElement.scrollHeight - window.innerHeight), 1);
                 const scale = 1 + (scrollPercent * 1.8);
                 background.style.transform = `scale(${scale})`;
             });
         }
+        
+        // 리모컨 표시/숨김 처리를 위한 스크롤 이벤트
+        window.addEventListener('scroll', () => {
+            this.handleNavigationRemote();
+        });
+    }
+
+    // ==========================================
+    // 리모컨 기능
+    // ==========================================
+    initNavigationRemote() {
+        if (!this.navigationRemote) return;
+
+        // 맨 위로 버튼
+        if (this.remoteTop) {
+            this.remoteTop.addEventListener('click', () => this.scrollToTop());
+        }
+
+        // 이전 카테고리 버튼
+        if (this.remotePrev && window.navigationData && window.navigationData.prevUrl) {
+            this.remotePrev.addEventListener('click', () => {
+                window.location.href = window.navigationData.prevUrl;
+            });
+        } else if (this.remotePrev) {
+            this.remotePrev.style.display = 'none';
+        }
+
+        // 다음 카테고리 버튼
+        if (this.remoteNext && window.navigationData && window.navigationData.nextUrl) {
+            this.remoteNext.addEventListener('click', () => {
+                window.location.href = window.navigationData.nextUrl;
+            });
+        } else if (this.remoteNext) {
+            this.remoteNext.style.display = 'none';
+        }
+
+        // 초기 스크롤 위치 확인
+        this.handleNavigationRemote();
+    }
+
+    handleNavigationRemote() {
+        if (!this.navigationRemote) return;
+
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        const scrollHeight = document.documentElement.scrollHeight;
+        const clientHeight = window.innerHeight;
+        
+        // 스크롤이 하단 100px 이내에 도달했을 때 리모컨 표시
+        const threshold = 100;
+        const isNearBottom = scrollTop + clientHeight >= scrollHeight - threshold;
+
+        if (isNearBottom) {
+            this.navigationRemote.classList.add('show');
+        } else {
+            this.navigationRemote.classList.remove('show');
+        }
+    }
+
+    scrollToTop() {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
     }
 }
 

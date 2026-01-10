@@ -16,7 +16,7 @@
             </div>
 
             <div class="admin-section">
-                <h2>카테고리 관리</h2>
+                <h2>카테고리 관리 (총 {{ categories|length }}개)</h2>
                 <div class="mb-2">
                     <a href="{% url 'add_category' %}" class="admin-btn admin-btn-primary">카테고리 추가</a>
                 </div>
@@ -24,14 +24,24 @@
                     <table class="admin-table">
                         <thead>
                             <tr>
-                                <th>카테고리명</th>
+                                <th>ID</th>
+                                <th>카테고리명(한글)</th>
+                                <th>카테고리명(영문)</th>
+                                <th>부모 카테고리</th>
+                                <th>우선순위</th>
+                                <th>메뉴 수</th>
                                 <th>작업</th>
                             </tr>
                         </thead>
                         <tbody>
                             {% for category in categories %}
                             <tr>
-                                <td>{{ category }}</td>
+                                <td>{{ category.id }}</td>
+                                <td>{{ category.name|default:"-" }}</td>
+                                <td>{{ category.name_en|default:"-" }}</td>
+                                <td>{{ category.parent.name|default:"최상위" }}</td>
+                                <td>{{ category.priority }}</td>
+                                <td>{{ category.menu_items.count }}</td>
                                 <td>
                                     <a href="{% url 'delete_category' category.id %}" 
                                        class="admin-btn admin-btn-danger"
@@ -40,7 +50,7 @@
                             </tr>
                             {% empty %}
                             <tr>
-                                <td colspan="2" class="text-center">등록된 카테고리가 없습니다.</td>
+                                <td colspan="7" class="text-center">등록된 카테고리가 없습니다.</td>
                             </tr>
                             {% endfor %}
                         </tbody>
@@ -49,7 +59,7 @@
             </div>
 
             <div class="admin-section">
-                <h2>메뉴 관리</h2>
+                <h2>메뉴 관리 (총 {{ menu_items|length }}개)</h2>
                 <div class="mb-2">
                     <a href="{% url 'add_menu' %}" class="admin-btn admin-btn-primary">메뉴 추가</a>
                 </div>
@@ -57,20 +67,26 @@
                     <table class="admin-table">
                         <thead>
                             <tr>
-                                <th>메뉴명</th>
+                                <th>ID</th>
+                                <th>메뉴명(한글)</th>
+                                <th>메뉴명(영문)</th>
                                 <th>가격</th>
                                 <th>카테고리</th>
+                                <th>우선순위</th>
+                                <th>판매가능</th>
                                 <th>작업</th>
                             </tr>
                         </thead>
                         <tbody>
                             {% for menu in menu_items %}
                             <tr>
-                                <td>
-                                    {% if menu.name_en %}{{ menu.name_en }}<br>{% endif %}{{ menu.name }}
-                                </td>
-                                <td>₩{{ menu.price|floatformat:0 }}</td>
-                                <td>{{ menu.category|default:"미분류" }}</td>
+                                <td>{{ menu.id }}</td>
+                                <td>{{ menu.name }}</td>
+                                <td>{{ menu.name_en|default:"-" }}</td>
+                                <td>{{ menu.price }}</td>
+                                <td>{{ menu.category.name|default:"미분류" }}</td>
+                                <td>{{ menu.priority }}</td>
+                                <td>{% if menu.is_available %}✓{% else %}✗{% endif %}</td>
                                 <td>
                                     <a href="{% url 'edit_menu' menu.id %}" class="admin-btn admin-btn-primary">수정</a>
                                     <a href="{% url 'delete_menu' menu.id %}" 
@@ -80,7 +96,7 @@
                             </tr>
                             {% empty %}
                             <tr>
-                                <td colspan="4" class="text-center">등록된 메뉴가 없습니다.</td>
+                                <td colspan="8" class="text-center">등록된 메뉴가 없습니다.</td>
                             </tr>
                             {% endfor %}
                         </tbody>

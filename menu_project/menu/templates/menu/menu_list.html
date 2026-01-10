@@ -203,6 +203,30 @@
         </main>
     </div>
 
+    <!-- 리모컨 (스크롤 하단 도달 시 표시) -->
+    <div class="navigation-remote" id="navigationRemote">
+        {% if prev_category %}
+        <button class="remote-btn remote-btn-prev" id="remotePrev" title="이전 카테고리">
+            <span>◀</span>
+        </button>
+        {% endif %}
+        <button class="remote-btn remote-btn-top" id="remoteTop" title="맨 위로">
+            <span>↑</span>
+        </button>
+        {% if next_category %}
+        <button class="remote-btn remote-btn-next" id="remoteNext" title="다음 카테고리">
+            <span>▶</span>
+        </button>
+        {% endif %}
+    </div>
+
     <script src="{% static 'js/menu-common.js' %}"></script>
+    <script>
+        // 리모컨 관련 데이터 전달
+        window.navigationData = {
+            prevUrl: {% if prev_category %}'{% url 'menu:menu_list' prev_category.id %}'{% else %}null{% endif %},
+            nextUrl: {% if next_category %}'{% url 'menu:menu_list' next_category.id %}'{% else %}null{% endif %}
+        };
+    </script>
 </body>
 </html>

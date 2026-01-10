@@ -17,8 +17,8 @@ def admin_login(request):
 
 @login_required
 def admin_dashboard(request):
-    categories = Category.objects.all()
-    menu_items = MenuItem.objects.all()
+    categories = Category.objects.all().order_by('priority', 'name')
+    menu_items = MenuItem.objects.all().order_by('category__priority', 'priority', 'name')
     return render(request, 'admin/dashboard.html', {
         'categories': categories,
         'menu_items': menu_items

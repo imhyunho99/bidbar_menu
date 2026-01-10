@@ -1534,3 +1534,106 @@ body {
 
 .shadow { box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); }
 .shadow-lg { box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4); }
+
+/* Navigation Remote */
+.navigation-remote {
+    position: fixed;
+    bottom: -100px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 10px;
+    z-index: 998;
+    opacity: 0;
+    transition: bottom 0.4s ease-out, opacity 0.4s ease-out;
+    padding: 10px;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(10px);
+    border-radius: 50px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.navigation-remote.show {
+    bottom: 20px;
+    opacity: 1;
+}
+
+.remote-btn {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #fff;
+    font-size: 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
+}
+
+.remote-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.4);
+    transform: scale(1.1);
+}
+
+.remote-btn:active {
+    transform: scale(0.95);
+}
+
+.remote-btn span {
+    display: block;
+    line-height: 1;
+}
+
+.remote-btn-top {
+    background: rgba(0, 123, 255, 0.3);
+    border-color: rgba(0, 123, 255, 0.5);
+}
+
+.remote-btn-top:hover {
+    background: rgba(0, 123, 255, 0.5);
+    border-color: rgba(0, 123, 255, 0.7);
+}
+
+.remote-btn-prev,
+.remote-btn-next {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+@media (max-width: 768px) {
+    .navigation-remote {
+        gap: 8px;
+        padding: 8px;
+    }
+    
+    .navigation-remote.show {
+        bottom: 15px;
+    }
+    
+    .remote-btn {
+        width: 45px;
+        height: 45px;
+        font-size: 18px;
+    }
+}
+
+@media (max-width: 480px) {
+    .navigation-remote {
+        gap: 6px;
+        padding: 6px;
+    }
+    
+    .navigation-remote.show {
+        bottom: 10px;
+    }
+    
+    .remote-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 16px;
+    }
+}
