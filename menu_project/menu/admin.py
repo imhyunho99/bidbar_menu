@@ -42,8 +42,17 @@ class CategoryAdmin(admin.ModelAdmin):
     ordering = ['priority', 'name']
     fields = ['name_en', 'name', 'priority', 'parent', 'category_image', 'hide_side_image']
 
+class MenuItemAdminForm(forms.ModelForm):
+    name = forms.CharField(widget=forms.Textarea(attrs={'rows':3, 'cols': 40}), label="메뉴명")
+    name_en = forms.CharField(widget=forms.Textarea(attrs={'rows': 3, 'cols': 40}), label="메뉴명(영문)", required=False)
+
+    class Meta:
+        model = MenuItem
+        fields = '__all__'
+
 @admin.register(MenuItem)
 class MenuItemAdmin(admin.ModelAdmin):
+    form = MenuItemAdminForm
     list_display = ['name', 'priority', 'price', 'category', 'is_available']
     list_filter = ['category', 'is_available']
     search_fields = ['name', 'description']
