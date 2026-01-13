@@ -65,44 +65,7 @@
     <button class="menu-toggle" id="menuToggle">☰</button>
 
     <!-- 사이드 메뉴 -->
-    <div class="side-menu" id="sideMenu">
-        <div class="side-menu-header">
-            <h3>메뉴</h3>
-            <button class="close-menu" id="closeMenu">×</button>
-        </div>
-        <div class="side-menu-content">
-            <ul class="category-nav">
-                <li><a href="{% url 'menu:menu_main' %}">홈</a></li>
-                {% for category in categories %}
-                    {% if not category.category_image %}
-                    <li class="top-category">
-                        <div class="category-header" {% if category.sub_categories.exists %}onclick="toggleCategory({{ category.id }})"{% endif %}>
-                            {% if category.sub_categories.exists %}
-                            <span class="toggle-icon" id="icon-{{ category.id }}">▶</span>
-                            {% endif %}
-                            <a href="{% url 'menu:menu_list' category.id %}">
-                                {% if category.name_en %}<div class="category-name-en">{{ category.name_en }}</div>{% endif %}
-                                <div class="category-name-ko">{{ category.name }}</div>
-                            </a>
-                        </div>
-                        {% if category.sub_categories.exists %}
-                        <ul class="sub-categories" id="sub-{{ category.id }}" style="display: none;">
-                            {% for sub_cat in category.sub_categories.all %}
-                                {% if not sub_cat.category_image %}
-                                <li><a href="{% url 'menu:menu_list' sub_cat.id %}">
-                                    {% if sub_cat.name_en %}<div class="category-name-en">{{ sub_cat.name_en }}</div>{% endif %}
-                                    <div class="category-name-ko">{{ sub_cat.name }}</div>
-                                </a></li>
-                                {% endif %}
-                            {% endfor %}
-                        </ul>
-                        {% endif %}
-                    </li>
-                    {% endif %}
-                {% endfor %}
-            </ul>
-        </div>
-    </div>
+    {% include "menu/_side_menu.html" %}
 
     <!-- 사이드 메뉴 오버레이 -->
     <div class="menu-overlay" id="menuOverlay"></div>

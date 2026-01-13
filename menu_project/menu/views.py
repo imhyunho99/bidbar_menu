@@ -56,11 +56,15 @@ def menu_main(request):
     # 우선순위 순으로 정렬
     top_categories = Category.objects.filter(parent=None).order_by('priority', 'name')
     
+    # 사이드 메뉴를 위해 모든 카테고리 가져오기
+    all_categories = Category.objects.all().order_by('priority', 'name')
+    
     # 사이트 설정에서 인트로 이미지 가져오기
     site_settings = SiteSettings.objects.first()
     
     return render(request, 'menu/menu_main.html', {
         'categories': top_categories,
+        'all_categories': all_categories,
         'site_settings': site_settings
     })
 
