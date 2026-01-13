@@ -1545,21 +1545,21 @@ body {
 .navigation-remote {
     position: fixed;
     bottom: -100px;
-    left: 50%;
-    transform: translateX(-50%);
+    left: 0;
+    width: 100%;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     align-items: center;
     justify-items: center;
-    width: 350px;
     z-index: 998;
     opacity: 0;
     transition: bottom 0.4s ease-out, opacity 0.4s ease-out;
-    padding: 0;
+    padding: 10px 20px;
     background: transparent;
     backdrop-filter: none;
-    border-radius: 50px;
+    border-radius: 0;
     border: none;
+    box-sizing: border-box; /* Add box-sizing for predictable padding */
 }
 
 .navigation-remote.show {
@@ -1568,22 +1568,30 @@ body {
 }
 
 .remote-btn {
-    /* width: 50px; Removed, height is controlled by img */
-    /* height: 50px; Removed, height is controlled by img */
-    /* border-radius: 50%; Removed */
     background: transparent;
     border: none;
-    /* color: #fff; Removed */
-    /* font-size: 20px; Removed */
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all 0.3s ease;
-    backdrop-filter: none;
+    padding: 0; /* Remove any padding */
+    transition: transform 0.2s ease;
+    /* New responsive sizing */
 }
 
-/* Removed general .remote-btn:hover and .remote-btn:active styles */
+.remote-btn:hover {
+    transform: scale(1.1); /* Add a subtle hover effect to the image */
+}
+
+.remote-btn:active {
+    transform: scale(0.95);
+}
+
+.remote-btn img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
 
 .remote-btn span {
     display: block;
@@ -1591,67 +1599,35 @@ body {
 }
 
 .remote-btn-top {
-    grid-column: 2; /* Always in the middle column */
-    background: none;
-    border-color: none;
-}
-
-.remote-btn-top:hover {
-    background: none;
-    border-color: none;
+    grid-column: 2;
 }
 
 .remote-btn-prev {
-    grid-column: 1; /* Left column */
+    grid-column: 1;
+    justify-self: start;
 }
 
 .remote-btn-next {
-    grid-column: 3; /* Right column */
-}
-
-.remote-btn-prev,
-.remote-btn-next {
-    background: none;
-    border: none;
-}
-
-.remote-btn-prev:hover,
-.remote-btn-next:hover {
-    background: none;
-    border-color: none;
-    transform: none;
+    grid-column: 3;
+    justify-self: end;
 }
 
 @media (max-width: 768px) {
     .navigation-remote {
-        width: 350px;
-        padding: 8px;
+        padding: 8px 15px;
     }
     
     .navigation-remote.show {
         bottom: 15px;
     }
-    
-    .remote-btn {
-        width: 45px;
-        height: 45px;
-        font-size: 18px;
-    }
 }
 
 @media (max-width: 480px) {
     .navigation-remote {
-        width: 350px;
-        padding: 6px;
+        padding: 6px 10px;
     }
     
     .navigation-remote.show {
         bottom: 10px;
-    }
-    
-    .remote-btn {
-        width: 40px;
-        height: 40px;
-        font-size: 16px;
     }
 }
