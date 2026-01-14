@@ -73,6 +73,10 @@ class MenuApp {
 
         // 리모컨 이벤트
         this.initNavigationRemote();
+        
+        // 리모컨 높이 조절
+        window.addEventListener('load', () => this.adjustRemoteTopHeight());
+        window.addEventListener('resize', () => this.adjustRemoteTopHeight());
     }
     
     initPageLoadActions() {
@@ -378,6 +382,22 @@ class MenuApp {
             top: 0,
             behavior: 'smooth'
         });
+    }
+
+    adjustRemoteTopHeight() {
+        if (this.remoteTop) {
+            let targetHeight = 0;
+            // Get height from next or prev buttons
+            if (this.remoteNext && this.remoteNext.offsetHeight > 0) {
+                targetHeight = this.remoteNext.offsetHeight;
+            } else if (this.remotePrev && this.remotePrev.offsetHeight > 0) {
+                targetHeight = this.remotePrev.offsetHeight;
+            }
+
+            if (targetHeight > 0) {
+                this.remoteTop.style.height = `${targetHeight}px`;
+            }
+        }
     }
 }
 
