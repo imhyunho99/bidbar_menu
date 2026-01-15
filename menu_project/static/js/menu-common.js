@@ -68,7 +68,7 @@ class MenuApp {
             }
         }
 
-        // 스크롤 배경 효과 및 리모컨 표시
+        // 스크롤 배경 효과
         this.initScrollBackground();
 
         // 리모컨 이벤트
@@ -319,11 +319,6 @@ class MenuApp {
                 background.style.transform = `scale(${scale})`;
             });
         }
-        
-        // 리모컨 표시/숨김 처리를 위한 스크롤 이벤트
-        window.addEventListener('scroll', () => {
-            this.handleNavigationRemote();
-        });
     }
 
     // ==========================================
@@ -353,27 +348,6 @@ class MenuApp {
             });
         } else if (this.remoteNext) {
             this.remoteNext.style.display = 'none';
-        }
-
-        // 초기 스크롤 위치 확인
-        this.handleNavigationRemote();
-    }
-
-    handleNavigationRemote() {
-        if (!this.navigationRemote) return;
-
-        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-        const scrollHeight = document.documentElement.scrollHeight;
-        const clientHeight = window.innerHeight;
-        
-        // 스크롤이 하단 100px 이내에 도달했을 때 리모컨 표시
-        const threshold = 100;
-        const isNearBottom = scrollTop + clientHeight >= scrollHeight - threshold;
-
-        if (isNearBottom) {
-            this.navigationRemote.classList.add('show');
-        } else {
-            this.navigationRemote.classList.remove('show');
         }
     }
 

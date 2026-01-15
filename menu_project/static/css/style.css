@@ -1544,7 +1544,7 @@ body {
 /* Navigation Remote */
 .navigation-remote {
     position: fixed;
-    bottom: -100px;
+    bottom: 20px;
     left: 0;
     width: 100%;
     display: grid;
@@ -1552,8 +1552,8 @@ body {
     align-items: center;
     justify-items: center;
     z-index: 998;
-    opacity: 0;
-    transition: bottom 0.4s ease-out, opacity 0.4s ease-out;
+    opacity: 1;
+    transition: none;
     padding: 10px 20px;
     background: transparent;
     backdrop-filter: none;
@@ -1630,4 +1630,11 @@ body {
     .navigation-remote.show {
         bottom: 10px;
     }
+}
+
+.menu-toggle img,
+.search-toggle img {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
 }

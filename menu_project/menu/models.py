@@ -100,8 +100,8 @@ class Category(models.Model):
     """
     name = models.CharField(max_length=100, verbose_name="카테고리명(한글)", blank=True)
     name_en = models.CharField(max_length=100, blank=True, null=True, verbose_name="카테고리명(영문)")
-    priority = models.IntegerField(
-        default=0,
+    priority = models.FloatField(
+        default=0.0,
         verbose_name="우선순위",
         help_text="낮은 숫자일수록 먼저 표시됩니다"
     )
@@ -156,7 +156,7 @@ class MenuItem(models.Model):
     name_en = models.CharField(max_length=100, blank=True, null=True, verbose_name="메뉴명(영문)")
 
     # 3. 가격
-    price = models.CharField(max_length=50, verbose_name="가격", help_text="가격을 입력하세요 (예: 15000, 15.5, 15,000)")
+    price = models.TextField(verbose_name="가격", help_text="가격을 입력하세요 (예: 15000, 15.5, 15,000)")
 
     # 3. 설명
     description = models.TextField(verbose_name="메뉴 설명")
@@ -184,8 +184,8 @@ class MenuItem(models.Model):
     )
 
     # 7. 우선순위
-    priority = models.IntegerField(
-        default=0,
+    priority = models.FloatField(
+        default=0.0,
         verbose_name="우선순위",
         help_text="낮은 숫자일수록 먼저 표시됩니다"
     )
