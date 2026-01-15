@@ -50,7 +50,7 @@
 </head>
 <body style="background-color: #000 !important;">
     <!-- 검색 아이콘 -->
-    <button class="search-toggle" id="searchToggle">🔍</button>
+    <button class="search-toggle" id="searchToggle"><img src="{% static 'search.png' %}" alt="Search"></button>
     
     <!-- 검색 입력창 -->
     <form class="search-container" id="searchContainer" style="display: none;" action="{% url 'menu:search_redirect' %}" method="get">
@@ -62,7 +62,7 @@
     </form>
     
     <!-- 사이드 메뉴 버튼 -->
-    <button class="menu-toggle" id="menuToggle">☰</button>
+    <button class="menu-toggle" id="menuToggle"><img src="{% static 'menu.png' %}" alt="Menu"></button>
 
     <!-- 사이드 메뉴 -->
     {% include "menu/_side_menu.html" %}

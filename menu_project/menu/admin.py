@@ -20,6 +20,9 @@ class SiteSettingsAdmin(admin.ModelAdmin):
         ('메뉴 설명 스타일', {
             'fields': ('menu_description_font', 'menu_description_color', 'menu_description_size', 'menu_description_bold', 'menu_description_italic')
         }),
+        ('기타 사항 스타일', {
+            'fields': ('menu_notes_font', 'menu_notes_color', 'menu_notes_size', 'menu_notes_bold', 'menu_notes_italic')
+        }),
     )
 
 from django.contrib import admin

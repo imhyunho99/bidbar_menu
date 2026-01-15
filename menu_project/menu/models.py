@@ -54,6 +54,13 @@ class SiteSettings(models.Model):
     menu_description_size = models.IntegerField(blank=True, null=True, verbose_name="메뉴 설명 크기", help_text="픽셀 단위 (예: 14)")
     menu_description_bold = models.BooleanField(default=False, verbose_name="메뉴 설명 볼드")
     menu_description_italic = models.BooleanField(default=False, verbose_name="메뉴 설명 이탤릭")
+
+    # 기타 사항 설정
+    menu_notes_font = models.FileField(upload_to='fonts/', blank=True, null=True, verbose_name="기타 사항 폰트 파일")
+    menu_notes_color = models.CharField(max_length=7, blank=True, default='', verbose_name="기타 사항 색상", help_text="#888888")
+    menu_notes_size = models.IntegerField(blank=True, null=True, verbose_name="기타 사항 크기", help_text="픽셀 단위 (예: 12)")
+    menu_notes_bold = models.BooleanField(default=False, verbose_name="기타 사항 볼드")
+    menu_notes_italic = models.BooleanField(default=False, verbose_name="기타 사항 이탤릭")
     
     # 카테고리명(한글) 설정
     category_name_font = models.FileField(upload_to='fonts/', blank=True, null=True, verbose_name="카테고리명(한글) 폰트 파일")

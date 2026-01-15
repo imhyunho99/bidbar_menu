@@ -62,6 +62,12 @@
             src: url('{{ site_settings.menu_description_font.url }}');
         }
         {% endif %}
+        {% if site_settings.menu_notes_font %}
+        @font-face {
+            font-family: 'MenuNotesFont';
+            src: url('{{ site_settings.menu_notes_font.url }}');
+        }
+        {% endif %}
         
         {% if site_settings.menu_name_font or site_settings.menu_name_color or site_settings.menu_name_size or site_settings.menu_name_bold or site_settings.menu_name_italic %}
         .menu-title {
@@ -99,6 +105,15 @@
             {% if site_settings.menu_description_italic %}font-style: italic !important;{% endif %}
         }
         {% endif %}
+        {% if site_settings.menu_notes_font or site_settings.menu_notes_color or site_settings.menu_notes_size or site_settings.menu_notes_bold or site_settings.menu_notes_italic %}
+        .menu-notes {
+            {% if site_settings.menu_notes_font %}font-family: 'MenuNotesFont', sans-serif !important;{% endif %}
+            {% if site_settings.menu_notes_color %}color: {{ site_settings.menu_notes_color }} !important;{% endif %}
+            {% if site_settings.menu_notes_size %}font-size: {{ site_settings.menu_notes_size }}px !important;{% endif %}
+            {% if site_settings.menu_notes_bold %}font-weight: bold !important;{% endif %}
+            {% if site_settings.menu_notes_italic %}font-style: italic !important;{% endif %}
+        }
+        {% endif %}
     </style>
     {% endif %}
 </head>
@@ -107,7 +122,7 @@
     <div class="background-with-gradient"></div>
     
     <!-- 검색 아이콘 -->
-    <button class="search-toggle" id="searchToggle">🔍</button>
+    <button class="search-toggle" id="searchToggle"><img src="{% static 'search.png' %}" alt="Search"></button>
     
     <!-- 검색 입력창 -->
     <form class="search-container" id="searchContainer" style="display: none;" action="{% url 'menu:search_redirect' %}" method="get">
@@ -119,7 +134,7 @@
     </form>
     
     <!-- 사이드 메뉴 버튼 -->
-    <button class="menu-toggle" id="menuToggle">☰</button>
+    <button class="menu-toggle" id="menuToggle"><img src="{% static 'menu.png' %}" alt="Menu"></button>
 
     <!-- 사이드 메뉴 -->
     {% include "menu/_side_menu.html" %}
@@ -144,13 +159,13 @@
                                 <div class="menu-info">
                                     <div class="menu-title-line">
                                         <div class="menu-title">
-                                            {% if item.name_en %}<span class="menu-title-en">{{ item.name_en }}</span><br>{% endif %}{{ item.name }}
+                                            {% if item.name_en %}<span class="menu-title-en">{{ item.name_en|linebreaks }}</span><br>{% endif %}{{ item.name|linebreaks }}
                                         </div>
                                         <div class="menu-price">{{ item.price }}</div>
                                     </div>
-                                    <div class="menu-description">{{ item.description }}</div>
+                                    <div class="menu-description">{{ item.description|linebreaks }}</div>
                                     {% if item.notes %}
-                                    <div class="menu-notes">{{ item.notes }}</div>
+                                    <div class="menu-notes">{{ item.notes|linebreaks }}</div>
                                     {% endif %}
                                 </div>
                             </div>
