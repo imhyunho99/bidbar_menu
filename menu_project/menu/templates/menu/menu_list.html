@@ -146,7 +146,7 @@
                                         <div class="menu-title">
                                             {% if item.name_en %}<span class="menu-title-en">{{ item.name_en|linebreaks }}</span><br>{% endif %}{{ item.name|linebreaks }}
                                         </div>
-                                        <div class="menu-price">{{ item.price }}</div>
+                                        <div class="menu-price">{{ item.price|linebreaks }}</div>
                                     </div>
                                     <div class="menu-description">{{ item.description|linebreaks }}</div>
                                     {% if item.notes %}
