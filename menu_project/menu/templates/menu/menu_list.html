@@ -107,7 +107,7 @@
     <div class="background-with-gradient"></div>
     
     <!-- 검색 아이콘 -->
-    <button class="search-toggle" id="searchToggle"><img src="{% static 'search.png' %}" alt="Search"></button>
+    <button class="search-toggle" id="searchToggle">🔍</button>
     
     <!-- 검색 입력창 -->
     <form class="search-container" id="searchContainer" style="display: none;" action="{% url 'menu:search_redirect' %}" method="get">
@@ -119,7 +119,7 @@
     </form>
     
     <!-- 사이드 메뉴 버튼 -->
-    <button class="menu-toggle" id="menuToggle"><img src="{% static 'menu.png' %}" alt="Menu"></button>
+    <button class="menu-toggle" id="menuToggle">☰</button>
 
     <!-- 사이드 메뉴 -->
     {% include "menu/_side_menu.html" %}
@@ -144,13 +144,13 @@
                                 <div class="menu-info">
                                     <div class="menu-title-line">
                                         <div class="menu-title">
-                                            {% if item.name_en %}<span class="menu-title-en">{{ item.name_en|linebreaks }}</span><br>{% endif %}{{ item.name|linebreaks }}
+                                            {% if item.name_en %}<span class="menu-title-en">{{ item.name_en }}</span><br>{% endif %}{{ item.name }}
                                         </div>
-                                        <div class="menu-price">{{ item.price|linebreaks }}</div>
+                                        <div class="menu-price">{{ item.price }}</div>
                                     </div>
-                                    <div class="menu-description">{{ item.description|linebreaks }}</div>
+                                    <div== class="menu-description">{{ item.description }}</div>
                                     {% if item.notes %}
-                                    <div class="menu-notes">{{ item.notes|linebreaks }}</div>
+                                    <span class="menu-notes">{{ item.notes }}</span> 
                                     {% endif %}
                                 </div>
                             </div>
