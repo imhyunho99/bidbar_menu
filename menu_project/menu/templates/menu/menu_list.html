@@ -142,17 +142,20 @@
                             <!-- 이미지가 없는 경우: 텍스트 정보 표시 -->
                             <div class="menu-content">
                                 <div class="menu-info">
-                                    <div class="menu-title-line">
-                                        <div class="menu-title">
-                                            {% if item.name_en %}<span class="menu-title-en">{{ item.name_en|linebreaks }}</span><br>{% endif %}{{ item.name|linebreaks }}
-                                        </div>
-                                        <div class="menu-price">{{ item.price|linebreaks }}</div>
-                                    </div>
-                                    <div class="menu-description">{{ item.description|linebreaks }}</div>
-                                    {% if item.notes %}
-                                    <span class="menu-notes">{{ item.notes|linebreaks }}</span> 
-                                    {% endif %}
-                                </div>
+                                                                        <div class="menu-title-line">
+                                                                            <div class="menu-title">
+                                                                                {% if item.name_en %}<span class="menu-title-en">{{ item.name_en|linebreaks }}</span>{% endif %}{{ item.name|linebreaks }}
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="menu-description">{{ item.description|linebreaks }}</div>
+                                                                        <div class="menu-notes-price-wrapper" style="display: flex; justify-content: space-between; align-items: baseline;">
+                                                                            {% if item.notes %}
+                                                                            <span class="menu-notes">{{ item.notes|linebreaks }}</span>
+                                                                            {% else %}
+                                                                            <span></span> {# This is to ensure space-between works correctly even if notes are empty #}
+                                                                            {% endif %}
+                                                                            <div class="menu-price">{{ item.price|linebreaks }}</div>
+                                                                        </div>                                </div>
                             </div>
                         {% endif %}
                     </div>
