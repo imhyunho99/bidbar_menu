@@ -49,21 +49,20 @@
     {% endif %}
 </head>
 <body style="background-color: #000 !important;">
-    <!-- 검색 아이콘 -->
-    <button class="search-toggle" id="searchToggle"><img src="{% static 'search.png' %}" alt="Search"></button>
-    
-    <!-- 검색 입력창 -->
-    <form class="search-container" id="searchContainer" style="display: none;" action="{% url 'menu:search_redirect' %}" method="get">
-        <div class="search-input-wrapper">
-            <input type="text" id="searchInput" name="q" placeholder="메뉴 검색..." required />
-            <button type="button" class="search-close" id="searchClose">×</button>
+    <div class="top-bar">
+        <div class="top-bar-buttons" id="topBarButtons">
+            <button class="search-toggle" id="searchToggle"><img src="{% static 'search.png' %}" alt="Search"></button>
+            <button class="menu-toggle" id="menuToggle"><img src="{% static 'menu.png' %}" alt="Menu"></button>
         </div>
-        <div class="search-results" id="searchResults"></div>
-    </form>
+        <form class="search-container" id="searchContainer" style="display: none;" action="{% url 'menu:search_redirect' %}" method="get">
+            <div class="search-input-wrapper">
+                <input type="text" id="searchInput" name="q" placeholder="메뉴 검색..." required />
+                <button type="button" class="search-close" id="searchClose">×</button>
+            </div>
+            <div class="search-results" id="searchResults"></div>
+        </form>
+    </div>
     
-    <!-- 사이드 메뉴 버튼 -->
-    <button class="menu-toggle" id="menuToggle"><img src="{% static 'menu.png' %}" alt="Menu"></button>
-
     <!-- 사이드 메뉴 -->
     {% include "menu/_side_menu.html" %}
 

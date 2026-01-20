@@ -75,21 +75,20 @@
     <!-- 배경 레이어 -->
     <div class="background-with-gradient"></div>
     
-    <!-- 검색 아이콘 -->
-    <button class="search-toggle" id="searchToggle"><img src="{% static 'search.png' %}" alt="Search"></button>
-    
-    <!-- 검색 입력창 -->
-    <div class="search-container" id="searchContainer" style="display: none;">
-        <div class="search-input-wrapper">
-            <input type="text" id="searchInput" placeholder="메뉴 및 카테고리 검색..." />
-            <button class="search-close" id="searchClose">×</button>
+    <div class="top-bar">
+        <div class="top-bar-buttons" id="topBarButtons">
+            <button class="search-toggle" id="searchToggle"><img src="{% static 'search.png' %}" alt="Search"></button>
+            <button class="menu-toggle" id="menuToggle"><img src="{% static 'menu.png' %}" alt="Menu"></button>
         </div>
-        <div class="search-results" id="searchResults"></div>
+        <div class="search-container" id="searchContainer" style="display: none;">
+            <div class="search-input-wrapper">
+                <input type="text" id="searchInput" placeholder="메뉴 및 카테고리 검색..." />
+                <button class="search-close" id="searchClose">×</button>
+            </div>
+            <div class="search-results" id="searchResults"></div>
+        </div>
     </div>
     
-    <!-- 사이드 메뉴 버튼 -->
-    <button class="menu-toggle" id="menuToggle"><img src="{% static 'menu.png' %}" alt="Menu"></button>
-
     <!-- 사이드 메뉴 -->
     {% include "menu/_side_menu.html" %}
 

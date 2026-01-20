@@ -33,6 +33,7 @@ class MenuApp {
         this.searchInput = document.getElementById('searchInput');
         this.searchClose = document.getElementById('searchClose');
         this.searchResults = document.getElementById('searchResults');
+        this.topBarButtons = document.getElementById('topBarButtons');
 
         // 로딩 스크린 요소들
         this.loadingScreen = document.getElementById('loading-screen');
@@ -199,23 +200,25 @@ class MenuApp {
     // 검색 기능 (UI + Live Search)
     // ==========================================
     openSearch() {
-        if (this.searchContainer) {
+        if (this.searchContainer && this.topBarButtons) {
+            this.topBarButtons.style.display = 'none';
             this.searchContainer.style.display = 'flex';
-        }
-        if (this.searchInput) {
-            this.searchInput.focus();
+            if (this.searchInput) {
+                this.searchInput.focus();
+            }
         }
     }
 
     closeSearch() {
-        if (this.searchContainer) {
+        if (this.searchContainer && this.topBarButtons) {
             this.searchContainer.style.display = 'none';
-        }
-        if (this.searchInput) {
-            this.searchInput.value = '';
-        }
-        if (this.searchResults) {
-            this.searchResults.innerHTML = '';
+            this.topBarButtons.style.display = 'flex';
+            if (this.searchInput) {
+                this.searchInput.value = '';
+            }
+            if (this.searchResults) {
+                this.searchResults.innerHTML = '';
+            }
         }
     }
 
