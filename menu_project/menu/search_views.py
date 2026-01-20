@@ -61,13 +61,16 @@ def search_api(request):
     )[:5]
     
     for item in menu_items:
-        try:
-            # Clean and convert price to float for formatting
-            price_float = float(str(item.price).replace(',', ''))
-            price_formatted = f"₩{price_float:,.0f}"
-        except (ValueError, TypeError):
-            # If conversion fails, fall back to using the original string
-            price_formatted = f"₩{item.price}"
+        price_raw = str(item.price)
+        # Check if the cleaned price string contains only digits and optionally a single decimal point
+        # This regex allows for integers, floats, and numbers with commas (which will be removed for the check)
+        cleaned_price_for_check = price_raw.replace(',', '')
+        if cleaned_price_for_check.replace('.', '', 1).isdigit():
+            # If it's a number, prepend '₩'
+            price_formatted = f"₩{price_raw}"
+        else:
+            # If it's not a number (e.g., "Sold Out"), use the string as is
+            price_formatted = price_raw
 
         results.append({
             'type': 'menu',
