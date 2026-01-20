@@ -7,11 +7,10 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 10px;
+    padding-top: 1rem;
     background-color: rgba(0, 0, 0, 0.3);
     z-index: 997;
-    box-sizing: border-box;
-    backdrop-filter: blur(5px);
+    background-color: black;
 }
 
 .top-bar-buttons {
@@ -19,6 +18,7 @@
     justify-content: space-between;
     align-items: center;
     width: 100%;
+    
 }
 
 /* Side Menu */
@@ -28,7 +28,7 @@
     background: transparent;
     color: #fff;
     border: none;
-    padding: 0px 5px; /* Adjust padding for larger image */
+    padding-right: 1rem;
     font-size: 18px;
     cursor: pointer;
     transition: opacity 0.3s ease;
@@ -45,7 +45,7 @@
     background: transparent;
     color: #fff;
     border: none;
-    padding: 0px 5px; /* Adjust padding for larger image */
+    padding-left:1rem;
     font-size: 18px;
     cursor: pointer;
     transition: opacity 0.3s ease;
@@ -1000,7 +1000,6 @@ body {
     .search-toggle,
     .menu-toggle {
         font-size: 16px;
-        padding: 8px 12px;
     }
     
     .container {
@@ -1128,10 +1127,6 @@ body {
         font-size: 16px; /* iOS zoom 방지 */
     }
     
-    .search-toggle,
-    .menu-toggle {
-    padding: 0px 5px; /* Adjust padding for larger image */
-    }
     
     .main {
         padding: 1rem 0;
@@ -1645,7 +1640,7 @@ body {
 
 .menu-toggle img,
 .search-toggle img {
-    width: 48px; /* Doubled size */
-    height: 48px; /* Doubled size */
+    width: 60px; 
+    height: 60px; 
     object-fit: contain;
 }
