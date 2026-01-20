@@ -47,7 +47,7 @@
     background: rgba(0, 0, 0, 0.95);
     border-radius: 8px;
     border: 3px solid #000;
-    padding: 0;
+    padding: 0px;
     max-height: 400px;
     backdrop-filter: blur(10px);
 }
@@ -531,7 +531,6 @@
 body {
     font-family: 'GT Walsheim Pro', -webkit-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     color: #fff;
-    line-height: 0.1;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     margin: 0;
@@ -714,6 +713,7 @@ body {
     border: 1px solid rgba(0,0,0);
     display: flex;
     align-items: center;
+    padding-bottom:1.5rem;
 }
 
 .menu-only-image {
@@ -763,7 +763,7 @@ body {
 
 .menu-description {
     color: #aaa;
-    margin: 0.5rem 0 0 0;
+    margin: 0.1rem;
     padding: 0;
     line-height: 1.4;
 }
@@ -1162,7 +1162,6 @@ body {
     
     .menu-description {
         font-size: 0.8rem;
-        margin-bottom: 0.8rem;
     }
     
     .menu-price {
